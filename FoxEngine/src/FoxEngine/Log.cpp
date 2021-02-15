@@ -11,7 +11,7 @@ namespace FoxEngine
 
 	void Log::Init()
 	{
-		spdlog::set_pattern("%^[%T] %n: %v%$");
+		spdlog::set_pattern("%^%T %l - %n: %v%$");
 
 		foxEngineLogger = spdlog::stdout_color_mt("FOXENGINE");
 		foxEngineLogger->set_level(spdlog::level::trace);

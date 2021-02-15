@@ -98,8 +98,8 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "$<$<CONFIG:Release>:"
         "FE_RELEASE"
         ">"
-        "FE_PLATFORM_WINDOWS;"
-        "FE_BUILD_DLL;"
+        "FOX_PLATFORM_WINDOWS;"
+        "FOX_BUILD_DLL;"
         "UNICODE;"
         "_UNICODE"
         )

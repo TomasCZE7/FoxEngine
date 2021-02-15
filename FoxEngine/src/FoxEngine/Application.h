@@ -3,7 +3,7 @@
 
 namespace FoxEngine
 {
-	class FE_API Application
+	class FOX_API Application
 	{
 	public:
 		Application();

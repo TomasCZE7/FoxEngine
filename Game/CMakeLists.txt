@@ -78,7 +78,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
         "$<$<CONFIG:Release>:"
         "FE_RELEASE"
         ">"
-        "FE_PLATFORM_WINDOWS;"
+        "FOX_PLATFORM_WINDOWS;"
         "UNICODE;"
         "_UNICODE"
         )
