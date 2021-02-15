@@ -1,12 +1,13 @@
 #pragma once
 #include "Core.h"
 
-namespace Hazel
+namespace FoxEngine
 {
-	class Log
+	class FE_API Log
 	{
-
-		
+	public:
+		Log();
+		~Log();
 
 	};
 }
