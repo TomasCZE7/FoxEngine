@@ -1,3 +1,3 @@
-[submodule "FoxEngine\\vendor\\spdlog"]
-	path = FoxEngine\\vendor\\spdlog
-	url = https://github.com/gabime/spdlog.git
+[submodule "FoxEngine/vendor/spdlog"]
+	path = FoxEngine/vendor/spdlog
+	url = https://github.com/gabime/spdlog
