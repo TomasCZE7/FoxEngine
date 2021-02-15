@@ -7,7 +7,6 @@ class GameMain : public FoxEngine::Application
 public:
 	GameMain()
 	{
-		
 	}
 	~GameMain()
 	{
