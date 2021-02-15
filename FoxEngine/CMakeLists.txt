@@ -158,3 +158,7 @@ endif()
 ################################################################################
 # Post build events
 ################################################################################
+#Copy .dll files into game for testing purposes
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/bin/Debug-windows-x86_64/${PROJECT_NAME}/FoxEngine.dll ${PROJECT_SOURCE_DIR}/bin/Debug-windows-x86_64/Game
+        )
