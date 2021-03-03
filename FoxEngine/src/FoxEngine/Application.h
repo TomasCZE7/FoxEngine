@@ -11,5 +11,6 @@ namespace FoxEngine
 
 		void Run();
 	};
+
 	Application* CreateApplication();
 }

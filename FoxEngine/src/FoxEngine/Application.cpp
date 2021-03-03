@@ -5,6 +5,7 @@
 namespace FoxEngine
 {
 
+
 	Application::Application()
 	{
 		

@@ -21,7 +21,7 @@ source_group("FoxEngine" FILES ${FoxEngine})
 set(ALL_FILES
         ${no_group_source_files}
         ${FoxEngine}
-        )
+        src/FoxEngine/Event/ApplicationEvent.cpp src/FoxEngine/Event/MouseEvent.h src/FoxEngine/Event/MouseEvent.cpp src/FoxEngine/Event/KeyboardEvent.cpp src/FoxEngine/Event/KeyboardEvent.h src/FoxEngine/Event/WindowEvent.cpp src/FoxEngine/Event/WindowEvent.h)
 
 ################################################################################
 # Target
