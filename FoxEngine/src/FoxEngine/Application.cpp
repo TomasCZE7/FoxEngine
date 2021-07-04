@@ -11,7 +11,7 @@ namespace FoxEngine
 
 	Application::Application()
 	{
-		FOX_ASSERT(!s_Instance, "Application already exists!")
+		FOX_ASSERT(!s_Instance, "Application already exists..!")
 		s_Instance = this;
 
 		FOX_CORE_DEBUG("Application was created.");
