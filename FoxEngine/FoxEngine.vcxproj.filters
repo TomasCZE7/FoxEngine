@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="FoxEngine">
+      <UniqueIdentifier>{08FCEFFA-7466-A471-BDA4-5517294E82C6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FoxEngine\Event">
+      <UniqueIdentifier>{59639460-C5EE-0125-CEFF-84193A0A5E25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FoxEngine\ImGui">
+      <UniqueIdentifier>{3257D760-9EE2-4425-A7F3-C71913FEA025}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FoxEngine\Platform">
+      <UniqueIdentifier>{5C41AEDA-4825-6F30-B185-69839D8859B2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FoxEngine\Platform\OpenGL">
+      <UniqueIdentifier>{104B00CC-7C0D-3456-C5BD-C2E231BF0C34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FoxEngine\Platform\Windows">
+      <UniqueIdentifier>{968725A4-8297-D174-EB50-3693D77FC00D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\FoxEngine.h" />
+    <ClInclude Include="src\FoxEngine\Application.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\EntryPoint.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Event\ApplicationEvent.h">
+      <Filter>FoxEngine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Event\Event.h">
+      <Filter>FoxEngine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Event\KeyboardEvent.h">
+      <Filter>FoxEngine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Event\MouseEvent.h">
+      <Filter>FoxEngine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Event\WindowEvent.h">
+      <Filter>FoxEngine\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\ImGui\ImGuiLayer.h">
+      <Filter>FoxEngine\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Layer.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\LayerStack.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Log.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsWindow.h">
+      <Filter>FoxEngine\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Window.h">
+      <Filter>FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fepch.h" />
+    <ClInclude Include="src\FoxEngine\Input.h" />
+    <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsInput.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\FoxEngine\Application.cpp">
+      <Filter>FoxEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\ImGui\ImGuiLayer.cpp">
+      <Filter>FoxEngine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Layer.cpp">
+      <Filter>FoxEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\LayerStack.cpp">
+      <Filter>FoxEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Log.cpp">
+      <Filter>FoxEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsWindow.cpp">
+      <Filter>FoxEngine\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fepch.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsInput.cpp" />
+  </ItemGroup>
+</Project>

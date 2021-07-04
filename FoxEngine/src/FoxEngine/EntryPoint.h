@@ -1,5 +1,9 @@
 #pragma once
-#ifdef FE_PLATFORM_WINDOWS
+
+#include "fepch.h"
+#include "FoxEngine/log.h"
+
+#ifdef FOX_PLATFORM_WINDOWS
 
 extern FoxEngine::Application* FoxEngine::CreateApplication();
 

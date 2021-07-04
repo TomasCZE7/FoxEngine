@@ -1,11 +1,21 @@
 #pragma once
 
-#ifdef FE_PLATFORM_WINDOWS
-	#ifdef FE_BUILD_DLL
-		#define FE_API __declspec(dllexport)
+#define BIT(x) 1 << x
+
+#ifdef FOX_PLATFORM_WINDOWS
+	#ifdef FOX_BUILD_DLL
+		#define FOX_API __declspec(dllexport)
 	#else
-		#define FE_API __declspec(dllimport)
+		#define FOX_API __declspec(dllimport)
 	#endif
 #else
-	#error Windows support only. Dream big and one day... 
+	#error Windows support only. Dream big and one day...
+#endif
+
+#ifdef FOX_ENABLE_ASSERTS
+    #define FOX_ASSERT(x, ...) { if(!(x)) { FOX_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+    #define FOX_CORE_ASSERT(x, ...) { if(!(x)) { FOX_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+    #define FOX_ASSERT(x, ...)
+    #define FOX_CORE_ASSERT(x, ...)
 #endif
