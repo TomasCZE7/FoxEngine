@@ -31,6 +31,7 @@ namespace FoxEngine{
 
         inline unsigned int GetHeight() const override { return m_WindowData.Height; };
         inline unsigned int GetWidth() const override { return m_WindowData.Width; };
+        inline std::string GetWindowTitle() const override { return m_WindowData.Title; };
 
         inline void SetEventCallback(const std::function<void(Event&)>& callback) override { m_WindowData.Callback = callback; }
 

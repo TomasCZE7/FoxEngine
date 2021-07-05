@@ -11,12 +11,15 @@ namespace FoxEngine
 
 	Application::Application()
 	{
-		FOX_ASSERT(!s_Instance, "Application already exists..!")
+		FOX_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
 
 		FOX_CORE_DEBUG("Application was created.");
         m_WindowPtr = std::unique_ptr<Window>(Window::Create());
 		m_WindowPtr->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application()
@@ -36,6 +39,14 @@ namespace FoxEngine
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}
+
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack) {
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
+			
+			
             m_WindowPtr->OnUpdate();
 		}
 	}

@@ -1,0 +1,14 @@
+#pragma once
+
+#define FOX_MOUSE_BUTTON_1         0
+#define FOX_MOUSE_BUTTON_2         1
+#define FOX_MOUSE_BUTTON_3         2
+#define FOX_MOUSE_BUTTON_4         3
+#define FOX_MOUSE_BUTTON_5         4
+#define FOX_MOUSE_BUTTON_6         5
+#define FOX_MOUSE_BUTTON_7         6
+#define FOX_MOUSE_BUTTON_8         7
+#define FOX_MOUSE_BUTTON_LAST      FOX_MOUSE_BUTTON_8
+#define FOX_MOUSE_BUTTON_LEFT      FOX_MOUSE_BUTTON_1
+#define FOX_MOUSE_BUTTON_RIGHT     FOX_MOUSE_BUTTON_2
+#define FOX_MOUSE_BUTTON_MIDDLE    FOX_MOUSE_BUTTON_3

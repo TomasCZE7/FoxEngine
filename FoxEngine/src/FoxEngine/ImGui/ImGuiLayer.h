@@ -14,19 +14,14 @@ namespace FoxEngine {
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void OnAttach();
-		void OnDetach();
-		void OnUpdate();
-		void OnEvent(Event& event);
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
+		virtual void Begin();
+		virtual void End();
+		
 	private:
-		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& event);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& event);
-		bool OnMouseMovedEvent(MouseMovedEvent& event);
-		bool OnMouseScrolledEvent(MouseScrolledEvent& event);
-		bool OnKeyboardKeyPressedEvent(KeyboardKeyPressedEvent& event);
-		bool OnKeyboardKeyReleasedEvent(KeyboardKeyReleasedEvent& event);
-		bool OnKeyboardTypedEvent(KeyboardTypedEvent& event);
-		bool OnWindowResizedEvent(WindowResizedEvent& event);
+		
 	};
 
 }

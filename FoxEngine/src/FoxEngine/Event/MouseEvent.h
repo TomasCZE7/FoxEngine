@@ -37,6 +37,10 @@ namespace FoxEngine{
         DEFINE_EVENT_CLASS_TYPE(MOUSE_BUTTON_PRESSED);
 
         inline int GetButtonType() const { return buttonType; }
+
+        virtual std::string ToString() const override {
+            return "MouseButtonPressedEvent (posX: " + std::to_string(positionX) + ", posY: " + std::to_string(positionY) + ", buttonType: " + std::to_string(buttonType) + ")";
+        }
     };
 
     class FOX_API MouseButtonReleasedEvent : public MouseEvent{
@@ -53,6 +57,10 @@ namespace FoxEngine{
     	
         inline int GetButtonType() const { return buttonType; }
 
+        virtual std::string ToString() const override {
+            return "MouseButtonReleasedEvent (posX: " + std::to_string(positionX) + ", posY: " + std::to_string(positionY) + ", buttonType: " + std::to_string(buttonType) + ")";
+        }
+
     };
 
     class FOX_API MouseMovedEvent : public MouseEvent{
@@ -68,7 +76,6 @@ namespace FoxEngine{
         virtual std::string ToString() const override {
             return "MouseMovedEvent (positionX: "+ std::to_string(positionX) +", positionY: " + std::to_string(positionY) + ")";
         }
-
     };
 
     class FOX_API MouseScrolledEvent : public MouseEvent{
@@ -90,6 +97,10 @@ namespace FoxEngine{
         float GetOffsetY() const
         {
 	        return offsetY;
+        }
+        virtual std::string ToString() const override {
+            return "MouseScrolledEvent (posX: " + std::to_string(positionX) + ", posY: "+ std::to_string(positionY) +", offsetX: " + std::to_string(offsetX)
+        		+   ", offsetY: " + std::to_string(offsetY) + ")";
         }
     };
 

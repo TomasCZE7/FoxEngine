@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "Event/WindowEvent.h"
 #include "FoxEngine/LayerStack.h"
+#include "FoxEngine/ImGui/ImGuiLayer.h"
 
 namespace FoxEngine
 {
@@ -11,6 +12,7 @@ namespace FoxEngine
 	private:
 		bool Running = true;
 		std::unique_ptr<Window> m_WindowPtr;
+		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
 	public:
 		Application();
@@ -22,7 +24,7 @@ namespace FoxEngine
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
-
+		
 		inline Window& GetWindow() { return *m_WindowPtr;  }
 		inline static Application& Get() { return *s_Instance; }
 	private:

@@ -4,7 +4,6 @@
 namespace FoxEngine{
 
 	LayerStack::LayerStack() {
-		LayerInsert = Layers.begin();
 	}
 
 	LayerStack::~LayerStack() {
@@ -14,7 +13,8 @@ namespace FoxEngine{
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
-		LayerInsert = Layers.emplace(LayerInsert, layer);
+		Layers.emplace(Layers.begin() + LayerInsertIndex, layer);
+		LayerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay) {
@@ -25,7 +25,7 @@ namespace FoxEngine{
 		auto it = std::find(Layers.begin(), Layers.end(), layer);
 		if (it != Layers.end()) {
 			Layers.erase(it);
-			LayerInsert--;
+			LayerInsertIndex--;
 		}
 	}
 

@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "FoxEngine/vendor/GLFW/include"
 IncludeDir["GLAD"] = "FoxEngine/vendor/GLAD/include"
 IncludeDir["ImGui"] = "FoxEngine/vendor/imgui"
+IncludeDir["glm"] = "FoxEngine/vendor/glm"
 include("FoxEngine/vendor/GLFW")
 include("FoxEngine/vendor/GLAD")
 include("FoxEngine/vendor/imgui")
@@ -29,7 +30,9 @@ project "FoxEngine"
 
 	files{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 	pchheader "fepch.h"
 	pchsource "FoxEngine/src/fepch.cpp"
@@ -39,6 +42,7 @@ project "FoxEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
 	}
 	
 	links{
@@ -95,7 +99,9 @@ project "Game"
 
 	includedirs {
 		"FoxEngine/vendor/spdlog/include",
-		"FoxEngine/src"
+		"FoxEngine/src",
+		"FoxEngine/vendor",
+		"%{IncludeDir.glm}",
 	}
 
 	filter "system:windows"

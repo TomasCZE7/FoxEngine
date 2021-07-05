@@ -1,5 +1,7 @@
 #include <FoxEngine.h>
 
+#include "imgui/imgui.h"
+
 class ExampleLayer : public FoxEngine::Layer {
 public:
 	ExampleLayer()
@@ -10,7 +12,10 @@ public:
 	}
 
 	void OnEvent(FoxEngine::Event& event) {
-		FOX_CLIENT_DEBUG("Event {0}", event);
+	}
+
+	virtual void OnImGuiRender() override
+	{
 	}
 
 };
@@ -22,7 +27,6 @@ public:
 	GameMain()
 	{
 		PushLayer(new ExampleLayer());
-		PushOverlay(new FoxEngine::ImGuiLayer());
 	}
 	~GameMain()
 	{
