@@ -66,7 +66,7 @@ namespace FoxEngine{
     class FOX_API MouseMovedEvent : public MouseEvent{
     protected:
     public:
-        MouseMovedEvent(unsigned int positionX, unsigned int positionY)
+        MouseMovedEvent(float positionX, float positionY)
                 : MouseEvent(positionX, positionY) {
         }
 

@@ -69,7 +69,7 @@ namespace FoxEngine {
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -83,8 +83,8 @@ namespace FoxEngine {
 	}
 
 	void ImGuiLayer::OnImGuiRender() {
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		//static bool show = false;
+		//ImGui::ShowDemoWindow(&show);
 	}
 
 }

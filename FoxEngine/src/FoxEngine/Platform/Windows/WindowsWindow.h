@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FoxEngine/Window.h"
+#include "FoxEngine/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -9,6 +10,7 @@ namespace FoxEngine{
     class WindowsWindow : public Window {
     private:
         GLFWwindow* WindowRef;
+        GraphicsContext* m_Context;
 
         struct WindowData{
             std::string Title;

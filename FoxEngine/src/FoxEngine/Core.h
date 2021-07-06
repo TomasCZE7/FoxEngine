@@ -3,11 +3,15 @@
 #define BIT(x) 1 << x
 
 #ifdef FOX_PLATFORM_WINDOWS
+#if FOX_DYNAMIC_LINK
 	#ifdef FOX_BUILD_DLL
 		#define FOX_API __declspec(dllexport)
 	#else
 		#define FOX_API __declspec(dllimport)
 	#endif
+#else
+	#define FOX_API
+#endif
 #else
 	#error Windows support only. Dream big and one day...
 #endif

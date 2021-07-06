@@ -23,19 +23,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v142</PlatformToolset>
@@ -54,32 +54,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>..\bin\Debug-windows-x86_64\FoxEngine\</OutDir>
     <IntDir>..\bin\int\Debug-windows-x86_64\FoxEngine\</IntDir>
     <TargetName>FoxEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Release-windows-x86_64\FoxEngine\</OutDir>
     <IntDir>..\bin\int\Release-windows-x86_64\FoxEngine\</IntDir>
     <TargetName>FoxEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
-    <LinkIncremental>false</LinkIncremental>
     <OutDir>..\bin\Distribution-windows-x86_64\FoxEngine\</OutDir>
     <IntDir>..\bin\int\Distribution-windows-x86_64\FoxEngine\</IntDir>
     <TargetName>FoxEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>fepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>FOX_PLATFORM_WINDOWS;FOX_BUILD_DLL;GLFW_INCLUDE_NONE;FOX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;FOX_PLATFORM_WINDOWS;FOX_BUILD_DLL;GLFW_INCLUDE_NONE;FOX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -90,19 +87,17 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\FoxEngine\FoxEngine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\FoxEngine\FoxEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\FoxEngine\FoxEngine.dll ..\bin\Debug-windows-x86_64\Game &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\FoxEngine\FoxEngine.dll ..\bin\Debug-windows-x86_64\Game &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>fepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>FOX_PLATFORM_WINDOWS;FOX_BUILD_DLL;GLFW_INCLUDE_NONE;FOX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;FOX_PLATFORM_WINDOWS;FOX_BUILD_DLL;GLFW_INCLUDE_NONE;FOX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -117,19 +112,17 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Release-windows-x86_64\FoxEngine\FoxEngine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\FoxEngine\FoxEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\FoxEngine\FoxEngine.dll ..\bin\Release-windows-x86_64\Game &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\FoxEngine\FoxEngine.dll ..\bin\Release-windows-x86_64\Game &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>fepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>FOX_PLATFORM_WINDOWS;FOX_BUILD_DLL;GLFW_INCLUDE_NONE;FOX_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;FOX_PLATFORM_WINDOWS;FOX_BUILD_DLL;GLFW_INCLUDE_NONE;FOX_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -144,12 +137,10 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Distribution-windows-x86_64\FoxEngine\FoxEngine.lib</ImportLibrary>
     </Link>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Distribution-windows-x86_64\FoxEngine\FoxEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Distribution-windows-x86_64\FoxEngine\FoxEngine.dll ..\bin\Distribution-windows-x86_64\Game &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Distribution-windows-x86_64\FoxEngine\FoxEngine.dll ..\bin\Distribution-windows-x86_64\Game &gt; nul)</Command>
-    </PostBuildEvent>
+    <Lib>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\FoxEngine.h" />
@@ -168,8 +159,20 @@
     <ClInclude Include="src\FoxEngine\LayerStack.h" />
     <ClInclude Include="src\FoxEngine\Log.h" />
     <ClInclude Include="src\FoxEngine\MouseButtonCodes.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\Object.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\Renderer.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\Shader.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\VertexArray.h" />
     <ClInclude Include="src\FoxEngine\Window.h" />
     <ClInclude Include="src\fepch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -595,11 +598,21 @@
     <ClCompile Include="src\FoxEngine\Layer.cpp" />
     <ClCompile Include="src\FoxEngine\LayerStack.cpp" />
     <ClCompile Include="src\FoxEngine\Log.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\Shader.cpp" />
     <ClCompile Include="src\fepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\VertexArray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

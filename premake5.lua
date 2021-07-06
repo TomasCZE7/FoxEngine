@@ -22,8 +22,10 @@ include("FoxEngine/vendor/imgui")
 
 project "FoxEngine"
 	location "FoxEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/"..outputdir.."/%{prj.name}")
 	objdir ("bin/int/"..outputdir.."/%{prj.name}")
@@ -51,43 +53,40 @@ project "FoxEngine"
 		"ImGui",
 		"opengl32.lib",
 	}
+	defines {
+		"_CRT_SECURE_NO_WARNINGS",
+	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines {
 			"FOX_PLATFORM_WINDOWS",
 			"FOX_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
 		}
-
-		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/"..outputdir .. "/Game")
-		}
-
-
 
 	filter "configurations:Debug"
 		defines "FOX_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "FOX_RELEASE"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "FOX_DISTRIBUTION"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/"..outputdir.."/%{prj.name}")
 	objdir ("bin/int/"..outputdir.."/%{prj.name}")
@@ -105,7 +104,6 @@ project "Game"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
 
@@ -121,14 +119,14 @@ project "Game"
 	filter "configurations:Debug"
 		defines "FOX_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "FOX_RELEASE"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "FOX_DISTRIBUTION"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"

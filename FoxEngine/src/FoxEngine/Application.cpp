@@ -2,12 +2,15 @@
 #include "Application.h"
 #include "Event/Event.h"
 
-#include <glad/glad.h>
+#include "FoxEngine/Renderer/Shader.h"
+#include "FoxEngine/Renderer/Renderer.h"
 
 namespace FoxEngine
 {
 
 	Application* Application::s_Instance = nullptr;
+
+
 
 	Application::Application()
 	{
@@ -32,9 +35,7 @@ namespace FoxEngine
 		FOX_CORE_DEBUG("Application started.");
 		while(Running)
 		{
-			glClearColor(0, 1, 0, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
-
+			
 			//Updating
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();

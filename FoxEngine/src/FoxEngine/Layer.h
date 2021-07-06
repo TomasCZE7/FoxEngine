@@ -2,12 +2,14 @@
 
 #include "Core.h"
 #include "Event/Event.h"
+#include "Renderer/Object.h"
 
 namespace FoxEngine {
 
 	class FOX_API Layer {
 	protected:
 		std::string Name;
+		std::vector<Object> Objects;
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();
@@ -19,6 +21,7 @@ namespace FoxEngine {
 		virtual void OnEvent(Event& event) {}
 
 		inline const std::string& GetName() const { return Name; }
+		inline const std::vector<Object> GetObjects() const { return Objects; }
 	};
 
 }

@@ -3,9 +3,8 @@
 #include "FoxEngine/Event/WindowEvent.h"
 #include "FoxEngine/Event/KeyboardEvent.h"
 #include "FoxEngine/Event/MouseEvent.h"
-#include "FoxEngine/Event/ApplicationEvent.h"
 
-#include <glad/glad.h>
+#include "FoxEngine/Platform/OpenGL/OpenGLContext.h"
 
 namespace FoxEngine{
     static bool s_glfwInitialized = false;
@@ -30,6 +29,7 @@ namespace FoxEngine{
         m_WindowData.Width = windowProperties.Width;
         m_WindowData.Height = windowProperties.Height;
 
+
         FOX_CORE_DEBUG("Creating window {0} ({1} x {2})", m_WindowData.Title, m_WindowData.Width, m_WindowData.Height);
 
         if(!s_glfwInitialized){
@@ -40,10 +40,9 @@ namespace FoxEngine{
         }
 
         WindowRef = glfwCreateWindow((int)m_WindowData.Width, (int)m_WindowData.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
-        
-        glfwMakeContextCurrent(WindowRef);
-        int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        FOX_CORE_ASSERT(gladStatus, "Failed to initialize GLAD!")
+        m_Context = new OpenGLContext(WindowRef);
+        m_Context->Init();
+
 
         glfwSetWindowUserPointer(WindowRef, &m_WindowData);
 
@@ -55,7 +54,7 @@ namespace FoxEngine{
                 data.Height = height;
                 data.Width = width;
 
-                WindowResizedEvent event(width, height);
+                WindowResizedEvent event((float)width, (float)height);
                 data.Callback(event);
             });
 
@@ -122,7 +121,7 @@ namespace FoxEngine{
         glfwSetScrollCallback(WindowRef, [](GLFWwindow* window, double xOffest, double yOffset) {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-            MouseScrolledEvent event(0, 0, xOffest, yOffset);
+            MouseScrolledEvent event(0, 0, (float)xOffest, (float)yOffset);
             data.Callback(event);
             });
 
@@ -130,7 +129,7 @@ namespace FoxEngine{
         glfwSetCursorPosCallback(WindowRef, [](GLFWwindow* window, double xPos, double yPos) {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-            MouseMovedEvent event(xPos, yPos);
+            MouseMovedEvent event((float) xPos, (float)yPos);
             data.Callback(event);
             });
     }
@@ -141,7 +140,7 @@ namespace FoxEngine{
 
     void WindowsWindow::OnUpdate() {
         glfwPollEvents();
-        glfwSwapBuffers(WindowRef);
+        m_Context->SwapBuffers();
     }
 
     void WindowsWindow::OnRender() {}

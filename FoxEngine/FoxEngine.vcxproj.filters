@@ -16,8 +16,14 @@
     <Filter Include="src\FoxEngine\Platform">
       <UniqueIdentifier>{13A585D1-FF9E-AE23-E80B-4534D4A41490}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\FoxEngine\Platform\OpenGL">
+      <UniqueIdentifier>{E77A5923-5393-404D-1C40-D0E68817D5E6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\FoxEngine\Platform\Windows">
       <UniqueIdentifier>{4DB2A4E6-39D8-6E4D-221E-F4180EE39319}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\FoxEngine\Renderer">
+      <UniqueIdentifier>{65AC62AC-51A6-8BFE-3A13-220F26ACF16A}</UniqueIdentifier>
     </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
@@ -90,11 +96,29 @@
     <ClInclude Include="src\FoxEngine\MouseButtonCodes.h">
       <Filter>src\FoxEngine</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsInput.h">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsWindow.h">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\Buffer.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\Renderer.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\Shader.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Window.h">
       <Filter>src\FoxEngine</Filter>
@@ -1347,6 +1371,12 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\VertexArray.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\Object.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Application.cpp">
@@ -1367,14 +1397,34 @@
     <ClCompile Include="src\FoxEngine\Log.cpp">
       <Filter>src\FoxEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsInput.cpp">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\Renderer.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\Shader.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\fepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

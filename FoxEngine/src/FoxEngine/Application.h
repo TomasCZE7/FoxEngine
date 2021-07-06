@@ -4,6 +4,9 @@
 #include "Event/WindowEvent.h"
 #include "FoxEngine/LayerStack.h"
 #include "FoxEngine/ImGui/ImGuiLayer.h"
+#include "FoxEngine/Renderer/Shader.h"
+#include "FoxEngine/Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
 
 namespace FoxEngine
 {
@@ -14,6 +17,11 @@ namespace FoxEngine
 		std::unique_ptr<Window> m_WindowPtr;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
+
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> VertexArray;
+		std::shared_ptr<VertexBuffer> VertexBuffer;
+		std::shared_ptr<IndexBuffer> IndexBuffer;
 	public:
 		Application();
 		virtual ~Application();
