@@ -6,7 +6,7 @@
 namespace FoxEngine {
 
 	Layer::Layer(const std::string& name)
-		: Name(name), Objects({})
+		: m_Name(name)
 	{
 
 	}
@@ -14,12 +14,4 @@ namespace FoxEngine {
 	Layer::~Layer() {
 	}
 
-	void Layer::RenderObjects()
-	{
-		for(const auto& object : Objects)
-		{
-			object->GetShader()->Bind();
-			Renderer::Submit(object->GetVertexArray());
-		}
-	}
 }

@@ -1,10 +1,12 @@
 #include "fepch.h"
 #include "Object.h"
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace FoxEngine
 {
-	Object::Object(std::shared_ptr<VertexArray> vertexArray)
-		:m_VertexArray(vertexArray){
+	Object::Object(std::shared_ptr<VertexArray> vertexArray, glm::vec3 position)
+		:m_VertexArray(vertexArray), m_Transform(glm::mat4(1.0f)){
+		SetPosition(position);
 	}
 
 	std::shared_ptr<VertexBuffer> Object::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer, BufferLayout& layout)
@@ -28,5 +30,11 @@ namespace FoxEngine
 		std::shared_ptr<IndexBuffer> ib = IndexBuffer::Create(indices, size);
 		m_VertexArray->SetIndexBuffer(ib);
 		return ib;
+	}
+
+	void Object::SetPosition(glm::vec3 position)
+	{
+		m_Position = position;
+		m_Transform = glm::translate(glm::mat4(1.0f), m_Position);
 	}
 }

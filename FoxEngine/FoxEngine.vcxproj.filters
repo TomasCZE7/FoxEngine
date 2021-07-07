@@ -1377,6 +1377,8 @@
     <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\FoxEngine\Renderer\Object.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\FoxEngine\Core\TimeStep.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Application.cpp">
@@ -1427,5 +1429,6 @@
     <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\Object.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>

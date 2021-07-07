@@ -146,6 +146,7 @@
     <ClInclude Include="src\FoxEngine.h" />
     <ClInclude Include="src\FoxEngine\Application.h" />
     <ClInclude Include="src\FoxEngine\Core.h" />
+    <ClInclude Include="src\FoxEngine\Core\TimeStep.h" />
     <ClInclude Include="src\FoxEngine\EntryPoint.h" />
     <ClInclude Include="src\FoxEngine\Event\ApplicationEvent.h" />
     <ClInclude Include="src\FoxEngine\Event\Event.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\FoxEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\FoxEngine\Renderer\Object.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h" />
     <ClInclude Include="src\FoxEngine\Renderer\Renderer.h" />
     <ClInclude Include="src\FoxEngine\Renderer\RendererAPI.h" />
@@ -606,6 +608,7 @@
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\Object.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\Renderer.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\RendererAPI.cpp" />

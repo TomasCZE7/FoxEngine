@@ -1,11 +1,13 @@
-#pragma once
+ #pragma once
 #include <string>
 
-namespace FoxEngine
+#include "glm/glm.hpp"
+
+ namespace FoxEngine
 {
 	class Shader
 	{
-	private:
+	public:
 		uint32_t m_RendererId;
 	public:
 		Shader(const std::string& vertexSource, const std::string& fragmentSource);
@@ -13,6 +15,8 @@ namespace FoxEngine
 
 		void Bind();
 		void Unbind();
+
+		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
 		static std::shared_ptr<Shader> Create(const std::string& vertexSource, const std::string& fragmentSource);
 	};
 }

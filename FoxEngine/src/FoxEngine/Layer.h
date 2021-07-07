@@ -1,29 +1,27 @@
 #pragma once
 
 #include "Core.h"
+#include "Core/TimeStep.h"
 #include "Event/Event.h"
 #include "Renderer/Object.h"
+#include "Renderer/OrthographicCamera.h"
 
 namespace FoxEngine {
 
 	class FOX_API Layer {
 	protected:
-		std::string Name;
-		std::vector<Object*> Objects;
+		std::string m_Name;
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(TimeStep timeStep) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
-		void RenderObjects();
 
-		inline const std::string& GetName() const { return Name; }
-		inline const std::vector<Object*> GetObjects() const { return Objects; }
-		inline void AddObjects(Object* object) { Objects.push_back(object); }
+		inline const std::string& GetName() const { return m_Name; }
 	};
 
 }
