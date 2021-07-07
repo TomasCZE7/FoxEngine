@@ -138,6 +138,12 @@ namespace FoxEngine
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
+	void Shader::UploadUniformFloat4(const std::string& name, const glm::vec4& values)
+	{
+		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniform4f(location, values.x, values.y, values.z, values.y);
+	}
+
 	std::shared_ptr<Shader> Shader::Create(const std::string& vertexSource, const std::string& fragmentSource)
 	{
 		return std::make_shared<Shader>(vertexSource, fragmentSource);

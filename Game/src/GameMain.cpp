@@ -19,8 +19,7 @@ class ExampleLayer : public FoxEngine::Layer {
 
 	public:
 	FoxEngine::BufferLayout layout = {
-		{FoxEngine::ShaderDataType::Float3, "a_Position"},
-		{FoxEngine::ShaderDataType::Float4, "a_Color"}
+		{FoxEngine::ShaderDataType::Float3, "a_Position"}
 	};
 	 
 	std::string vertexSource = R"(
@@ -29,14 +28,15 @@ class ExampleLayer : public FoxEngine::Layer {
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
-			uniform mat4 m_ViewProjection;
-			uniform mat4 m_Transform;
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+			uniform vec4 u_Color;
 	
 			out vec4 v_Color;
 
 			void main(){
-				v_Color = a_Color;
-				gl_Position = m_ViewProjection * m_Transform * vec4(a_Position, 1.0);
+				v_Color = u_Color;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -63,10 +63,10 @@ class ExampleLayer : public FoxEngine::Layer {
 
 	void prepareTriangle()
 	{
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0, 1.0f
+		float vertices[3 * 3] = {
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f
 		};
 		uint32_t indices[3] = { 0, 1, 2 };
 		
@@ -79,11 +79,11 @@ class ExampleLayer : public FoxEngine::Layer {
 
 	void prepareSquare()
 	{
-		float vertices[4 * 7] = {
-			-0.75f, -0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
-			0.75f, -0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
-			0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
-			-0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f
+		float vertices[3 * 4] = {
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.5f, 0.5f, 0.0f,
+			-0.5f, 0.5f, 0.0f
 		};
 		uint32_t indices[6] = { 0, 1, 2, 0, 3, 2 };
 		
@@ -138,8 +138,10 @@ class ExampleLayer : public FoxEngine::Layer {
 		FoxEngine::Renderer::BeginScene(m_Camera);
 
 		
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.07));
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1));
 
+		glm::vec4 redColor(0.8f, 0.2f, 0.3f, 1.0f);
+		glm::vec4 greenColor(0.2f, 0.8f, 0.3f, 1.0f);
 		//GRID
 		for(int y = 0; y < 20; y++)
 		{
@@ -147,10 +149,17 @@ class ExampleLayer : public FoxEngine::Layer {
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				if(x % 2 == 0)
+				{
+					square.GetShader()->UploadUniformFloat4("u_Color", redColor);
+				} else
+				{
+					square.GetShader()->UploadUniformFloat4("u_Color", greenColor);
+				}
 				FoxEngine::Renderer::Submit(square.GetVertexArray(), square.GetShader(), transform);
 			}
 		}
-		
+
 		FoxEngine::Renderer::Submit(triangle.GetVertexArray(), triangle.GetShader(), triangle.GetTransform());
 
 		FoxEngine::Renderer::EndScene();
