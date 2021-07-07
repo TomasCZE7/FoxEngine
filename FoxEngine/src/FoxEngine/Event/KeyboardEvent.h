@@ -31,7 +31,9 @@ namespace FoxEngine {
 
         DEFINE_EVENT_CLASS_TYPE(KEYBOARD_KEY_PRESSED);
 
-    	
+        virtual std::string ToString() const override {
+            return "KeyboardKeyPressedEvent (key: " + std::to_string(key) + ", repeatCount: " + std::to_string(repeatCount) + ")";
+        }
     };
 
     class FOX_API KeyboardTypedEvent : public KeyboardEvent {
@@ -43,6 +45,9 @@ namespace FoxEngine {
 
         DEFINE_EVENT_CLASS_TYPE(KEYBOARD_TYPED);
 
+        virtual std::string ToString() const override {
+            return "KeyboardTypedEvent (key: " + std::to_string(key) + ")";
+        }
 
     };
 
@@ -53,6 +58,10 @@ namespace FoxEngine {
 
         }
         DEFINE_EVENT_CLASS_TYPE(KEYBOARD_KEY_RELEASED);
+
+        virtual std::string ToString() const override {
+            return "KeyboardKeyReleasedEvent (key: " + std::to_string(key) + ")";
+        }
     };
 
 }

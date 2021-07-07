@@ -3,6 +3,10 @@
 #include "Window.h"
 #include "Event/WindowEvent.h"
 #include "FoxEngine/LayerStack.h"
+#include "FoxEngine/ImGui/ImGuiLayer.h"
+#include "FoxEngine/Renderer/Shader.h"
+#include "FoxEngine/Renderer/Buffer.h"
+#include "Renderer/VertexArray.h"
 
 namespace FoxEngine
 {
@@ -11,7 +15,13 @@ namespace FoxEngine
 	private:
 		bool Running = true;
 		std::unique_ptr<Window> m_WindowPtr;
+		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
+
+		std::shared_ptr<Shader> m_Shader;
+		std::shared_ptr<VertexArray> VertexArray;
+		std::shared_ptr<VertexBuffer> VertexBuffer;
+		std::shared_ptr<IndexBuffer> IndexBuffer;
 	public:
 		Application();
 		virtual ~Application();
@@ -22,7 +32,7 @@ namespace FoxEngine
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
-
+		
 		inline Window& GetWindow() { return *m_WindowPtr;  }
 		inline static Application& Get() { return *s_Instance; }
 	private:

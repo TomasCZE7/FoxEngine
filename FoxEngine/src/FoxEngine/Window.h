@@ -37,6 +37,7 @@ namespace FoxEngine {
             static Window* Create(const WindowProperties& properties = WindowProperties());
 
             virtual void* GetNativeWindow() const = 0;
+            virtual inline std::string GetWindowTitle() const = 0;
 
     };
 

@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "FoxEngine/vendor/GLFW/include"
 IncludeDir["GLAD"] = "FoxEngine/vendor/GLAD/include"
 IncludeDir["ImGui"] = "FoxEngine/vendor/imgui"
+IncludeDir["glm"] = "FoxEngine/vendor/glm"
 include("FoxEngine/vendor/GLFW")
 include("FoxEngine/vendor/GLAD")
 include("FoxEngine/vendor/imgui")
@@ -21,15 +22,19 @@ include("FoxEngine/vendor/imgui")
 
 project "FoxEngine"
 	location "FoxEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/"..outputdir.."/%{prj.name}")
 	objdir ("bin/int/"..outputdir.."/%{prj.name}")
 
 	files{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 	pchheader "fepch.h"
 	pchsource "FoxEngine/src/fepch.cpp"
@@ -39,6 +44,7 @@ project "FoxEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
 	}
 	
 	links{
@@ -47,43 +53,40 @@ project "FoxEngine"
 		"ImGui",
 		"opengl32.lib",
 	}
+	defines {
+		"_CRT_SECURE_NO_WARNINGS",
+	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines {
 			"FOX_PLATFORM_WINDOWS",
 			"FOX_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
 		}
-
-		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/"..outputdir .. "/Game")
-		}
-
-
 
 	filter "configurations:Debug"
 		defines "FOX_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "FOX_RELEASE"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "FOX_DISTRIBUTION"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/"..outputdir.."/%{prj.name}")
 	objdir ("bin/int/"..outputdir.."/%{prj.name}")
@@ -95,11 +98,12 @@ project "Game"
 
 	includedirs {
 		"FoxEngine/vendor/spdlog/include",
-		"FoxEngine/src"
+		"FoxEngine/src",
+		"FoxEngine/vendor",
+		"%{IncludeDir.glm}",
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
 
@@ -115,14 +119,14 @@ project "Game"
 	filter "configurations:Debug"
 		defines "FOX_DEBUG"
 		buildoptions "/MDd"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "FOX_RELEASE"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Distribution"
 		defines "FOX_DISTRIBUTION"
 		buildoptions "/MD"
-		optimize "On"
+		optimize "on"
