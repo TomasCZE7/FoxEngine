@@ -17,11 +17,7 @@ namespace FoxEngine
 		std::unique_ptr<Window> m_WindowPtr;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> VertexArray;
-		std::shared_ptr<VertexBuffer> VertexBuffer;
-		std::shared_ptr<IndexBuffer> IndexBuffer;
+		
 	public:
 		Application();
 		virtual ~Application();

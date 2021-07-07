@@ -52,20 +52,19 @@ namespace FoxEngine
 
 		glBindVertexArray(RendererId);
 		vertexBuffer->Bind();
-
-		FOX_ASSERT(vertexBuffer->GetLayout().GetElements().size, "Vertex buffer has no elements in the layout!");
 		
 		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
+				glEnableVertexAttribArray(index);
+				glVertexAttribPointer(index,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
 				(const void*)element.Offset);
+			
 			index++;
 		}
 		

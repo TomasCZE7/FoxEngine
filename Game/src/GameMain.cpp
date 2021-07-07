@@ -7,45 +7,13 @@
 
 class ExampleLayer : public FoxEngine::Layer {
 public:
-
-	std::shared_ptr<FoxEngine::VertexArray> m_TriangleVertexArray;
-	std::shared_ptr<FoxEngine::VertexBuffer> m_TriangleVertexBuffer;
-	std::shared_ptr<FoxEngine::IndexBuffer> m_TriangleIndexBuffer;
-	std::shared_ptr<FoxEngine::Shader> m_TriangleShader;
 	
+	FoxEngine::BufferLayout layout = {
+		{FoxEngine::ShaderDataType::Float3, "a_Position"},
+		{FoxEngine::ShaderDataType::Float4, "a_Color"}
+	};
 
-	
-	ExampleLayer()
-		:Layer("Example")
-	{
-		prepareTriangle();
-	}
-
-	void prepareTriangle()
-	{
-		m_TriangleVertexArray.reset(FoxEngine::VertexArray::Create());
-
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0, 1.0f
-		};
-
-		m_TriangleVertexBuffer.reset(FoxEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		FoxEngine::BufferLayout layout = {
-			{FoxEngine::ShaderDataType::Float3, "a_Position"},
-			{FoxEngine::ShaderDataType::Float4, "a_Color"}
-		};
-		m_TriangleVertexBuffer->SetLayout(layout);
-
-		m_TriangleVertexArray->AddVertexBuffer(m_TriangleVertexBuffer);
-
-		uint32_t indices[3] = { 0, 1, 2 };
-		m_TriangleIndexBuffer.reset(FoxEngine::IndexBuffer::Create(indices, 3));
-		m_TriangleVertexArray->SetIndexBuffer(m_TriangleIndexBuffer);
-
-		std::string vertexSource = R"(
+	std::string vertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
@@ -60,7 +28,7 @@ public:
 
 		)";
 
-		std::string fragmentSource = R"(
+	std::string fragmentSource = R"(
 			#version 330 core
 
 			layout(location = 0) out vec4 o_Color;
@@ -73,7 +41,56 @@ public:
 
 		)";
 
-		m_TriangleShader.reset(new FoxEngine::Shader(vertexSource, fragmentSource));
+	ExampleLayer()
+		:Layer("Example")
+	{
+		prepareSquare();
+		prepareTriangle();
+	}
+
+	void prepareTriangle()
+	{
+		float vertices[3 * 7] = {
+			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
+			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0, 1.0f,
+			0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0, 1.0f
+		};
+		uint32_t indices[3] = { 0, 1, 2 };
+
+		std::shared_ptr<FoxEngine::VertexArray> va = FoxEngine::VertexArray::Create();
+		FoxEngine::Object* triangle = new FoxEngine::Object(va);
+		triangle->AddVertexBuffer(vertices, sizeof(vertices), layout);
+		triangle->SetIndexBuffer(indices, 3);
+
+		triangle->SetShader(vertexSource, fragmentSource);
+		AddObjects(triangle);
+	}
+
+	void prepareSquare()
+	{
+		float vertices[4 * 7] = {
+			-0.75f, -0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
+			0.75f, -0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
+			0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
+			-0.75f, 0.75f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f
+		};
+		uint32_t indices[6] = { 0, 1, 2, 0, 3, 2 };
+
+		std::shared_ptr<FoxEngine::VertexArray> va = FoxEngine::VertexArray::Create();
+		FoxEngine::Object* square = new FoxEngine::Object(va);
+		square->AddVertexBuffer(vertices, sizeof(vertices), layout);
+		square->SetIndexBuffer(indices, 6);
+
+		square->SetShader(vertexSource, fragmentSource);
+		AddObjects(square);
+	}
+
+	~ExampleLayer()
+	{
+		for(auto object : Objects)
+		{
+			delete object;
+		}
 	}
 	
 	
@@ -82,9 +99,8 @@ public:
 		FoxEngine::RenderCommand::Clear();
 
 		FoxEngine::Renderer::BeginScene();
-
-		m_TriangleShader->Bind();
-		FoxEngine::Renderer::Submit(m_TriangleVertexArray);
+		
+		RenderObjects();
 
 		FoxEngine::Renderer::EndScene();
 		

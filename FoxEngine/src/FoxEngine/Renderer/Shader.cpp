@@ -109,6 +109,7 @@ namespace FoxEngine
 
 			return;
 		}
+		FOX_CORE_ERROR("Shader created: {0}", m_RendererId);
 
 		// Always detach shaders after a successful link.
 		glDetachShader(m_RendererId, vertexShader);
@@ -117,18 +118,22 @@ namespace FoxEngine
 
 	Shader::~Shader()
 	{
+		FOX_CORE_ERROR("Shader deleted: {0}", m_RendererId);
 		glDeleteProgram(m_RendererId);
 	}
 
 	void Shader::Bind()
-	{
-
-		//FOX_CORE_DEBUG("RendererId when binding: null", m_RendererId);
+	{;
 		glUseProgram(m_RendererId);
 	}
 
 	void Shader::Unbind()
 	{
 		glUseProgram(0);
+	}
+
+	std::shared_ptr<Shader> Shader::Create(const std::string& vertexSource, const std::string& fragmentSource)
+	{
+		return std::make_shared<Shader>(vertexSource, fragmentSource);
 	}
 }
