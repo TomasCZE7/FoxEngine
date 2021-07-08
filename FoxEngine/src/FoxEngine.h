@@ -22,6 +22,6 @@
 #include "FoxEngine/Renderer/VertexArray.h"
 #include "FoxEngine/Renderer/Shader.h"
 #include "FoxEngine/Renderer/OrthographicCamera.h"
-
+#include "FoxEngine/Renderer/Texture.h"
 
 #include "FoxEngine/EntryPoint.h"

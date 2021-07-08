@@ -6,6 +6,7 @@
 #include "FoxEngine/Renderer/Renderer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public FoxEngine::Layer {
 	private:
@@ -14,19 +15,23 @@ class ExampleLayer : public FoxEngine::Layer {
 		float m_CameraSpeed = 2.0f;
 		float m_CameraRotationSpeed = 40.0f;
 		float rotation = 0.0f;
-		FoxEngine::Object triangle;
-		FoxEngine::Object square;
+		FoxEngine::Ref<FoxEngine::Object> triangle;
+		FoxEngine::Ref<FoxEngine::Object> square;
+	
+		glm::vec4 squareColor = { 0.8f, 0.2f, 0.3f, 1.0f };
+		glm::vec4 triangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+		FoxEngine::Ref<FoxEngine::Texture2D> m_Texture;
 
 	public:
 	FoxEngine::BufferLayout layout = {
-		{FoxEngine::ShaderDataType::Float3, "a_Position"}
+		{FoxEngine::ShaderDataType::Float3, "a_Position"},
+		{FoxEngine::ShaderDataType::Float2, "a_TextureCoord"}
 	};
 	 
 	std::string vertexSource = R"(
 			#version 330 core
 
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
 			uniform mat4 u_Transform;
@@ -53,6 +58,39 @@ class ExampleLayer : public FoxEngine::Layer {
 			}
 
 		)";
+	std::string textureVertexSource = R"(
+			#version 330 core
+
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TextureCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+			uniform vec4 u_Color;
+
+			out vec2 v_TextureCoord;
+
+			void main(){
+				v_TextureCoord = a_TextureCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+
+	std::string textureFragmentSource = R"(
+			#version 330 core
+
+			layout(location = 0) out vec4 o_Color;
+		
+			in vec2 v_TextureCoord;
+
+			uniform sampler2D u_Texture;
+	
+			void main(){
+				o_Color = texture(u_Texture, v_TextureCoord);
+			}
+
+		)";
 
 	ExampleLayer()
 		: Layer("Example"), m_Camera( -1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({ 0.0f, 0.0f, 0.0f })
@@ -70,29 +108,31 @@ class ExampleLayer : public FoxEngine::Layer {
 		};
 		uint32_t indices[3] = { 0, 1, 2 };
 		
-		triangle = FoxEngine::Object(FoxEngine::VertexArray::Create(), glm::vec3(0.0f));
-		triangle.AddVertexBuffer(vertices, sizeof(vertices), layout);
-		triangle.SetIndexBuffer(indices, 3);
+		triangle = std::make_shared<FoxEngine::Object>(FoxEngine::Object(FoxEngine::VertexArray::Create(), glm::vec3(0.0f)));
+		triangle->AddVertexBuffer(vertices, sizeof(vertices), layout);
+		triangle->SetIndexBuffer(indices, 3);
 
-		triangle.SetShader(vertexSource, fragmentSource);
+		triangle->SetShader(vertexSource, fragmentSource);
 	}
 
 	void prepareSquare()
 	{
-		float vertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.5f, 0.5f, 0.0f,
-			-0.5f, 0.5f, 0.0f
+		float vertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
 		};
 		uint32_t indices[6] = { 0, 1, 2, 0, 3, 2 };
 		
-		square = FoxEngine::Object(FoxEngine::VertexArray::Create(), glm::vec3(0.0f));
-		square.AddVertexBuffer(vertices, sizeof(vertices), layout);
-		square.SetIndexBuffer(indices, 6);
+		square = std::make_shared<FoxEngine::Object>(FoxEngine::Object(FoxEngine::VertexArray::Create(), glm::vec3(0.0f)));
+		square->AddVertexBuffer(vertices, sizeof(vertices), layout);
+		square->SetIndexBuffer(indices, 6);
 
-		square.SetShader(vertexSource, fragmentSource);
+		square->SetShader(textureVertexSource, textureFragmentSource);
 
+		m_Texture = FoxEngine::Texture2D::Create("assets/textures/minecraft_texture.png");
+		square->GetShader()->UploadUniformInt("u_Texture", 0);
 	}
 
 	~ExampleLayer()
@@ -140,27 +180,25 @@ class ExampleLayer : public FoxEngine::Layer {
 		
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1));
 
-		glm::vec4 redColor(0.8f, 0.2f, 0.3f, 1.0f);
-		glm::vec4 greenColor(0.2f, 0.8f, 0.3f, 1.0f);
 		//GRID
+		square->GetShader()->Bind();
+		square->GetShader()->UploadUniformFloat4("u_Color", squareColor);
 		for(int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
 			{
 				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				if(x % 2 == 0)
-				{
-					square.GetShader()->UploadUniformFloat4("u_Color", redColor);
-				} else
-				{
-					square.GetShader()->UploadUniformFloat4("u_Color", greenColor);
-				}
-				FoxEngine::Renderer::Submit(square.GetVertexArray(), square.GetShader(), transform);
+				FoxEngine::Renderer::Submit(square->GetVertexArray(), square->GetRawShader(), transform);
 			}
 		}
+		
+		m_Texture->Bind();
+		FoxEngine::Renderer::Submit(square->GetVertexArray(), square->GetRawShader());
 
-		FoxEngine::Renderer::Submit(triangle.GetVertexArray(), triangle.GetShader(), triangle.GetTransform());
+		//triangle->GetShader()->Bind();
+		//triangle->GetShader()->UploadUniformFloat4("u_Color", triangleColor);
+		//FoxEngine::Renderer::Submit(triangle->GetVertexArray(), triangle->GetRawShader(), triangle->GetTransform());
 
 		FoxEngine::Renderer::EndScene();
 		
@@ -172,6 +210,10 @@ class ExampleLayer : public FoxEngine::Layer {
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Object settings");
+		ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
+		//ImGui::ColorEdit4("Triangle color", glm::value_ptr(triangleColor));
+		ImGui::End();
 	}
 
 };

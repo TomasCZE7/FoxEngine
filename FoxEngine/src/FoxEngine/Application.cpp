@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Event/Event.h"
 #include "GLFW/glfw3.h"
+#include "Renderer/Renderer.h"
 
 namespace FoxEngine
 {
@@ -18,6 +19,8 @@ namespace FoxEngine
 		FOX_CORE_DEBUG("Application was created.");
         m_WindowPtr = std::unique_ptr<Window>(Window::Create());
 		m_WindowPtr->SetEventCallback(FOX_BIND_EVENT_FUNCTION(Application::OnEvent));
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);

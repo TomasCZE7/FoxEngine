@@ -15,6 +15,7 @@ IncludeDir["GLFW"] = "FoxEngine/vendor/GLFW/include"
 IncludeDir["GLAD"] = "FoxEngine/vendor/GLAD/include"
 IncludeDir["ImGui"] = "FoxEngine/vendor/imgui"
 IncludeDir["glm"] = "FoxEngine/vendor/glm"
+IncludeDir["stb_image"] = "FoxEngine/vendor/stb_image"
 include("FoxEngine/vendor/GLFW")
 include("FoxEngine/vendor/GLAD")
 include("FoxEngine/vendor/imgui")
@@ -33,6 +34,8 @@ project "FoxEngine"
 	files{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
@@ -45,6 +48,7 @@ project "FoxEngine"
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
 	}
 	
 	links{
