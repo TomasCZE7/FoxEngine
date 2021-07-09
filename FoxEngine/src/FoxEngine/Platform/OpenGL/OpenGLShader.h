@@ -1,9 +1,10 @@
 #pragma once
-#pragma once
 #include <string>
 
 #include <glm/glm.hpp>
 #include "FoxEngine/Renderer/Shader.h"
+
+typedef unsigned int GLenum;
 
 namespace FoxEngine
 {
@@ -13,11 +14,11 @@ namespace FoxEngine
 		uint32_t m_RendererId;
 	public:
 		OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource);
-		virtual ~OpenGLShader();
+		OpenGLShader(const std::string& path);
+		virtual ~OpenGLShader() override;
 
-		void Bind();
-		void Unbind();
-
+		void Bind() override;
+		void Unbind() override;
 
 		void UploadUniformInt(const std::string& name, int value);
 		
@@ -28,5 +29,9 @@ namespace FoxEngine
 		void UploadUniformFloat2(const std::string& name, const glm::vec2& values);
 		void UploadUniformFloat3(const std::string& name, const glm::vec3& values);
 		void UploadUniformFloat4(const std::string& name, const glm::vec4& values);
+	private:
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
+		std::string ReadFile(const std::string& path);
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 	};
 }

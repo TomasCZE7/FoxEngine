@@ -27,70 +27,6 @@ class ExampleLayer : public FoxEngine::Layer {
 		{FoxEngine::ShaderDataType::Float3, "a_Position"},
 		{FoxEngine::ShaderDataType::Float2, "a_TextureCoord"}
 	};
-	 
-	std::string vertexSource = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			uniform vec4 u_Color;
-	
-			out vec4 v_Color;
-
-			void main(){
-				v_Color = u_Color;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-
-		)";
-
-	std::string fragmentSource = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 o_Color;
-		
-			in vec4 v_Color;
-		
-			void main(){
-				o_Color = v_Color;
-			}
-
-		)";
-	std::string textureVertexSource = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec2 a_TextureCoord;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-			uniform vec4 u_Color;
-
-			out vec2 v_TextureCoord;
-
-			void main(){
-				v_TextureCoord = a_TextureCoord;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-
-		)";
-
-	std::string textureFragmentSource = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 o_Color;
-		
-			in vec2 v_TextureCoord;
-
-			uniform sampler2D u_Texture;
-	
-			void main(){
-				o_Color = texture(u_Texture, v_TextureCoord);
-			}
-
-		)";
 
 	ExampleLayer()
 		: Layer("Example"), m_Camera( -1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({ 0.0f, 0.0f, 0.0f })
@@ -112,7 +48,7 @@ class ExampleLayer : public FoxEngine::Layer {
 		triangle->AddVertexBuffer(vertices, sizeof(vertices), layout);
 		triangle->SetIndexBuffer(indices, 3);
 
-		triangle->SetShader(vertexSource, fragmentSource);
+		triangle->SetShader("assets/shaders/Texture.glsl");
 	}
 
 	void prepareSquare()
@@ -129,7 +65,7 @@ class ExampleLayer : public FoxEngine::Layer {
 		square->AddVertexBuffer(vertices, sizeof(vertices), layout);
 		square->SetIndexBuffer(indices, 6);
 
-		square->SetShader(textureVertexSource, textureFragmentSource);
+		square->SetShader("assets/shaders/Texture.glsl");
 
 		m_Texture = FoxEngine::Texture2D::Create("assets/textures/minecraft_texture.png");
 		square->GetShader()->UploadUniformInt("u_Texture", 0);

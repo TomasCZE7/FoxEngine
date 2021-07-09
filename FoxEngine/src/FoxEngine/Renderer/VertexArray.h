@@ -9,7 +9,6 @@ namespace FoxEngine
 	{
 	public:
 		virtual ~VertexArray() {
-			FOX_CORE_ERROR("VA deleted");
 		}
 
 		virtual void Bind() const = 0;

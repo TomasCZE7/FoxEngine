@@ -25,7 +25,7 @@ namespace FoxEngine
 		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
 		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
 		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
-		~OrthographicCamera() { FOX_CORE_ERROR("ORTHO destroyed"); }
+		~OrthographicCamera() { }
 	private:
 		void RecalculateViewMatrix();
 	};

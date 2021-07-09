@@ -20,7 +20,6 @@ namespace FoxEngine {
 		inline const Ref<Shader> GetRawShader() const { return m_Shader; }
 		~Object()
 		{
-			FOX_CORE_ERROR("OBJECT deleted");
 		}
 
 		inline Ref<VertexBuffer> AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) { m_VertexArray->AddVertexBuffer(vertexBuffer); return vertexBuffer; };
@@ -30,6 +29,7 @@ namespace FoxEngine {
 		Ref<IndexBuffer> SetIndexBuffer(uint32_t* indices, uint32_t size);
 		inline Ref<Shader> SetShader(const Ref<Shader>& shader) { m_Shader = shader; return shader;  }
 		inline Ref<Shader> SetShader(const std::string& vertexSource, const std::string& fragmentSource ) { return SetShader(FoxEngine::Shader::Create(vertexSource, fragmentSource)); }
+		inline Ref<Shader> SetShader(const std::string& path) { return SetShader(FoxEngine::Shader::Create(path)); }
 
 		inline void SetTransform(glm::mat4 transform) { m_Transform = transform; }
 		inline const glm::mat4&  GetTransform() const { return m_Transform; }

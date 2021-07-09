@@ -105,7 +105,6 @@ namespace FoxEngine
 	{
 	public:
 		virtual ~VertexBuffer() {
-			FOX_CORE_ERROR("VB deleted");
 		}
 		
 		virtual void Bind() const = 0;
@@ -121,7 +120,6 @@ namespace FoxEngine
 	{
 	public:
 		virtual ~IndexBuffer() {
-			FOX_CORE_ERROR("IB deleted");
 		}
 
 		virtual void Bind() const = 0;
