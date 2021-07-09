@@ -5,86 +5,136 @@
 #include "FoxEngine/Renderer/VertexArray.h"
 #include "FoxEngine/Renderer/Renderer.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class ExampleLayer : public FoxEngine::Layer {
-public:
-
-	std::shared_ptr<FoxEngine::VertexArray> m_TriangleVertexArray;
-	std::shared_ptr<FoxEngine::VertexBuffer> m_TriangleVertexBuffer;
-	std::shared_ptr<FoxEngine::IndexBuffer> m_TriangleIndexBuffer;
-	std::shared_ptr<FoxEngine::Shader> m_TriangleShader;
+	private:
+		FoxEngine::OrthographicCamera m_Camera;
+		glm::vec3 m_CameraPosition;
+		float m_CameraSpeed = 2.0f;
+		float m_CameraRotationSpeed = 40.0f;
+		float rotation = 0.0f;
+		FoxEngine::Ref<FoxEngine::Object> triangle;
+		FoxEngine::Ref<FoxEngine::Object> square;
 	
+		glm::vec4 squareColor = { 0.8f, 0.2f, 0.3f, 1.0f };
+		glm::vec4 triangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+		FoxEngine::Ref<FoxEngine::Texture2D> m_Texture;
 
-	
+	public:
+	FoxEngine::BufferLayout layout = {
+		{FoxEngine::ShaderDataType::Float3, "a_Position"},
+		{FoxEngine::ShaderDataType::Float2, "a_TextureCoord"}
+	};
+
 	ExampleLayer()
-		:Layer("Example")
+		: Layer("Example"), m_Camera( -1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({ 0.0f, 0.0f, 0.0f })
 	{
+		prepareSquare();
 		prepareTriangle();
 	}
 
 	void prepareTriangle()
 	{
-		m_TriangleVertexArray.reset(FoxEngine::VertexArray::Create());
-
-		float vertices[3 * 7] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0, 1.0f,
-			0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0, 1.0f
+		float vertices[3 * 3] = {
+			-0.5f, -0.5f, 0.0f,
+			0.5f, -0.5f, 0.0f,
+			0.0f, 0.5f, 0.0f
 		};
-
-		m_TriangleVertexBuffer.reset(FoxEngine::VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		FoxEngine::BufferLayout layout = {
-			{FoxEngine::ShaderDataType::Float3, "a_Position"},
-			{FoxEngine::ShaderDataType::Float4, "a_Color"}
-		};
-		m_TriangleVertexBuffer->SetLayout(layout);
-
-		m_TriangleVertexArray->AddVertexBuffer(m_TriangleVertexBuffer);
-
 		uint32_t indices[3] = { 0, 1, 2 };
-		m_TriangleIndexBuffer.reset(FoxEngine::IndexBuffer::Create(indices, 3));
-		m_TriangleVertexArray->SetIndexBuffer(m_TriangleIndexBuffer);
-
-		std::string vertexSource = R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			out vec4 v_Color;
-
-			void main(){
-				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
-			}
-
-		)";
-
-		std::string fragmentSource = R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 o_Color;
 		
-			in vec4 v_Color;
+		triangle = std::make_shared<FoxEngine::Object>(FoxEngine::Object(FoxEngine::VertexArray::Create(), glm::vec3(0.0f)));
+		triangle->AddVertexBuffer(vertices, sizeof(vertices), layout);
+		triangle->SetIndexBuffer(indices, 3);
+
+		triangle->SetShader("assets/shaders/Texture.glsl");
+	}
+
+	void prepareSquare()
+	{
+		float vertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+		};
+		uint32_t indices[6] = { 0, 1, 2, 0, 3, 2 };
 		
-			void main(){
-				o_Color = v_Color;
-			}
+		square = std::make_shared<FoxEngine::Object>(FoxEngine::Object(FoxEngine::VertexArray::Create(), glm::vec3(0.0f)));
+		square->AddVertexBuffer(vertices, sizeof(vertices), layout);
+		square->SetIndexBuffer(indices, 6);
 
-		)";
+		square->SetShader("assets/shaders/Texture.glsl");
 
-		m_TriangleShader.reset(new FoxEngine::Shader(vertexSource, fragmentSource));
+		m_Texture = FoxEngine::Texture2D::Create("assets/textures/minecraft_texture.png");
+		square->GetShader()->UploadUniformInt("u_Texture", 0);
+	}
+
+	~ExampleLayer()
+	{
 	}
 	
 	
-	void OnUpdate() {
+	void OnUpdate(FoxEngine::TimeStep timeStep) {
+		
+		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_LEFT))
+		{
+			m_CameraPosition.x -= m_CameraSpeed * timeStep;
+		}
+		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_RIGHT))
+		{
+			m_CameraPosition.x += m_CameraSpeed * timeStep;
+		}
+		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_UP))
+		{
+			m_CameraPosition.y += m_CameraSpeed * timeStep;
+		}
+		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_DOWN))
+		{
+			m_CameraPosition.y -= m_CameraSpeed * timeStep;
+		}
+
+		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_E))
+		{
+			rotation += m_CameraRotationSpeed * timeStep;
+		}
+
+		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_Q))
+		{
+			rotation -= m_CameraRotationSpeed * timeStep;
+		}
+
 		FoxEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		FoxEngine::RenderCommand::Clear();
 
-		FoxEngine::Renderer::BeginScene();
+		m_Camera.SetPosition(m_CameraPosition);
+		m_Camera.SetRotation(rotation);
+		
+		FoxEngine::Renderer::BeginScene(m_Camera);
 
-		m_TriangleShader->Bind();
-		FoxEngine::Renderer::Submit(m_TriangleVertexArray);
+		
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1));
+
+		//GRID
+		square->GetShader()->Bind();
+		square->GetShader()->UploadUniformFloat4("u_Color", squareColor);
+		for(int y = 0; y < 20; y++)
+		{
+			for (int x = 0; x < 20; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				FoxEngine::Renderer::Submit(square->GetVertexArray(), square->GetRawShader(), transform);
+			}
+		}
+		
+		m_Texture->Bind();
+		FoxEngine::Renderer::Submit(square->GetVertexArray(), square->GetRawShader());
+
+		//triangle->GetShader()->Bind();
+		//triangle->GetShader()->UploadUniformFloat4("u_Color", triangleColor);
+		//FoxEngine::Renderer::Submit(triangle->GetVertexArray(), triangle->GetRawShader(), triangle->GetTransform());
 
 		FoxEngine::Renderer::EndScene();
 		
@@ -96,6 +146,10 @@ public:
 
 	virtual void OnImGuiRender() override
 	{
+		ImGui::Begin("Object settings");
+		ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
+		//ImGui::ColorEdit4("Triangle color", glm::value_ptr(triangleColor));
+		ImGui::End();
 	}
 
 };

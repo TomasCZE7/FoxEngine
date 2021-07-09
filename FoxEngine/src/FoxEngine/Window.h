@@ -2,7 +2,7 @@
 #include "fepch.h"
 #include "FoxEngine/Core.h"
 #include "FoxEngine/Event/Event.h"
-#define BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
+#define FOX_BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
 
 namespace FoxEngine {
 

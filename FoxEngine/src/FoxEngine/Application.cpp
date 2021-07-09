@@ -1,9 +1,8 @@
 #include "fepch.h"
 #include "Application.h"
 #include "Event/Event.h"
-
-#include "FoxEngine/Renderer/Shader.h"
-#include "FoxEngine/Renderer/Renderer.h"
+#include "GLFW/glfw3.h"
+#include "Renderer/Renderer.h"
 
 namespace FoxEngine
 {
@@ -19,7 +18,9 @@ namespace FoxEngine
 
 		FOX_CORE_DEBUG("Application was created.");
         m_WindowPtr = std::unique_ptr<Window>(Window::Create());
-		m_WindowPtr->SetEventCallback(BIND_EVENT_FUNCTION(Application::OnEvent));
+		m_WindowPtr->SetEventCallback(FOX_BIND_EVENT_FUNCTION(Application::OnEvent));
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -35,10 +36,12 @@ namespace FoxEngine
 		FOX_CORE_DEBUG("Application started.");
 		while(Running)
 		{
-			
+			float time = (float) glfwGetTime();
+			TimeStep timestep = time - m_LastFrameTime;
+			m_LastFrameTime = time;
 			//Updating
 			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			}
 
 			m_ImGuiLayer->Begin();
@@ -54,9 +57,7 @@ namespace FoxEngine
 
 	void Application::OnEvent(Event& event) {
 		EventCaster caster(event);
-		caster.Cast<WindowClosedEvent>(BIND_EVENT_FUNCTION(Application::OnWindowClosed));
-
-		FOX_CORE_TRACE("Event triggered: {0}", event);
+		caster.Cast<WindowClosedEvent>(FOX_BIND_EVENT_FUNCTION(Application::OnWindowClosed));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 

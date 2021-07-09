@@ -1,18 +1,19 @@
-#pragma once
+ #pragma once
 #include <string>
 
-namespace FoxEngine
+#include "VertexArray.h"
+
+ namespace FoxEngine
 {
 	class Shader
 	{
-	private:
-		uint32_t m_RendererId;
 	public:
-		Shader(const std::string& vertexSource, const std::string& fragmentSource);
-		Shader() {}
-		virtual ~Shader();
+		virtual ~Shader() = default;
 
-		void Bind();
-		void Unbind();
+		virtual void Bind() = 0;
+		virtual void Unbind() = 0;
+		static Ref<Shader> Create(const std::string& vertexSource, const std::string& fragmentSource);
+		static Ref<Shader> Create(const std::string& path);
+
 	};
 }

@@ -7,6 +7,9 @@
     <Filter Include="src\FoxEngine">
       <UniqueIdentifier>{DF5DAA3A-4B1E-2671-1459-6FEE80D86A4D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\FoxEngine\Core">
+      <UniqueIdentifier>{97055470-83E9-14C6-EC49-0F19D84CFF47}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\FoxEngine\Event">
       <UniqueIdentifier>{708AFC7A-DCEB-D988-6559-203BD1B91048}</UniqueIdentifier>
     </Filter>
@@ -46,6 +49,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\FoxEngine.h">
@@ -56,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Core.h">
       <Filter>src\FoxEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\TimeStep.h">
+      <Filter>src\FoxEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\EntryPoint.h">
       <Filter>src\FoxEngine</Filter>
@@ -102,6 +111,18 @@
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsInput.h">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClInclude>
@@ -114,10 +135,28 @@
     <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\Object.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Renderer.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\RendererAPI.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Shader.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\Texture.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\VertexArray.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Window.h">
@@ -1371,12 +1410,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\Renderer\VertexArray.h" />
-    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\FoxEngine\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\FoxEngine\Renderer\Object.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Application.cpp">
@@ -1403,6 +1439,18 @@
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsInput.cpp">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClCompile>
@@ -1412,19 +1460,35 @@
     <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\Object.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Renderer.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\RendererAPI.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Shader.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\Texture.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\VertexArray.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\fepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\FoxEngine\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\FoxEngine\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

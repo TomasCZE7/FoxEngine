@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #define BIT(x) 1 << x
 
@@ -23,3 +24,12 @@
     #define FOX_ASSERT(x, ...)
     #define FOX_CORE_ASSERT(x, ...)
 #endif
+
+namespace FoxEngine
+{
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+}

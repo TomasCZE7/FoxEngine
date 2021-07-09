@@ -1,11 +1,13 @@
 #pragma once
 #include "Core.h"
 #include "Window.h"
+#include "Core/TimeStep.h"
 #include "Event/WindowEvent.h"
 #include "FoxEngine/LayerStack.h"
 #include "FoxEngine/ImGui/ImGuiLayer.h"
 #include "FoxEngine/Renderer/Shader.h"
 #include "FoxEngine/Renderer/Buffer.h"
+#include "Renderer/OrthographicCamera.h"
 #include "Renderer/VertexArray.h"
 
 namespace FoxEngine
@@ -17,11 +19,9 @@ namespace FoxEngine
 		std::unique_ptr<Window> m_WindowPtr;
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_LayerStack;
-
-		std::shared_ptr<Shader> m_Shader;
-		std::shared_ptr<VertexArray> VertexArray;
-		std::shared_ptr<VertexBuffer> VertexBuffer;
-		std::shared_ptr<IndexBuffer> IndexBuffer;
+		TimeStep m_TimeStep;
+		float m_LastFrameTime = 0.0f;
+		
 	public:
 		Application();
 		virtual ~Application();

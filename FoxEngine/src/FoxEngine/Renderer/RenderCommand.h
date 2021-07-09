@@ -8,7 +8,7 @@ namespace FoxEngine
 	private:
 		static RendererAPI* s_RendererAPI;
 	public:
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
+		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray)
 		{
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
@@ -21,6 +21,11 @@ namespace FoxEngine
 		inline static void Clear()
 		{
 			s_RendererAPI->Clear();
-		};
+		}
+
+		inline static void Init()
+		{
+			s_RendererAPI->Init();
+		}
 	};
 }

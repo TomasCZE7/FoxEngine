@@ -46,33 +46,32 @@ namespace FoxEngine
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		FOX_ASSERT(vertexBuffer->GetLayout().GetElements().size, "Vertex buffer has no elements in the layout!");
 
 		glBindVertexArray(RendererId);
 		vertexBuffer->Bind();
-
-		FOX_ASSERT(vertexBuffer->GetLayout().GetElements().size, "Vertex buffer has no elements in the layout!");
 		
 		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
+				glEnableVertexAttribArray(index);
+				glVertexAttribPointer(index,
 				element.GetComponentCount(),
 				ShaderDataTypeToOpenGLType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
 				(const void*)element.Offset);
+			
 			index++;
 		}
 		
 		m_VertexBuffers.push_back(vertexBuffer);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer)
+	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(RendererId);
 		indexBuffer->Bind();
