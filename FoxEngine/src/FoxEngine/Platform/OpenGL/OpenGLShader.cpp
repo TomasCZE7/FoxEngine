@@ -21,12 +21,13 @@ namespace FoxEngine
 		return 0;
 	}
 	
-	OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource)
-	{
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
+		: m_Name(name){
 		std::unordered_map < GLenum, std::string > sources;
 		sources[GL_VERTEX_SHADER] = vertexSource;
 		sources[GL_FRAGMENT_SHADER] = fragmentSource;
 		Compile(sources);
+
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& path)
@@ -34,6 +35,11 @@ namespace FoxEngine
 		std::string shaderSource = ReadFile(path);
 		auto shaderSources = PreProcess(shaderSource);
 		Compile(shaderSources);
+		auto lastSlash = path.find_last_of("/\\");
+		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+		auto lastDot = path.rfind('.');
+		auto count = lastDot == std::string::npos ? path.size() - lastSlash : lastDot - lastSlash;
+		m_Name = path.substr(lastSlash, count);
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -97,7 +103,9 @@ namespace FoxEngine
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShaderIDs(shaderSources.size());
+		FOX_CORE_ASSERT(shaderSources.size() <= 2, "Only 2 shaders supported!");
+		int shaderIndex = 0;
+		std::array<GLenum, 2> glShaderIDs;
 		for (auto& kv : shaderSources)
 		{
 			GLenum type = kv.first;
@@ -128,7 +136,7 @@ namespace FoxEngine
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs.push_back(shader);
+			glShaderIDs[shaderIndex++] = shader;
 		}
 
 		m_RendererId = program;
@@ -167,7 +175,7 @@ namespace FoxEngine
 	std::string OpenGLShader::ReadFile(const std::string& path)
 	{
 		std::string result;
-		std::ifstream in(path, std::ios::in, std::ios::binary);
+		std::ifstream in(path, std::ios::in | std::ios::binary);
 		if (in)
 		{
 			in.seekg(0, std::ios::end);

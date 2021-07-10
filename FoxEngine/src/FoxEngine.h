@@ -23,5 +23,6 @@
 #include "FoxEngine/Renderer/Shader.h"
 #include "FoxEngine/Renderer/OrthographicCamera.h"
 #include "FoxEngine/Renderer/Texture.h"
+#include "FoxEngine/OrthographicCameraController.h"
 
 #include "FoxEngine/EntryPoint.h"

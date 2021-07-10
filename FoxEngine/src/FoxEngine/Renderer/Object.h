@@ -28,7 +28,7 @@ namespace FoxEngine {
 		inline Ref<IndexBuffer> SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) { m_VertexArray->SetIndexBuffer(indexBuffer); return indexBuffer; };
 		Ref<IndexBuffer> SetIndexBuffer(uint32_t* indices, uint32_t size);
 		inline Ref<Shader> SetShader(const Ref<Shader>& shader) { m_Shader = shader; return shader;  }
-		inline Ref<Shader> SetShader(const std::string& vertexSource, const std::string& fragmentSource ) { return SetShader(FoxEngine::Shader::Create(vertexSource, fragmentSource)); }
+		inline Ref<Shader> SetShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource ) { return SetShader(FoxEngine::Shader::Create(name, vertexSource, fragmentSource)); }
 		inline Ref<Shader> SetShader(const std::string& path) { return SetShader(FoxEngine::Shader::Create(path)); }
 
 		inline void SetTransform(glm::mat4 transform) { m_Transform = transform; }

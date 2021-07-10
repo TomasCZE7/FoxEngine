@@ -12,13 +12,16 @@ namespace FoxEngine
 	{
 	public:
 		uint32_t m_RendererId;
+		std::string m_Name;
 	public:
-		OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource);
+		OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
 		OpenGLShader(const std::string& path);
 		virtual ~OpenGLShader() override;
 
 		void Bind() override;
 		void Unbind() override;
+		
+		virtual const std::string& GetName() const override { return m_Name; }
 
 		void UploadUniformInt(const std::string& name, int value);
 		

@@ -160,6 +160,7 @@
     <ClInclude Include="src\FoxEngine\LayerStack.h" />
     <ClInclude Include="src\FoxEngine\Log.h" />
     <ClInclude Include="src\FoxEngine\MouseButtonCodes.h" />
+    <ClInclude Include="src\FoxEngine\OrthographicCameraController.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -604,6 +605,7 @@
     <ClCompile Include="src\FoxEngine\Layer.cpp" />
     <ClCompile Include="src\FoxEngine\LayerStack.cpp" />
     <ClCompile Include="src\FoxEngine\Log.cpp" />
+    <ClCompile Include="src\FoxEngine\OrthographicCameraController.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />

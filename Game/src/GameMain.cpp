@@ -8,13 +8,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+
 class ExampleLayer : public FoxEngine::Layer {
 	private:
-		FoxEngine::OrthographicCamera m_Camera;
-		glm::vec3 m_CameraPosition;
-		float m_CameraSpeed = 2.0f;
-		float m_CameraRotationSpeed = 40.0f;
-		float rotation = 0.0f;
+		FoxEngine::OrthographicCameraController m_CameraController;
 		FoxEngine::Ref<FoxEngine::Object> triangle;
 		FoxEngine::Ref<FoxEngine::Object> square;
 	
@@ -29,7 +26,7 @@ class ExampleLayer : public FoxEngine::Layer {
 	};
 
 	ExampleLayer()
-		: Layer("Example"), m_Camera( -1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition({ 0.0f, 0.0f, 0.0f })
+		: Layer("Example"), m_CameraController(1280.0f / 720.0f, true)
 	{
 		prepareSquare();
 		prepareTriangle();
@@ -76,42 +73,14 @@ class ExampleLayer : public FoxEngine::Layer {
 	}
 	
 	
-	void OnUpdate(FoxEngine::TimeStep timeStep) {
+	void OnUpdate(FoxEngine::TimeStep timeStep){
 		
-		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_LEFT))
-		{
-			m_CameraPosition.x -= m_CameraSpeed * timeStep;
-		}
-		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_RIGHT))
-		{
-			m_CameraPosition.x += m_CameraSpeed * timeStep;
-		}
-		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_UP))
-		{
-			m_CameraPosition.y += m_CameraSpeed * timeStep;
-		}
-		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_DOWN))
-		{
-			m_CameraPosition.y -= m_CameraSpeed * timeStep;
-		}
-
-		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_E))
-		{
-			rotation += m_CameraRotationSpeed * timeStep;
-		}
-
-		if (FoxEngine::Input::IsKeyPressed(FOX_KEY_Q))
-		{
-			rotation -= m_CameraRotationSpeed * timeStep;
-		}
-
+		m_CameraController.OnUpdate(timeStep);
+		
 		FoxEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		FoxEngine::RenderCommand::Clear();
-
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(rotation);
 		
-		FoxEngine::Renderer::BeginScene(m_Camera);
+		FoxEngine::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1));
@@ -142,14 +111,12 @@ class ExampleLayer : public FoxEngine::Layer {
 	}
 
 	void OnEvent(FoxEngine::Event& event) {
+		m_CameraController.OnEvent(event);
 	}
 
 	virtual void OnImGuiRender() override
 	{
-		ImGui::Begin("Object settings");
-		ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
-		//ImGui::ColorEdit4("Triangle color", glm::value_ptr(triangleColor));
-		ImGui::End();
+
 	}
 
 };

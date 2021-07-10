@@ -12,6 +12,7 @@
 #include <ostream>
 #include <unordered_map>
 #include <unordered_set>
+#include <array>
 
 #include "FoxEngine/Log.h"
 
