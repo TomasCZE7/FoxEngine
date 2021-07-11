@@ -18,6 +18,7 @@ namespace FoxEngine
 		
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 		static void Init();
+		static void OnWindowResized(uint32_t width, uint32_t height);
 	private:
 		struct SceneData
 		{

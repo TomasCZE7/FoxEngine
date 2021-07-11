@@ -21,6 +21,7 @@ namespace FoxEngine
 		LayerStack m_LayerStack;
 		TimeStep m_TimeStep;
 		float m_LastFrameTime = 0.0f;
+		bool m_Minimized = false;
 		
 	public:
 		Application();
@@ -38,6 +39,7 @@ namespace FoxEngine
 	private:
 		static Application* s_Instance;
 		bool OnWindowClosed(WindowClosedEvent& event);
+		bool OnWindowResized(WindowResizedEvent& event);
 	};
 
 	Application* CreateApplication();

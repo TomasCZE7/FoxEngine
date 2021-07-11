@@ -40,8 +40,10 @@ namespace FoxEngine
 			TimeStep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 			//Updating
-			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate(timestep);
+			if (!m_Minimized) {
+				for (Layer* layer : m_LayerStack) {
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			m_ImGuiLayer->Begin();
@@ -58,6 +60,7 @@ namespace FoxEngine
 	void Application::OnEvent(Event& event) {
 		EventCaster caster(event);
 		caster.Cast<WindowClosedEvent>(FOX_BIND_EVENT_FUNCTION(Application::OnWindowClosed));
+		caster.Cast<WindowResizedEvent>(FOX_BIND_EVENT_FUNCTION(Application::OnWindowResized));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 
@@ -72,6 +75,19 @@ namespace FoxEngine
 	bool Application::OnWindowClosed(WindowClosedEvent& event) {
 		Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResized(WindowResizedEvent& event)
+	{
+		if(event.GetWidth() == 0 || event.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResized(event.GetWidth(), event.GetHeight());
+		return false;
 	}
 
 	void Application::PushLayer(Layer* layer) {

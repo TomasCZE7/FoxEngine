@@ -23,7 +23,7 @@ namespace FoxEngine {
     private:
         float height, width;
     public:
-        WindowResizedEvent(float height, float width)
+        WindowResizedEvent(float width, float height)
         : height(height), width(width){
 
         }
