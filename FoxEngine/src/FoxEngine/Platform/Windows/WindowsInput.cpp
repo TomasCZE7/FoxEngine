@@ -1,6 +1,6 @@
 #include "fepch.h"
 #include "WindowsInput.h"
-#include "FoxEngine/Application.h"
+#include "FoxEngine/Core/Application.h"
 
 #include <GLFW/glfw3.h>
 

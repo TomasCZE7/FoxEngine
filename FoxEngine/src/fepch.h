@@ -14,7 +14,7 @@
 #include <unordered_set>
 #include <array>
 
-#include "FoxEngine/Log.h"
+#include "FoxEngine/Core/Log.h"
 
 #ifdef FOX_PLATFORM_WINDOWS
     #include <Windows.h>

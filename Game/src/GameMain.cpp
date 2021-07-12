@@ -1,4 +1,5 @@
 #include <FoxEngine.h>
+#include <FoxEngine/Core/EntryPoint.h>
 
 #include "imgui/imgui.h"
 #include "FoxEngine/Renderer/Buffer.h"
@@ -8,6 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Game2D.h"
+
 
 class ExampleLayer : public FoxEngine::Layer {
 	private:
@@ -15,8 +18,6 @@ class ExampleLayer : public FoxEngine::Layer {
 		FoxEngine::Ref<FoxEngine::Object> triangle;
 		FoxEngine::Ref<FoxEngine::Object> square;
 	
-		glm::vec4 squareColor = { 0.8f, 0.2f, 0.3f, 1.0f };
-		glm::vec4 triangleColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		FoxEngine::Ref<FoxEngine::Texture2D> m_Texture;
 
 	public:
@@ -65,7 +66,7 @@ class ExampleLayer : public FoxEngine::Layer {
 		square->SetShader("assets/shaders/Texture.glsl");
 
 		m_Texture = FoxEngine::Texture2D::Create("assets/textures/minecraft_texture.png");
-		square->GetShader()->UploadUniformInt("u_Texture", 0);
+		square->GetShader()->SetUniformInt("u_Texture", 0);
 	}
 
 	~ExampleLayer()
@@ -87,7 +88,6 @@ class ExampleLayer : public FoxEngine::Layer {
 
 		//GRID
 		square->GetShader()->Bind();
-		square->GetShader()->UploadUniformFloat4("u_Color", squareColor);
 		for(int y = 0; y < 20; y++)
 		{
 			for (int x = 0; x < 20; x++)
@@ -100,11 +100,6 @@ class ExampleLayer : public FoxEngine::Layer {
 		
 		m_Texture->Bind();
 		FoxEngine::Renderer::Submit(square->GetVertexArray(), square->GetRawShader());
-
-		//triangle->GetShader()->Bind();
-		//triangle->GetShader()->UploadUniformFloat4("u_Color", triangleColor);
-		//FoxEngine::Renderer::Submit(triangle->GetVertexArray(), triangle->GetRawShader(), triangle->GetTransform());
-
 		FoxEngine::Renderer::EndScene();
 		
 		
@@ -127,7 +122,8 @@ class GameMain : public FoxEngine::Application
 public:
 	GameMain()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new Game2D());
 	}
 	~GameMain()
 	{

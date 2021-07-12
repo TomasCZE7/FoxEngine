@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Core.h"
-#include "Core/TimeStep.h"
-#include "Event/Event.h"
-#include "Renderer/Object.h"
-#include "Renderer/OrthographicCamera.h"
+#include "FoxEngine/Core/TimeStep.h"
+#include "FoxEngine/Event/Event.h"
+#include "FoxEngine/Renderer/Object.h"
+#include "FoxEngine/Renderer/OrthographicCamera.h"
 
 namespace FoxEngine {
 

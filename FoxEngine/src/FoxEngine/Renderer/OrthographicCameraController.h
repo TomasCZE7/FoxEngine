@@ -1,9 +1,9 @@
 #pragma once
-#include "Core/TimeStep.h"
-#include "Renderer/OrthographicCamera.h"
+#include "FoxEngine/Core/TimeStep.h"
+#include "FoxEngine/Renderer/OrthographicCamera.h"
 #include "FoxEngine/Event/Event.h"
-#include "FoxEngine/Event/KeyboardEvent.h"
-#include "FoxEngine/Event/ApplicationEvent.h"
+#include "FoxEngine/Event/WindowEvent.h"
+#include "FoxEngine/Event/MouseEvent.h"
 
 namespace FoxEngine
 {
@@ -19,7 +19,7 @@ namespace FoxEngine
 		float m_CameraRotation = 0.0f;
 		
 		float m_CameraRotationSpeed = 120.0f;
-		float m_CameraTranslationSpeed = 3.0f;
+		float m_CameraTranslationSpeed = 1.0f;
 		float m_ZoomSpeed = 0.25f;
 		float m_ZoomLevelMax = 6.0f, m_ZoomLevelMin = 0.25f;
 	public:

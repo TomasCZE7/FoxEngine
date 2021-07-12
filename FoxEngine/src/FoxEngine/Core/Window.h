@@ -1,6 +1,6 @@
 #pragma once
 #include "fepch.h"
-#include "FoxEngine/Core.h"
+#include "FoxEngine/Core/Core.h"
 #include "FoxEngine/Event/Event.h"
 #define FOX_BIND_EVENT_FUNCTION(x) std::bind(&x, this, std::placeholders::_1)
 

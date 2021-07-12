@@ -1,8 +1,9 @@
 #include "fepch.h"
-#include "FoxEngine/OrthographicCameraController.h"
+#include "FoxEngine/Renderer/OrthographicCameraController.h"
 
-#include "FoxEngine/Input.h"
-#include "FoxEngine/KeyCodes.h"
+#include "FoxEngine/Core/Input.h"
+#include "FoxEngine/Core/KeyCodes.h"
+#include "FoxEngine/Core/TimeStep.h"
 
 namespace FoxEngine
 {

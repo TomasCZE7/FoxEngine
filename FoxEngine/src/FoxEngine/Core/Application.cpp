@@ -1,8 +1,8 @@
 #include "fepch.h"
 #include "Application.h"
-#include "Event/Event.h"
+#include "FoxEngine/Event/Event.h"
 #include "GLFW/glfw3.h"
-#include "Renderer/Renderer.h"
+#include "FoxEngine/Renderer/Renderer.h"
 
 namespace FoxEngine
 {

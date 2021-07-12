@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FoxEngine/Window.h"
+#include "FoxEngine/Core/Window.h"
 #include "FoxEngine/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>

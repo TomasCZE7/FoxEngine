@@ -1,6 +1,6 @@
 #pragma once
 #include "fepch.h"
-#include "FoxEngine/Core.h"
+#include "FoxEngine/Core/Core.h"
 
 namespace FoxEngine
 {

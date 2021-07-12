@@ -1,7 +1,7 @@
 #pragma once
 
 #include "fepch.h"
-#include "FoxEngine/log.h"
+#include "FoxEngine/Core/log.h"
 
 #ifdef FOX_PLATFORM_WINDOWS
 

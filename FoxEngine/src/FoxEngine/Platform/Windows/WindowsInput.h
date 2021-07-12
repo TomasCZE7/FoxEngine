@@ -1,6 +1,6 @@
 #pragma once
 
-#include "FoxEngine/Input.h"
+#include "FoxEngine/Core/Input.h"
 
 namespace FoxEngine
 {

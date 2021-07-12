@@ -57,17 +57,38 @@
     <ClInclude Include="src\FoxEngine.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\Application.h">
-      <Filter>src\FoxEngine</Filter>
+    <ClInclude Include="src\FoxEngine\Core\Application.h">
+      <Filter>src\FoxEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\Core.h">
-      <Filter>src\FoxEngine</Filter>
+    <ClInclude Include="src\FoxEngine\Core\Core.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\EntryPoint.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\Input.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\KeyCodes.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\Layer.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\LayerStack.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\Log.h">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Core\MouseButtonCodes.h">
+      <Filter>src\FoxEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Core\TimeStep.h">
       <Filter>src\FoxEngine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\EntryPoint.h">
-      <Filter>src\FoxEngine</Filter>
+    <ClInclude Include="src\FoxEngine\Core\Window.h">
+      <Filter>src\FoxEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Event\ApplicationEvent.h">
       <Filter>src\FoxEngine\Event</Filter>
@@ -86,24 +107,6 @@
     </ClInclude>
     <ClInclude Include="src\FoxEngine\ImGui\ImGuiLayer.h">
       <Filter>src\FoxEngine\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\Input.h">
-      <Filter>src\FoxEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\KeyCodes.h">
-      <Filter>src\FoxEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\Layer.h">
-      <Filter>src\FoxEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\LayerStack.h">
-      <Filter>src\FoxEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\Log.h">
-      <Filter>src\FoxEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\MouseButtonCodes.h">
-      <Filter>src\FoxEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
@@ -141,6 +144,9 @@
     <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\OrthographicCameraController.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
@@ -158,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\VertexArray.h">
       <Filter>src\FoxEngine\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FoxEngine\Window.h">
-      <Filter>src\FoxEngine</Filter>
     </ClInclude>
     <ClInclude Include="src\fepch.h">
       <Filter>src</Filter>
@@ -1413,26 +1416,26 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\OrthographicCameraController.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\Renderer2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\FoxEngine\Application.cpp">
-      <Filter>src\FoxEngine</Filter>
+    <ClCompile Include="src\FoxEngine\Core\Application.cpp">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Core\Layer.cpp">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Core\LayerStack.cpp">
+      <Filter>src\FoxEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Core\Log.cpp">
+      <Filter>src\FoxEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\ImGui\ImGuiBuild.cpp">
       <Filter>src\FoxEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\ImGui\ImGuiLayer.cpp">
       <Filter>src\FoxEngine\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FoxEngine\Layer.cpp">
-      <Filter>src\FoxEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FoxEngine\LayerStack.cpp">
-      <Filter>src\FoxEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FoxEngine\Log.cpp">
-      <Filter>src\FoxEngine</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
@@ -1467,6 +1470,9 @@
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\OrthographicCameraController.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
@@ -1491,6 +1497,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\FoxEngine\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\Renderer2D.cpp" />
   </ItemGroup>
 </Project>

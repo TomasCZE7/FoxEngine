@@ -1,8 +1,8 @@
 #pragma once
 #include "fepch.h"
-#include "FoxEngine/Core.h"
+#include "FoxEngine/Core/Core.h"
 #include "Event.h"
-#include "FoxEngine/Window.h"
+#include "FoxEngine/Core/Window.h"
 
 namespace FoxEngine {
 
