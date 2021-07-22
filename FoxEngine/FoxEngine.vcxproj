@@ -155,6 +155,7 @@
     <ClInclude Include="src\FoxEngine\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\FoxEngine\Core\TimeStep.h" />
     <ClInclude Include="src\FoxEngine\Core\Window.h" />
+    <ClInclude Include="src\FoxEngine\Debug\Instrumentor.h" />
     <ClInclude Include="src\FoxEngine\Event\ApplicationEvent.h" />
     <ClInclude Include="src\FoxEngine\Event\Event.h" />
     <ClInclude Include="src\FoxEngine\Event\KeyboardEvent.h" />

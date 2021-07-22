@@ -1,7 +1,6 @@
 #include "fepch.h"
 #include "OpenGLTexture.h"
 
-#include <glad/glad.h>
 #include "stb_image.h"
 
 namespace FoxEngine
@@ -28,6 +27,9 @@ namespace FoxEngine
 			dataFormat = GL_RGB;
 		}
 
+		m_InternalFormat = internalFormat;
+		m_DataFormat = dataFormat;
+		
 		FOX_ASSERT(internalFormat, "Format not supported.");
 		FOX_ASSERT(dataFormat, "Format not supported.");
 
@@ -36,10 +38,33 @@ namespace FoxEngine
 
 		glTextureParameteri(m_RendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTextureParameteri(m_RendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		
+		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		glTextureSubImage2D(m_RendererId, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
+	}
+
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
+		: m_Width(width), m_Height(height), m_Path("") {
+		
+		m_InternalFormat = GL_RGBA8;
+		m_DataFormat = GL_RGBA;
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererId);
+		glTextureStorage2D(m_RendererId, 1, m_InternalFormat, m_Width, m_Height);
+
+		glTextureParameteri(m_RendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	{
+		glTextureSubImage2D(m_RendererId, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const

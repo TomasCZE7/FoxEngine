@@ -8,6 +8,8 @@ private:
 	FoxEngine::Ref<FoxEngine::Shader> m_Shader;
 	FoxEngine::Ref<FoxEngine::Texture> m_Texture;
 	FoxEngine::Ref<FoxEngine::VertexArray> m_VertexArray;
+	FoxEngine::Ref<FoxEngine::Texture2D> m_MinecraftGrassTexture;
+	
 	glm::vec4 m_Color = {0.2f, 0.8f, 0.3f, 0.1f};
 public:
 	Game2D();

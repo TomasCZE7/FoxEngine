@@ -6,36 +6,12 @@
 #include "imgui/imgui.h"
 
 Game2D::Game2D()
-	: Layer("Game2D"), m_CameraController(1280.0f / 720.0f){
+	: Layer("Game2D"), m_CameraController(1280.0f / 720.0f, true){
 }
 
 void Game2D::OnAttach()
 {
-	m_VertexArray = FoxEngine::VertexArray::Create();
-	float vertices[5 * 4] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f,
-	};
-	
-	FoxEngine::BufferLayout layout = {
-		{FoxEngine::ShaderDataType::Float3, "a_Position"},
-	};
-
-	FoxEngine::Ref<FoxEngine::VertexBuffer> vertexBuffer = FoxEngine::VertexBuffer::Create(vertices, sizeof(vertices));
-	vertexBuffer->SetLayout(layout);
-
-	m_VertexArray->AddVertexBuffer(vertexBuffer);
-	
-	uint32_t indices[6] = { 0, 1, 2, 0, 3, 2 };
-	
-	FoxEngine::Ref<FoxEngine::IndexBuffer> indexBuffer = FoxEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
-
-	m_VertexArray->SetIndexBuffer(indexBuffer);
-	m_Shader = FoxEngine::Shader::Create("assets/shaders/FlatColor.glsl");
-	
-	
+	m_MinecraftGrassTexture = FoxEngine::Texture2D::Create("assets/textures/minecraft_texture.png");
 }
 
 void Game2D::OnDetach()
@@ -57,15 +33,22 @@ void Game2D::OnEvent(FoxEngine::Event& event)
 
 void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 {
+	FOX_PROFILE_FUNCTION();
 	m_CameraController.OnUpdate(timeStep);
-
-	FoxEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-	FoxEngine::RenderCommand::Clear();
-
+	{
+		FOX_PROFILE_SCOPE("Render preparation");
+		FoxEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		FoxEngine::RenderCommand::Clear();
+	}
 	FoxEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
-
-	FoxEngine::Renderer2D::DrawQuad({0.0f, 0.0f}, {1.0f, 1.0f}, {0.2f, 0.8f, 0.3f, 1.0f});
-	FoxEngine::Renderer2D::DrawQuad({-1.0f, 0.5f}, {0.5f, 0.8f }, {0.8f, 0.2f, 0.3f, 1.0f});
+	{
+		FOX_PROFILE_SCOPE("Render drawing");
+		FoxEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
+		FoxEngine::Renderer2D::DrawQuad({ -1.0f, 0.5f }, { 0.5f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+		FoxEngine::Renderer2D::DrawQuad({ 0.0f, 0.5f, 0.1f }, { 0.5f, 0.8f }, m_MinecraftGrassTexture);
+		FoxEngine::Renderer2D::DrawRotatedQuad({ 0.0f, -0.5f, 0.1f }, { 0.8f, 0.8f }, glm::radians(55.0f), m_MinecraftGrassTexture, { 0.2, 0.8, 0.3, 0.7 });
+		FoxEngine::Renderer2D::DrawQuad({ 1.0f, 1.0f, 0.1f }, { 0.8f, 0.8f }, m_MinecraftGrassTexture, { 0.2, 0.3, 0.8, 0.9 });
+	}
 
 	FoxEngine::Renderer2D::EndScene();
-}
+}  

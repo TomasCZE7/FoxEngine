@@ -1417,6 +1417,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\FoxEngine\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Core\Application.cpp">

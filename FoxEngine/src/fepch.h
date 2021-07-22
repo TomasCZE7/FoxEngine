@@ -15,6 +15,7 @@
 #include <array>
 
 #include "FoxEngine/Core/Log.h"
+#include "FoxEngine/Debug/Instrumentor.h"
 
 #ifdef FOX_PLATFORM_WINDOWS
     #include <Windows.h>
