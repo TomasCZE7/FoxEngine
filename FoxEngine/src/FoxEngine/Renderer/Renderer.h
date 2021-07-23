@@ -1,8 +1,8 @@
 #pragma once
 #include "OrthographicCamera.h"
 #include "RenderCommand.h"
-#include "Object.h"
 #include "Shader.h"
+#include "FoxEngine/Platform/OpenGL/OpenGLShader.h"
 
 namespace FoxEngine
 {
@@ -14,7 +14,6 @@ namespace FoxEngine
 		static void EndScene();
 
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, glm::mat4 transform = glm::mat4(1.0f));
-		static void Submit(const Object& object);
 		
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 		static void Init();

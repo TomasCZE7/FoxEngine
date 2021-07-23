@@ -172,7 +172,6 @@
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\FoxEngine\Renderer\Buffer.h" />
     <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\FoxEngine\Renderer\Object.h" />
     <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\FoxEngine\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\FoxEngine\Renderer\RenderCommand.h" />
@@ -616,7 +615,6 @@
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\FoxEngine\Renderer\Object.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />

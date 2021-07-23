@@ -1,1 +1,1 @@
-{"otherData": {},"traceEvents":[]}
+{"otherData": {},"traceEvents":[{"cat":"function","dur":720,"name":"__cdecl FoxEngine::OpenGLVertexBuffer::OpenGLVertexBuffer(unsigned int)","ph":"X","pid":0,"tid":234903038,"ts":837726509999}]}

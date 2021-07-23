@@ -15,6 +15,16 @@ namespace FoxEngine
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+	{
+		FOX_PROFILE_FUNCTION();
+		
+		glCreateBuffers(1, &RendererId);
+		glBindBuffer(GL_ARRAY_BUFFER, RendererId);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+
+	}
+
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
 		glDeleteBuffers(1, &RendererId);
@@ -28,6 +38,12 @@ namespace FoxEngine
 	void OpenGLVertexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, RendererId);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
 

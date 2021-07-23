@@ -138,9 +138,6 @@
     <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\Renderer\Object.h">
-      <Filter>src\FoxEngine\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
@@ -1463,9 +1460,6 @@
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp">
-      <Filter>src\FoxEngine\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FoxEngine\Renderer\Object.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp">

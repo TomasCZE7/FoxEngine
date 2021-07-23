@@ -3,7 +3,6 @@
 #include "Core.h"
 #include "FoxEngine/Core/TimeStep.h"
 #include "FoxEngine/Event/Event.h"
-#include "FoxEngine/Renderer/Object.h"
 #include "FoxEngine/Renderer/OrthographicCamera.h"
 
 namespace FoxEngine {

@@ -2,17 +2,19 @@
 #version 330 core
 
 layout(location = 0) in vec3 a_Position;
-layout(location = 1) in vec2 a_TextureCoord;
+layout(location = 1) in vec4 a_Color;
+layout(location = 2) in vec2 a_TextureCoord;
 
 uniform mat4 u_ViewProjection;
-uniform mat4 u_Transform;
-uniform vec4 u_Color;
+
+out vec4 v_Color;
 
 out vec2 v_TextureCoord;
 
 void main(){
 	v_TextureCoord = a_TextureCoord;
-	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+	v_Color = a_Color;
+	gl_Position = u_ViewProjection  * vec4(a_Position, 1.0);
 }
 
 
@@ -23,11 +25,13 @@ void main(){
 layout(location = 0) out vec4 o_Color;
 		
 in vec2 v_TextureCoord;
+in vec4 v_Color;
 
 uniform vec4 u_Color;
 uniform float u_TextureMultiplier;
 uniform sampler2D u_Texture;
 	
 void main(){
-	o_Color = texture(u_Texture, v_TextureCoord * u_TextureMultiplier) * u_Color;
+	//o_Color = texture(u_Texture, v_TextureCoord * u_TextureMultiplier) * u_Color;
+	o_Color = v_Color;
 }

@@ -28,11 +28,6 @@ namespace FoxEngine
 		RenderCommand::DrawIndexed(vertexArray);
 	}
 
-	void Renderer::Submit(const Object& object)
-	{
-		Submit(object.GetVertexArray(), object.GetRawShader(), object.GetTransform());
-	}
-
 	void Renderer::Init()
 	{
 		RenderCommand::Init();

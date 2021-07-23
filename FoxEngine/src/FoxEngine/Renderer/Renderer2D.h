@@ -12,6 +12,7 @@ namespace FoxEngine
 		static void ShutDown();
 		
 		static void BeginScene(const OrthographicCamera& camera);
+		static void Flush();
 		static void EndScene();
 
 		//Primitives
