@@ -64,6 +64,12 @@ namespace FoxEngine
 		glUniform1i(location, value);
 	}
 
+	void OpenGLShader::SetUniformIntArray(const std::string& name, int* values, uint32_t count)
+	{
+		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniform1iv(location, count, values);
+	}
+
 	void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& matrix)
 	{
 		GLint location = glGetUniformLocation(m_RendererId, name.c_str());

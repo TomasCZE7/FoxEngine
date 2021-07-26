@@ -1415,6 +1415,7 @@
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\FoxEngine\Debug\Instrumentor.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\SubTexture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Core\Application.cpp">
@@ -1493,5 +1494,6 @@
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Renderer2D.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\SubTexture2D.cpp" />
   </ItemGroup>
 </Project>

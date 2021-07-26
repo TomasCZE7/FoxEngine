@@ -23,4 +23,5 @@
 #include "FoxEngine/Renderer/Shader.h"
 #include "FoxEngine/Renderer/OrthographicCamera.h"
 #include "FoxEngine/Renderer/Texture.h"
+#include "FoxEngine/Renderer/SubTexture2D.h"
 #include "FoxEngine/Renderer/OrthographicCameraController.h"

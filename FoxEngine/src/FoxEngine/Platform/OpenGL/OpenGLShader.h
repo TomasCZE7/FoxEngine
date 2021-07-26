@@ -24,6 +24,7 @@ namespace FoxEngine
 		virtual const std::string& GetName() const override { return m_Name; }
 
 		void SetUniformInt(const std::string& name, int value) override;
+		void SetUniformIntArray(const std::string& name, int* values, uint32_t count) override;
 		
 		void SetUniformMat3(const std::string& name, const glm::mat3& matrix) override;
 		void SetUniformMat4(const std::string& name, const glm::mat4& matrix) override ;

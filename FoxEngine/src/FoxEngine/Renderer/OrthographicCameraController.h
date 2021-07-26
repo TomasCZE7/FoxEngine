@@ -7,11 +7,22 @@
 
 namespace FoxEngine
 {
+	struct OrthographicCameraBounds
+	{
+		float Left, Right;
+		float Bottom, Top;
+
+		float GetWidth() { return Right - Left; }
+		float GetHeight() { return Top - Bottom; }
+	};
+
+	
 	class OrthographicCameraController
 	{
 	private:
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
+		OrthographicCameraBounds m_Bounds;
 		OrthographicCamera m_Camera;
 		bool m_Rotation;
 
@@ -28,6 +39,7 @@ namespace FoxEngine
 		void OnEvent(Event& e);
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
+		const OrthographicCameraBounds& GetBounds() const { return m_Bounds; }
 
 		//Setters
 		void SetCameraRotationSpeed(float cameraRotationSpeed) { m_CameraRotationSpeed = cameraRotationSpeed; }
@@ -35,6 +47,12 @@ namespace FoxEngine
 		void SetZoomSpeed(float zoomSpeed) { m_ZoomSpeed = zoomSpeed; }
 		void SetZoomLevelMax(float zoomLevelMax) { m_ZoomLevelMax = zoomLevelMax; }
 		void SetZoomLevelMin(float zoomLevelMin) { m_ZoomLevelMin = zoomLevelMin; }
+		void SetZoomLevel(float zoomLevel) {
+			m_ZoomLevel = zoomLevel;
+			CalculateView();
+		}
+
+		void CalculateView();
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnWindowResized(WindowResizedEvent& e);
