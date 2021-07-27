@@ -15,7 +15,6 @@ namespace FoxEngine
 
 	void OpenGLRendererAPI::SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 	{
-		FOX_CORE_DEBUG("{0}, {1}", width, height);
 		glViewport(x, y, width, height);
 	}
 	

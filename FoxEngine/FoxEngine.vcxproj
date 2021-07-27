@@ -164,6 +164,7 @@
     <ClInclude Include="src\FoxEngine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLTexture.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\FoxEngine\Renderer\Buffer.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\FoxEngine\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\FoxEngine\Renderer\OrthographicCameraController.h" />
@@ -609,6 +611,7 @@
     <ClCompile Include="src\FoxEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLTexture.cpp" />
@@ -616,6 +619,7 @@
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\FoxEngine\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\RenderCommand.cpp" />

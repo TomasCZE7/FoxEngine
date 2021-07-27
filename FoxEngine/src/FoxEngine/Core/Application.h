@@ -35,6 +35,8 @@ namespace FoxEngine
 		
 		inline Window& GetWindow() { return *m_WindowPtr;  }
 		inline static Application& Get() { return *s_Instance; }
+
+		inline void Shutdown() { Running = false; }
 	private:
 		static Application* s_Instance;
 		bool OnWindowClosed(WindowClosedEvent& event);

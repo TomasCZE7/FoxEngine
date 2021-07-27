@@ -1416,6 +1416,8 @@
     <ClInclude Include="src\FoxEngine\Renderer\Renderer2D.h" />
     <ClInclude Include="src\FoxEngine\Debug\Instrumentor.h" />
     <ClInclude Include="src\FoxEngine\Renderer\SubTexture2D.h" />
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.h" />
+    <ClInclude Include="src\FoxEngine\Renderer\FrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Core\Application.cpp">
@@ -1495,5 +1497,7 @@
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\FoxEngine\Renderer\SubTexture2D.cpp" />
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
+    <ClCompile Include="src\FoxEngine\Renderer\FrameBuffer.cpp" />
   </ItemGroup>
 </Project>

@@ -25,3 +25,4 @@
 #include "FoxEngine/Renderer/Texture.h"
 #include "FoxEngine/Renderer/SubTexture2D.h"
 #include "FoxEngine/Renderer/OrthographicCameraController.h"
+#include "FoxEngine/Renderer/FrameBuffer.h"

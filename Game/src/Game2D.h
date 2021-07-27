@@ -8,6 +8,7 @@ private:
 	FoxEngine::Ref<FoxEngine::Shader> m_Shader;
 	FoxEngine::Ref<FoxEngine::Texture> m_Texture;
 	FoxEngine::Ref<FoxEngine::VertexArray> m_VertexArray;
+	FoxEngine::Ref<FoxEngine::FrameBuffer> m_FrameBuffer;
 	
 	FoxEngine::Ref<FoxEngine::Texture2D> m_MinecraftGrassTexture;
 	FoxEngine::Ref<FoxEngine::Texture2D> m_SpriteSheet;
