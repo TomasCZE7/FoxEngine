@@ -3,6 +3,7 @@
 
 #include "FoxEngine/Core/Input.h"
 #include "FoxEngine/Core/KeyCodes.h"
+#include "FoxEngine/Core/MouseButtonCodes.h"
 #include "FoxEngine/Core/TimeStep.h"
 
 namespace FoxEngine
@@ -16,7 +17,7 @@ namespace FoxEngine
 	void OrthographicCameraController::OnUpdate(TimeStep ts)
 	{
 
-		if (Input::IsKeyPressed(FOX_KEY_A))
+		/*if (Input::IsKeyPressed(FOX_KEY_A))
 		{
 			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
 			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
@@ -51,6 +52,27 @@ namespace FoxEngine
 				m_CameraRotation += 360.0f;
 
 			m_Camera.SetRotation(m_CameraRotation);
+		}*/
+
+		if(Input::IsMouseButtonPressed(FOX_MOUSE_BUTTON_MIDDLE))
+		{
+			if(m_LastMousePosition.first != -1 && m_LastMousePosition.second != -1)
+			{
+				std::pair<float, float> newPos = Input::GetMousePosition();
+
+				float xDiff = (newPos.first - m_LastMousePosition.first) / 100.0;
+				float yDiff = (newPos.second - m_LastMousePosition.second) / 100.0;
+				
+				m_CameraPosition.x -= xDiff;
+				m_CameraPosition.y += yDiff;
+			}
+			m_MouseState = MouseState::MOVING_CAMERA;
+			m_LastMousePosition = Input::GetMousePosition();
+		} else if(m_LastMousePosition.first != -1 && m_LastMousePosition.second != -1)
+		{
+			m_LastMousePosition.first = -1;
+			m_LastMousePosition.first = -1;
+			m_MouseState = MouseState::IDLE;
 		}
 
 		m_Camera.SetPosition(m_CameraPosition);
@@ -63,6 +85,12 @@ namespace FoxEngine
 		EventCaster eventCaster(e);
 		eventCaster.Cast<MouseScrolledEvent>(FOX_BIND_EVENT_FUNCTION(OrthographicCameraController::OnMouseScrolled));
 		eventCaster.Cast<WindowResizedEvent>(FOX_BIND_EVENT_FUNCTION(OrthographicCameraController::OnWindowResized));
+	}
+
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	}
 
 	void OrthographicCameraController::CalculateView()
@@ -82,9 +110,7 @@ namespace FoxEngine
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizedEvent& e)
 	{
-
-		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+		OnResize((float)e.GetWidth(), (float)e.GetHeight());
 		return false;
 	}
 }

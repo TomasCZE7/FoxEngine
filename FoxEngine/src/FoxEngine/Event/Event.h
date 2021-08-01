@@ -24,7 +24,7 @@ namespace FoxEngine {
 
     class FOX_API Event {
         friend class EventCaster;
-    protected:
+    public:
         bool Handled = false;
     public:
         virtual ~Event() = default;

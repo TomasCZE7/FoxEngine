@@ -6,7 +6,7 @@
 #include "imgui/imgui.h"
 
 Game2D::Game2D()
-	: Layer("Game2D"), m_CameraController(1280.0f / 720.0f, true){
+	: Layer("Game2D"){
 }
 
 static const uint32_t s_MapWidth = 24;
@@ -140,7 +140,7 @@ void Game2D::OnImGuiRender()
 	
 	ImGui::Begin("Scene");
 	uint32_t textureId = m_FrameBuffer->GetColorAttachmentRendererId();
-	ImGui::Image((void*)textureId, ImVec2{ 1280.0f, 720.f });
+	ImGui::Image((void*)textureId, ImVec2{ 1280.0f, 720.f }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 	ImGui::End();
 
     ImGui::End();
@@ -173,7 +173,7 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 		FoxEngine::RenderCommand::Clear();
 	}
 	FoxEngine::Renderer2D::ResetStats();
-		FoxEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
+	/*	FoxEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 	{
 		FOX_PROFILE_SCOPE("Render drawing");
 		FoxEngine::Renderer2D::DrawQuad({ -1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
@@ -184,7 +184,7 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 		FoxEngine::Renderer2D::DrawQuad({ 1.0f, 1.0f, 0.1f }, { 0.8f, 0.8f }, m_MinecraftGrassTexture, { 0.2, 0.3, 0.8, 0.9 }, 2.0f	);
 	}
 
-	FoxEngine::Renderer2D::EndScene();
+	FoxEngine::Renderer2D::EndScene();*/
 	
 	FoxEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
 //	FoxEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f}, { 1.0f, 1.0f }, m_GrassTexture);
@@ -208,9 +208,9 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 				{
 					subTexture = m_CoinFlippedTexture;
 				}
-				//FoxEngine::Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.0f }, { 1.0f, 1.0f }, m_AirTexture);
+				FoxEngine::Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.0f }, { 1.0f, 1.0f }, m_AirTexture);
 			}
-			//FoxEngine::Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.5f}, { 1.0f, 1.0f }, subTexture);
+			FoxEngine::Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.5f}, { 1.0f, 1.0f }, subTexture);
 		}
 	}
 	

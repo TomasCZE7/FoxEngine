@@ -23,7 +23,7 @@ namespace FoxEngine
 		bool m_Minimized = false;
 		
 	public:
-		Application();
+		Application(const std::string& name = "FoxEngine Application");
 		virtual ~Application();
 
 		void Run();
@@ -35,6 +35,7 @@ namespace FoxEngine
 		
 		inline Window& GetWindow() { return *m_WindowPtr;  }
 		inline static Application& Get() { return *s_Instance; }
+		inline ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
 
 		inline void Shutdown() { Running = false; }
 	private:

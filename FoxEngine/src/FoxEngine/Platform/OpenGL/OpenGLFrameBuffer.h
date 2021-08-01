@@ -8,9 +8,9 @@ namespace FoxEngine
 	{
 	private:
 		FrameBufferSpecification m_Specification;
-		uint32_t m_RendererId;
-		uint32_t m_ColorAttachment;
-		uint32_t m_DepthAttachment;
+		uint32_t m_RendererId = 0;
+		uint32_t m_ColorAttachment = 0;
+		uint32_t m_DepthAttachment = 0;
 	public:
 		OpenGLFrameBuffer(const FrameBufferSpecification& specification);
 		virtual ~OpenGLFrameBuffer();
@@ -19,6 +19,8 @@ namespace FoxEngine
 
 		virtual void Bind() override;
 		virtual void Unbind() override;
+		
+		virtual void Resize(uint32_t width, uint32_t height) override;
 		
 		virtual uint32_t GetColorAttachmentRendererId() const override { return	m_ColorAttachment; };
 

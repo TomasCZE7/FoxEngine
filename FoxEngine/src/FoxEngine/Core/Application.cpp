@@ -9,15 +9,13 @@ namespace FoxEngine
 
 	Application* Application::s_Instance = nullptr;
 
-
-
-	Application::Application()
+	Application::Application(const std::string& name)
 	{
 		FOX_ASSERT(!s_Instance, "Application already exists!")
 		s_Instance = this;
 
 		FOX_CORE_DEBUG("Application was created.");
-        m_WindowPtr = std::unique_ptr<Window>(Window::Create());
+        m_WindowPtr = std::unique_ptr<Window>(Window::Create(WindowProperties(name)));
 		m_WindowPtr->SetEventCallback(FOX_BIND_EVENT_FUNCTION(Application::OnEvent));
 
 		Renderer::Init();

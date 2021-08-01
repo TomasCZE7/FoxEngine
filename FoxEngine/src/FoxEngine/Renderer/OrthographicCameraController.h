@@ -7,6 +7,11 @@
 
 namespace FoxEngine
 {
+	enum class MouseState
+	{
+		IDLE, MOVING_CAMERA
+	};
+	
 	struct OrthographicCameraBounds
 	{
 		float Left, Right;
@@ -33,6 +38,10 @@ namespace FoxEngine
 		float m_CameraTranslationSpeed = 1.0f;
 		float m_ZoomSpeed = 0.25f;
 		float m_ZoomLevelMax = 6.0f, m_ZoomLevelMin = 0.25f;
+
+		std::pair<float, float> m_LastMousePosition;
+
+		MouseState m_MouseState = MouseState::IDLE;
 	public:
 		OrthographicCameraController(float aspectRatio, bool rotation = false);
 		void OnUpdate(TimeStep ts);
@@ -40,6 +49,7 @@ namespace FoxEngine
 		OrthographicCamera& GetCamera() { return m_Camera; }
 		const OrthographicCamera& GetCamera() const { return m_Camera; }
 		const OrthographicCameraBounds& GetBounds() const { return m_Bounds; }
+		const MouseState& GetMouseState() const { return m_MouseState; }
 
 		//Setters
 		void SetCameraRotationSpeed(float cameraRotationSpeed) { m_CameraRotationSpeed = cameraRotationSpeed; }
@@ -51,6 +61,8 @@ namespace FoxEngine
 			m_ZoomLevel = zoomLevel;
 			CalculateView();
 		}
+
+		void OnResize(float width, float height);
 
 		void CalculateView();
 	private:

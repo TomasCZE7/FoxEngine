@@ -10,6 +10,9 @@
     <Filter Include="src\FoxEngine\Core">
       <UniqueIdentifier>{97055470-83E9-14C6-EC49-0F19D84CFF47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\FoxEngine\Debug">
+      <UniqueIdentifier>{9513E17A-0175-BE88-8AE2-043BF642F547}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\FoxEngine\Event">
       <UniqueIdentifier>{708AFC7A-DCEB-D988-6559-203BD1B91048}</UniqueIdentifier>
     </Filter>
@@ -90,6 +93,9 @@
     <ClInclude Include="src\FoxEngine\Core\Window.h">
       <Filter>src\FoxEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Debug\Instrumentor.h">
+      <Filter>src\FoxEngine\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Event\ApplicationEvent.h">
       <Filter>src\FoxEngine\Event</Filter>
     </ClInclude>
@@ -114,6 +120,9 @@
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.h">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClInclude>
@@ -126,13 +135,13 @@
     <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsInput.h">
-      <Filter>src\FoxEngine\Platform\Windows</Filter>
-    </ClInclude>
     <ClInclude Include="src\FoxEngine\Platform\Windows\WindowsWindow.h">
       <Filter>src\FoxEngine\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Buffer.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\FrameBuffer.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\GraphicsContext.h">
@@ -150,10 +159,16 @@
     <ClInclude Include="src\FoxEngine\Renderer\Renderer.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\Renderer2D.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\RendererAPI.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Shader.h">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FoxEngine\Renderer\SubTexture2D.h">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\FoxEngine\Renderer\Texture.h">
@@ -1413,11 +1428,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\FoxEngine\Renderer\Renderer2D.h" />
-    <ClInclude Include="src\FoxEngine\Debug\Instrumentor.h" />
-    <ClInclude Include="src\FoxEngine\Renderer\SubTexture2D.h" />
-    <ClInclude Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.h" />
-    <ClInclude Include="src\FoxEngine\Renderer\FrameBuffer.h" />
+    <ClInclude Include="src\FoxEngine\scene\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FoxEngine\Core\Application.cpp">
@@ -1444,6 +1455,9 @@
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.cpp">
+      <Filter>src\FoxEngine\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\FoxEngine\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1465,6 +1479,9 @@
     <ClCompile Include="src\FoxEngine\Renderer\Buffer.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\FrameBuffer.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\OrthographicCamera.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
@@ -1477,10 +1494,16 @@
     <ClCompile Include="src\FoxEngine\Renderer\Renderer.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\Renderer2D.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\RendererAPI.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Shader.cpp">
+      <Filter>src\FoxEngine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FoxEngine\Renderer\SubTexture2D.cpp">
       <Filter>src\FoxEngine\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\FoxEngine\Renderer\Texture.cpp">
@@ -1495,9 +1518,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\FoxEngine\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\FoxEngine\Renderer\SubTexture2D.cpp" />
-    <ClCompile Include="src\FoxEngine\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
-    <ClCompile Include="src\FoxEngine\Renderer\FrameBuffer.cpp" />
   </ItemGroup>
 </Project>

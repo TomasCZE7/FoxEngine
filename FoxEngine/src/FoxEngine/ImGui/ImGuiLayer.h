@@ -1,15 +1,13 @@
 #pragma once
 #include "FoxEngine/Core/Layer.h"
-#include "FoxEngine/Event/KeyboardEvent.h"
-#include "FoxEngine/Event/MouseEvent.h"
-#include "FoxEngine/Event/WindowEvent.h"
 
 namespace FoxEngine {
 
-	class FOX_API ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 	private:
 		float m_Time;
+		bool m_BlockEvents = true;
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
@@ -19,6 +17,10 @@ namespace FoxEngine {
 		virtual void OnImGuiRender() override;
 		virtual void Begin();
 		virtual void End();
+
+		void OnEvent(Event& event) override;
+		
+		void SetBlockEvents(bool block) { m_BlockEvents = block; }
 		
 	private:
 		

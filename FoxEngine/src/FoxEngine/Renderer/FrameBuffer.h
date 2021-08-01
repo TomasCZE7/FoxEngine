@@ -16,12 +16,15 @@ namespace FoxEngine
 	private:
 	public:
 		virtual const FrameBufferSpecification& GetSpecification() const = 0;
+
+		virtual ~FrameBuffer() = default;
 		
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
 		virtual uint32_t GetColorAttachmentRendererId() const = 0;
-		
+		virtual void Resize(uint32_t width, uint32_t height) = 0;
+
 		static Ref<FrameBuffer> Create(const FrameBufferSpecification& specification);
 	};
 }

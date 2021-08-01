@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoxEngineEditor", "FoxEngineEditor\FoxEngineEditor.vcxproj", "{CFF70F96-3B83-7D5A-4494-004FB09ED95A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoxEngine", "FoxEngine\FoxEngine.vcxproj", "{08FCEFFA-7466-A471-BDA4-5517294E82C6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLAD", "FoxEngine\vendor\GLAD\GLAD.vcxproj", "{5D4A857C-4981-860D-F26D-6C10DE83020F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "FoxEngine\vendor\GLFW\GLFW.vcxproj", "{154B857C-0182-860D-AA6E-6C109684020F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "FoxEngine\vendor\imgui\ImGui.vcxproj", "{C0FF640D-2C14-8DBE-F595-301E616989EF}"
 EndProject
@@ -18,12 +20,12 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.ActiveCfg = Debug|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.Build.0 = Debug|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Distribution|x64.ActiveCfg = Distribution|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Distribution|x64.Build.0 = Distribution|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.ActiveCfg = Release|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.Build.0 = Release|x64
+		{CFF70F96-3B83-7D5A-4494-004FB09ED95A}.Debug|x64.ActiveCfg = Debug|x64
+		{CFF70F96-3B83-7D5A-4494-004FB09ED95A}.Debug|x64.Build.0 = Debug|x64
+		{CFF70F96-3B83-7D5A-4494-004FB09ED95A}.Distribution|x64.ActiveCfg = Distribution|x64
+		{CFF70F96-3B83-7D5A-4494-004FB09ED95A}.Distribution|x64.Build.0 = Distribution|x64
+		{CFF70F96-3B83-7D5A-4494-004FB09ED95A}.Release|x64.ActiveCfg = Release|x64
+		{CFF70F96-3B83-7D5A-4494-004FB09ED95A}.Release|x64.Build.0 = Release|x64
 		{08FCEFFA-7466-A471-BDA4-5517294E82C6}.Debug|x64.ActiveCfg = Debug|x64
 		{08FCEFFA-7466-A471-BDA4-5517294E82C6}.Debug|x64.Build.0 = Debug|x64
 		{08FCEFFA-7466-A471-BDA4-5517294E82C6}.Distribution|x64.ActiveCfg = Distribution|x64
@@ -42,6 +44,12 @@ Global
 		{154B857C-0182-860D-AA6E-6C109684020F}.Distribution|x64.Build.0 = Distribution|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Release|x64.ActiveCfg = Release|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Release|x64.Build.0 = Release|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.ActiveCfg = Debug|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.Build.0 = Debug|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Distribution|x64.ActiveCfg = Distribution|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Distribution|x64.Build.0 = Distribution|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.ActiveCfg = Release|x64
+		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.Build.0 = Release|x64
 		{C0FF640D-2C14-8DBE-F595-301E616989EF}.Debug|x64.ActiveCfg = Debug|x64
 		{C0FF640D-2C14-8DBE-F595-301E616989EF}.Debug|x64.Build.0 = Debug|x64
 		{C0FF640D-2C14-8DBE-F595-301E616989EF}.Distribution|x64.ActiveCfg = Distribution|x64

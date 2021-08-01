@@ -1,6 +1,6 @@
 workspace "FoxEngine"
 	architecture "x64"
-	startproject "Game"
+	startproject "FoxEngineEditor"
 
 	configurations{
 		"Debug",
@@ -16,6 +16,8 @@ IncludeDir["GLAD"] = "FoxEngine/vendor/GLAD/include"
 IncludeDir["ImGui"] = "FoxEngine/vendor/imgui"
 IncludeDir["glm"] = "FoxEngine/vendor/glm"
 IncludeDir["stb_image"] = "FoxEngine/vendor/stb_image"
+IncludeDir["entt"] = "FoxEngine/vendor/entt"
+
 include("FoxEngine/vendor/GLFW")
 include("FoxEngine/vendor/GLAD")
 include("FoxEngine/vendor/imgui")
@@ -49,6 +51,7 @@ project "FoxEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}",
 	}
 	
 	links{
@@ -97,6 +100,57 @@ project "Game"
 
 	files{
 		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp",
+		"%{IncludeDir.entt}",
+	}
+
+	includedirs {
+		"FoxEngine/vendor/spdlog/include",
+		"FoxEngine/src",
+		"FoxEngine/vendor",
+		"%{IncludeDir.glm}",
+	}
+
+	filter "system:windows"
+		staticruntime "On"
+		systemversion "latest"
+
+	
+	links{
+		"FoxEngine"
+	}
+
+	defines {
+		"FOX_PLATFORM_WINDOWS"
+	}
+
+	filter "configurations:Debug"
+		defines "FOX_DEBUG"
+		buildoptions "/MDd"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "FOX_RELEASE"
+		buildoptions "/MD"
+		optimize "on"
+
+	filter "configurations:Distribution"
+		defines "FOX_DISTRIBUTION"
+		buildoptions "/MD"
+		optimize "on"
+
+project "FoxEngineEditor"
+	location "FoxEngineEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/"..outputdir.."/%{prj.name}")
+	objdir ("bin/int/"..outputdir.."/%{prj.name}")
+
+	files{
+		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
 	}
 
@@ -105,6 +159,7 @@ project "Game"
 		"FoxEngine/src",
 		"FoxEngine/vendor",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}",
 	}
 
 	filter "system:windows"

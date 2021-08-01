@@ -82,6 +82,15 @@ namespace FoxEngine {
 		}
 	}
 
+	void ImGuiLayer::OnEvent(Event& event)
+	{
+		if (m_BlockEvents) {
+			ImGuiIO& io = ImGui::GetIO();
+			event.Handled |= event.IsInCategory(EVENT_CATEGORY_MOUSE) & io.WantCaptureMouse;
+			event.Handled |= event.IsInCategory(EVENT_CATEGORY_KEYBOARD) & io.WantCaptureKeyboard;
+		}
+	}
+
 	void ImGuiLayer::OnImGuiRender() {
 		//static bool show = false;
 		//ImGui::ShowDemoWindow(&show);
