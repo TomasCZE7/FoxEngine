@@ -11,7 +11,7 @@
 
 namespace FoxEngine
 {
-	class FOX_API Application
+	class Application
 	{
 	private:
 		bool Running = true;

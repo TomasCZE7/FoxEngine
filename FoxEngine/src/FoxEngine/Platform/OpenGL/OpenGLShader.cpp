@@ -32,7 +32,7 @@ namespace FoxEngine
 
 	OpenGLShader::OpenGLShader(const std::string& path)
 	{
-		std::string shaderSource = ReadFile(path);
+        std::string shaderSource = ReadFile(path);
 		auto shaderSources = PreProcess(shaderSource);
 		Compile(shaderSources);
 		auto lastSlash = path.find_last_of("/\\");

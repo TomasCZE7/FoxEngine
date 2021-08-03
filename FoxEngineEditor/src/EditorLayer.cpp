@@ -56,6 +56,11 @@ namespace FoxEngine
 		m_FrameBuffer = FrameBuffer::Create(specification);
 
 		m_CameraController.SetZoomLevel(5.0f);
+
+		m_ActiveScene = CreateRef<Scene>();
+		
+		Entity square = m_ActiveScene->CreateEntity();
+		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.2f, 0.8f, 0.3f, 1.0f });
 	}
 
 	void EditorLayer::OnDetach()
@@ -148,9 +153,6 @@ namespace FoxEngine
 		if(m_CameraController.GetMouseState() == MouseState::MOVING_CAMERA)
 		{
 			ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeAll);
-		} else
-		{
-		//	ImGui::SetMouseCursor();
 		}
 		//ImGui::GetForegroundDrawList()->AddImage((void*)m_MinecraftGrassTexture->GetRendererId(), { io.MousePos.x - 25 , io.MousePos.y - 25 }, { io.MousePos.x + 25 , io.MousePos.y + 25 }, {0,1}, {1, 0});
 		ImGui::PlotLines("Framerate (ms)", p, m_TimeSteps.size(), 0, 0, 0, 100, ImVec2{ performanceSize.x, 128 });
@@ -215,7 +217,7 @@ namespace FoxEngine
 
 		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		for (uint32_t y = 0; y < s_MapHeight; y++)
+/*		for (uint32_t y = 0; y < s_MapHeight; y++)
 		{
 			for (uint32_t x = 0; x < s_MapWidth; x++)
 			{
@@ -235,7 +237,8 @@ namespace FoxEngine
 				}
 				Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.5f }, { 1.0f, 1.0f }, subTexture);
 			}
-		}
+		}*/
+		m_ActiveScene->OnUpdate(timeStep);
 
 		Renderer2D::EndScene();
 		m_FrameBuffer->Unbind();

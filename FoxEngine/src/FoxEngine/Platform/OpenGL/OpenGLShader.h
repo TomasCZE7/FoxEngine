@@ -27,7 +27,7 @@ namespace FoxEngine
 		void SetUniformIntArray(const std::string& name, int* values, uint32_t count) override;
 		
 		void SetUniformMat3(const std::string& name, const glm::mat3& matrix) override;
-		void SetUniformMat4(const std::string& name, const glm::mat4& matrix) override ;
+		void SetUniformMat4(const std::string& name, const glm::mat4& matrix) override;
 		
 		void SetUniformFloat(const std::string& name, float value) override;
 		void SetUniformFloat2(const std::string& name, const glm::vec2& values) override;

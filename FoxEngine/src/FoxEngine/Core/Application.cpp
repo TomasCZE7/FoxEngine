@@ -4,6 +4,9 @@
 #include "GLFW/glfw3.h"
 #include "FoxEngine/Renderer/Renderer.h"
 
+#include <iostream>
+#include <filesystem>
+
 namespace FoxEngine
 {
 
@@ -18,7 +21,10 @@ namespace FoxEngine
         m_WindowPtr = std::unique_ptr<Window>(Window::Create(WindowProperties(name)));
 		m_WindowPtr->SetEventCallback(FOX_BIND_EVENT_FUNCTION(Application::OnEvent));
 
-		Renderer::Init();
+        std::filesystem::path p = std::filesystem::current_path();
+        FOX_CORE_DEBUG("Path: {0}", p);
+
+        Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
