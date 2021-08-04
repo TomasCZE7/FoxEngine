@@ -5,5 +5,5 @@
 
 namespace FoxEngine
 {
-	RendererAPI* RenderCommand::s_RendererAPI = new OpenGLRendererAPI;
+	RendererAPI* RenderCommand::rendererApi = new OpenGLRendererAPI;
 }

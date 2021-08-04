@@ -10,7 +10,7 @@ namespace FoxEngine
 	std::shared_ptr<spdlog::logger> Log::clientLogger;
 
 
-	void Log::Init()
+	void Log::init()
 	{
 		spdlog::set_pattern("%^%T %l - %n: %v%$");
 
@@ -21,7 +21,7 @@ namespace FoxEngine
 		clientLogger->set_level(spdlog::level::trace);
 
 		FOX_CORE_INFO("FoxEngine core log was initialized.");
-		FOX_CLIENT_INFO("FoxEngine client log was initialized.");
+        FOX_CLIENT_INFO("FoxEngine client log was initialized.");
 	}
 
 }

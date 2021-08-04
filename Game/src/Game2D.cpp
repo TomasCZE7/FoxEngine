@@ -28,16 +28,16 @@ static const char* s_MapTiles =
 
 void Game2D::OnAttach()
 {
-	m_MinecraftGrassTexture = FoxEngine::Texture2D::Create("assets/textures/minecraft_texture.png");
-	m_SpriteSheet = FoxEngine::Texture2D::Create("assets/textures/platformer_tilemap.png");
-	m_BackgroundSpriteSheet = FoxEngine::Texture2D::Create("assets/textures/background_tilemap.png");
+	m_MinecraftGrassTexture = FoxEngine::Texture2D::create("assets/textures/minecraft_texture.png");
+	m_SpriteSheet = FoxEngine::Texture2D::create("assets/textures/platformer_tilemap.png");
+	m_BackgroundSpriteSheet = FoxEngine::Texture2D::create("assets/textures/background_tilemap.png");
 
-	m_GrassTexture = FoxEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 8 }, { 18, 18 });
-	m_DirtTexture = FoxEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 2, 2 }, { 18, 18 });
-	m_WaterTexture = FoxEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 13, 5 }, { 18, 18 });
-	m_AirTexture = FoxEngine::SubTexture2D::CreateFromCoords(m_BackgroundSpriteSheet, { 0, 1 }, { 24, 24 });
-	m_CoinTexture = FoxEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 11, 1 }, { 18, 18 });
-	m_CoinFlippedTexture = FoxEngine::SubTexture2D::CreateFromCoords(m_SpriteSheet, { 12, 1 }, { 18, 18 });
+	m_GrassTexture = FoxEngine::SubTexture2D::createFromCoords(m_SpriteSheet, {2, 8}, {18, 18});
+	m_DirtTexture = FoxEngine::SubTexture2D::createFromCoords(m_SpriteSheet, {2, 2}, {18, 18});
+	m_WaterTexture = FoxEngine::SubTexture2D::createFromCoords(m_SpriteSheet, {13, 5}, {18, 18});
+	m_AirTexture = FoxEngine::SubTexture2D::createFromCoords(m_BackgroundSpriteSheet, {0, 1}, {24, 24});
+	m_CoinTexture = FoxEngine::SubTexture2D::createFromCoords(m_SpriteSheet, {11, 1}, {18, 18});
+	m_CoinFlippedTexture = FoxEngine::SubTexture2D::createFromCoords(m_SpriteSheet, {12, 1}, {18, 18});
 
 
 	s_TextureMap['0'] = m_AirTexture;
@@ -47,12 +47,12 @@ void Game2D::OnAttach()
 	s_TextureMap['C'] = m_CoinTexture;
 
 	FoxEngine::FrameBufferSpecification specification;
-	specification.Width = 1280;
-	specification.Height = 720;
+	specification.width = 1280;
+	specification.height = 720;
 
-	m_FrameBuffer = FoxEngine::FrameBuffer::Create(specification);
-	
-	m_CameraController.SetZoomLevel(5.0f);
+	m_FrameBuffer = FoxEngine::FrameBuffer::create(specification);
+
+    m_CameraController.setZoomLevel(5.0f);
 }
 
 void Game2D::OnDetach()
@@ -88,11 +88,11 @@ void Game2D::OnImGuiRender()
     }
 
     // When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background
-    // and handle the pass-thru hole, so we ask Begin() to not render a background.
+    // and handle the pass-thru hole, so we ask begin() to not render a background.
     if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
         window_flags |= ImGuiWindowFlags_NoBackground;
 
-    // Important: note that we proceed even if Begin() returns false (aka window is collapsed).
+    // Important: note that we proceed even if begin() returns false (aka window is collapsed).
     // This is because we want to keep our DockSpace() active. If a DockSpace() is inactive,
     // all active windows docked into it will lose their parent and become undocked.
     // We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
@@ -120,7 +120,7 @@ void Game2D::OnImGuiRender()
         {
             // Disabling fullscreen would allow the window to be moved to the front of other windows,
             // which we can't undo at the moment without finer window depth/z control.
-            if (ImGui::MenuItem("Exit")) { FoxEngine::Application::Get().Shutdown(); }
+            if (ImGui::MenuItem("Exit")) { FoxEngine::Application::getInstance().shutdown(); }
 
             ImGui::EndMenu();
         }
@@ -130,16 +130,16 @@ void Game2D::OnImGuiRender()
 
 	ImGui::Begin("Renderer2D Statistics");
 
-	auto stats = FoxEngine::Renderer2D::GetStats();
-	ImGui::Text("Draw Calls: %d", stats.DrawCalls);
-	ImGui::Text("Quads: %d", stats.QuadCount);
-	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
-	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
+	auto stats = FoxEngine::Renderer2D::getStats();
+	ImGui::Text("Draw Calls: %d", stats.drawCalls);
+	ImGui::Text("Quads: %d", stats.quadCount);
+	ImGui::Text("Vertices: %d", stats.getTotalVertexCount());
+	ImGui::Text("Indices: %d", stats.getTotalIndexCount());
 
 	ImGui::End();
 	
 	ImGui::Begin("Scene");
-	uint32_t textureId = m_FrameBuffer->GetColorAttachmentRendererId();
+	uint32_t textureId = m_FrameBuffer->getColorAttachmentRendererId();
 	ImGui::Image((void*)textureId, ImVec2{ 1280.0f, 720.f }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
 	ImGui::End();
 
@@ -148,7 +148,7 @@ void Game2D::OnImGuiRender()
 
 void Game2D::OnEvent(FoxEngine::Event& event)
 {
-	m_CameraController.OnEvent(event);	
+    m_CameraController.onEvent(event);
 }
 
 int32_t animation = 0;
@@ -163,34 +163,34 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 	
 	animation++;
 	FOX_PROFILE_FUNCTION();
-	FOX_CORE_DEBUG(timeStep.GetMilliseconds());
+    FOX_CORE_DEBUG(timeStep.getMilliseconds());
 
-	m_CameraController.OnUpdate(timeStep);
+    m_CameraController.onUpdate(timeStep);
 	{
 		FOX_PROFILE_SCOPE("Render preparation");
-		m_FrameBuffer->Bind();
-		FoxEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		FoxEngine::RenderCommand::Clear();
+        m_FrameBuffer->bind();
+        FoxEngine::RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1});
+        FoxEngine::RenderCommand::clear();
 	}
-	FoxEngine::Renderer2D::ResetStats();
-	/*	FoxEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
+    FoxEngine::Renderer2D::resetStats();
+	/*	FoxEngine::Renderer2D::beginScene(m_CameraController.getCamera());
 	{
 		FOX_PROFILE_SCOPE("Render drawing");
-		FoxEngine::Renderer2D::DrawQuad({ -1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
-		FoxEngine::Renderer2D::DrawQuad({ -1.0f, 0.5f }, { 0.5f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-		FoxEngine::Renderer2D::DrawQuad({ 0.0f, 0.5f, 0.1f }, { 0.5f, 0.8f }, m_MinecraftGrassTexture);
-		FoxEngine::Renderer2D::DrawRotatedQuad({ 0.5f, -0.5f }, { 0.8f, 0.8f }, glm::radians(84.0f), { 0.8f, 0.2f, 0.3f, 1.0f });
-		FoxEngine::Renderer2D::DrawRotatedQuad({ 0.0f, -0.5f, 0.1f }, { 0.8f, 0.8f }, glm::radians(55.0f), m_MinecraftGrassTexture, { 0.2, 0.8, 0.3, 0.7 });
-		FoxEngine::Renderer2D::DrawQuad({ 1.0f, 1.0f, 0.1f }, { 0.8f, 0.8f }, m_MinecraftGrassTexture, { 0.2, 0.3, 0.8, 0.9 }, 2.0f	);
+		FoxEngine::Renderer2D::drawQuad({ -1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
+		FoxEngine::Renderer2D::drawQuad({ -1.0f, 0.5f }, { 0.5f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
+		FoxEngine::Renderer2D::drawQuad({ 0.0f, 0.5f, 0.1f }, { 0.5f, 0.8f }, m_MinecraftGrassTexture);
+		FoxEngine::Renderer2D::drawRotatedQuad({ 0.5f, -0.5f }, { 0.8f, 0.8f }, glm::radians(84.0f), { 0.8f, 0.2f, 0.3f, 1.0f });
+		FoxEngine::Renderer2D::drawRotatedQuad({ 0.0f, -0.5f, 0.1f }, { 0.8f, 0.8f }, glm::radians(55.0f), m_MinecraftGrassTexture, { 0.2, 0.8, 0.3, 0.7 });
+		FoxEngine::Renderer2D::drawQuad({ 1.0f, 1.0f, 0.1f }, { 0.8f, 0.8f }, m_MinecraftGrassTexture, { 0.2, 0.3, 0.8, 0.9 }, 2.0f	);
 	}
 
-	FoxEngine::Renderer2D::EndScene();*/
-	
-	FoxEngine::Renderer2D::BeginScene(m_CameraController.GetCamera());
-//	FoxEngine::Renderer2D::DrawQuad({ 0.0f, 0.0f}, { 1.0f, 1.0f }, m_GrassTexture);
-//	FoxEngine::Renderer2D::DrawQuad({ 1.0f, 0.0f}, { 1.0f, 1.0f }, m_DirtTexture);
-//	FoxEngine::Renderer2D::DrawQuad({ 0.0f, 1.0f}, { 1.0f, 1.0f }, m_WaterTexture);
-//	FoxEngine::Renderer2D::DrawQuad({ 1.0f, 1.0f}, { 1.0f, 1.0f }, m_AirTexture);
+	FoxEngine::Renderer2D::endScene();*/
+
+    FoxEngine::Renderer2D::beginScene(m_CameraController.getCamera());
+//	FoxEngine::Renderer2D::drawQuad({ 0.0f, 0.0f}, { 1.0f, 1.0f }, m_GrassTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 1.0f, 0.0f}, { 1.0f, 1.0f }, m_DirtTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 0.0f, 1.0f}, { 1.0f, 1.0f }, m_WaterTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 1.0f, 1.0f}, { 1.0f, 1.0f }, m_AirTexture);
 
 	for(uint32_t y = 0; y < s_MapHeight; y++)
 	{
@@ -198,7 +198,7 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 		{
 			char tile = s_MapTiles[x + y * s_MapWidth];
 			FoxEngine::Ref<FoxEngine::SubTexture2D> subTexture;
-			if(s_TextureMap.find(tile) != s_TextureMap.end())
+			if(s_TextureMap.find(tile) != s_TextureMap.End())
 			{
 				subTexture = s_TextureMap[tile];
 			}
@@ -208,13 +208,17 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
 				{
 					subTexture = m_CoinFlippedTexture;
 				}
-				FoxEngine::Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.0f }, { 1.0f, 1.0f }, m_AirTexture);
+                FoxEngine::Renderer2D::drawQuad(
+                        {s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.0f}, {1.0f, 1.0f},
+                        m_AirTexture);
 			}
-			FoxEngine::Renderer2D::DrawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.5f}, { 1.0f, 1.0f }, subTexture);
+            FoxEngine::Renderer2D::drawQuad(
+                    {s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.5f}, {1.0f, 1.0f},
+                    subTexture);
 		}
 	}
-	
-	FoxEngine::Renderer2D::EndScene();
-	m_FrameBuffer->Unbind();
+
+    FoxEngine::Renderer2D::endScene();
+    m_FrameBuffer->unbind();
 
 }  

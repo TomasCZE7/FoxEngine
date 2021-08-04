@@ -14,7 +14,7 @@ namespace FoxEngine
 	public:
 		EditorApplication()
 			: Application("FoxEngine Editor"){
-			PushLayer(new EditorLayer());
+            pushLayer(new EditorLayer());
 		}
 		~EditorApplication()
 		{
@@ -23,7 +23,7 @@ namespace FoxEngine
 
 	};
 
-	Application* CreateApplication()
+	Application* createApplication()
 	{
 		return new EditorApplication();
 	}

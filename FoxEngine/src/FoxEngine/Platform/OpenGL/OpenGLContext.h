@@ -10,12 +10,12 @@ namespace FoxEngine
 	class OpenGLContext : public GraphicsContext
 	{
 	private:
-		GLFWwindow* WindowHandle;
+		GLFWwindow* windowHandle;
 	public:
 		OpenGLContext(GLFWwindow* windowHandle);
 		
-		virtual void Init() override;
-		virtual void SwapBuffers() override;
+		virtual void init() override;
+		virtual void swapBuffers() override;
 	};
 	
 }

@@ -6,35 +6,35 @@
 
 namespace FoxEngine
 {
-	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::create(uint32_t size)
 	{
-		switch (Renderer::GetAPI())
+		switch (Renderer::getAPI())
 		{
-		case RendererAPI::API::None: return nullptr;
-		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexBuffer>(size);
+		case RendererAPI::API::NONE: return nullptr;
+		case RendererAPI::API::OPENGL: return std::make_shared<OpenGLVertexBuffer>(size);
 		}
 		FOX_CORE_ASSERT(false, "Unknown Rednerer API!");
 		return nullptr;
 	}
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::create(float* vertices, uint32_t size)
 	{
-		switch(Renderer::GetAPI())
+		switch(Renderer::getAPI())
 		{
-			case RendererAPI::API::None: return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+			case RendererAPI::API::NONE: return nullptr;
+			case RendererAPI::API::OPENGL: return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 		}
 		FOX_CORE_ASSERT(false, "Unknown Rednerer API!");
 		return nullptr;
 	}
 
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::create(uint32_t* indices, uint32_t size)
 	{
-		switch (Renderer::GetAPI())
+		switch (Renderer::getAPI())
 		{
-			case RendererAPI::API::None: return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLIndexBuffer>(indices, size);
+			case RendererAPI::API::NONE: return nullptr;
+			case RendererAPI::API::OPENGL: return std::make_shared<OpenGLIndexBuffer>(indices, size);
 		}
 		FOX_CORE_ASSERT(false, "Unknown Rednerer API!");
 		return nullptr;

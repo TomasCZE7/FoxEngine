@@ -14,12 +14,12 @@ namespace FoxEngine{
         : positionX(positionX), positionY(positionY) {
         }
 
-        float GetPositionX() const
+        float getPositionX() const
         {
 	        return positionX;
         }
 
-        float GetPositionY() const
+        float getPositionY() const
         {
 	        return positionY;
         }
@@ -36,9 +36,9 @@ namespace FoxEngine{
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_INPUT | EVENT_CATEGORY_MOUSE_BUTTON);
         DEFINE_EVENT_CLASS_TYPE(MOUSE_BUTTON_PRESSED);
 
-        inline int GetButtonType() const { return buttonType; }
+        inline int getButtonType() const { return buttonType; }
 
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "MouseButtonPressedEvent (posX: " + std::to_string(positionX) + ", posY: " + std::to_string(positionY) + ", buttonType: " + std::to_string(buttonType) + ")";
         }
     };
@@ -55,9 +55,9 @@ namespace FoxEngine{
         DEFINE_EVENT_CLASS_TYPE(MOUSE_BUTTON_RELEASED);
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_INPUT | EVENT_CATEGORY_MOUSE_BUTTON);
     	
-        inline int GetButtonType() const { return buttonType; }
+        inline int getButtonType() const { return buttonType; }
 
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "MouseButtonReleasedEvent (posX: " + std::to_string(positionX) + ", posY: " + std::to_string(positionY) + ", buttonType: " + std::to_string(buttonType) + ")";
         }
 
@@ -73,7 +73,7 @@ namespace FoxEngine{
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_INPUT | EVENT_CATEGORY_MOUSE);
         DEFINE_EVENT_CLASS_TYPE(MOUSE_STEPPED);
 
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "MouseMovedEvent (positionX: "+ std::to_string(positionX) +", positionY: " + std::to_string(positionY) + ")";
         }
     };
@@ -89,16 +89,16 @@ namespace FoxEngine{
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_INPUT | EVENT_CATEGORY_MOUSE_BUTTON);
         DEFINE_EVENT_CLASS_TYPE(MOUSE_SCROLLED);
 
-        float GetOffsetX() const
+        float getOffsetX() const
         {
 	        return offsetX;
         }
 
-        float GetOffsetY() const
+        float getOffsetY() const
         {
 	        return offsetY;
         }
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "MouseScrolledEvent (posX: " + std::to_string(positionX) + ", posY: "+ std::to_string(positionY) +", offsetX: " + std::to_string(offsetX)
         		+   ", offsetY: " + std::to_string(offsetY) + ")";
         }

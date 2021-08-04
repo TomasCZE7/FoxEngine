@@ -45,15 +45,15 @@ class ExampleLayer : public FoxEngine::Layer {
 	}
 	
 	
-	void OnUpdate(FoxEngine::TimeStep timeStep){
+	void onUpdate(FoxEngine::TimeStep timeStep){
 		
 	}
 
-	void OnEvent(FoxEngine::Event& event) {
-		m_CameraController.OnEvent(event);
+	void onEvent(FoxEngine::Event& event) {
+        m_CameraController.onEvent(event);
 	}
 
-	virtual void OnImGuiRender() override
+	virtual void onImGuiRender() override
 	{
 
 	}
@@ -66,8 +66,8 @@ class GameMain : public FoxEngine::Application
 public:
 	GameMain()
 	{
-		//PushLayer(new ExampleLayer());
-		PushLayer(new Game2D());
+		//pushLayer(new ExampleLayer());
+        pushLayer(new Game2D());
 	}
 	~GameMain()
 	{
@@ -76,7 +76,7 @@ public:
 	
 };
 
-FoxEngine::Application* FoxEngine::CreateApplication()
+FoxEngine::Application* FoxEngine::createApplication()
 {
 	return new GameMain();
 }

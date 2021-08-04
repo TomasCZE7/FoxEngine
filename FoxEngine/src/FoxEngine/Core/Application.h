@@ -14,35 +14,35 @@ namespace FoxEngine
 	class Application
 	{
 	private:
-		bool Running = true;
-		std::unique_ptr<Window> m_WindowPtr;
-		ImGuiLayer* m_ImGuiLayer;
-		LayerStack m_LayerStack;
-		TimeStep m_TimeStep;
-		float m_LastFrameTime = 0.0f;
-		bool m_Minimized = false;
+		bool running = true;
+		std::unique_ptr<Window> window;
+		ImGuiLayer* imGuiLayer;
+		LayerStack layerStack;
+		TimeStep timeStep;
+		float lastFrameTime = 0.0f;
+		bool minimized = false;
 		
 	public:
 		Application(const std::string& name = "FoxEngine Application");
 		virtual ~Application();
 
-		void Run();
+		void run();
 
-		void OnEvent(Event& event);
+		void onEvent(Event& event);
 
-		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* layer);
 		
-		inline Window& GetWindow() { return *m_WindowPtr;  }
-		inline static Application& Get() { return *s_Instance; }
-		inline ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+		inline Window& getWindow() { return *window;  }
+		inline static Application& getInstance() { return *instance; }
+		inline ImGuiLayer* getImGuiLayer() { return imGuiLayer; }
 
-		inline void Shutdown() { Running = false; }
+		inline void shutdown() { running = false; }
 	private:
-		static Application* s_Instance;
-		bool OnWindowClosed(WindowClosedEvent& event);
-		bool OnWindowResized(WindowResizedEvent& event);
+		static Application* instance;
+		bool onWindowClosed(WindowClosedEvent& event);
+		bool onWindowResized(WindowResizedEvent& event);
 	};
 
-	Application* CreateApplication();
+	Application* createApplication();
 }

@@ -6,14 +6,14 @@
 namespace FoxEngine
 {
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
-		:m_Path(path)
+		: path(path)
 	{
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
 		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 		FOX_ASSERT(data, "The image wasn't loaded successfully!");
-		m_Width = width;
-		m_Height = height;
+        width = width;
+        height = height;
 
 		GLenum internalFormat = 0, dataFormat = 0;
 
@@ -27,53 +27,53 @@ namespace FoxEngine
 			dataFormat = GL_RGB;
 		}
 
-		m_InternalFormat = internalFormat;
-		m_DataFormat = dataFormat;
+        internalFormat = internalFormat;
+        dataFormat = dataFormat;
 		
 		FOX_ASSERT(internalFormat, "Format not supported.");
 		FOX_ASSERT(dataFormat, "Format not supported.");
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererId);
-		glTextureStorage2D(m_RendererId, 1, internalFormat, m_Width, m_Height);
+		glCreateTextures(GL_TEXTURE_2D, 1, &rendererId);
+		glTextureStorage2D(rendererId, 1, internalFormat, width, height);
 
-		glTextureParameteri(m_RendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(m_RendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(rendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(rendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
-		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTextureSubImage2D(m_RendererId, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(rendererId, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
 
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
-		: m_Width(width), m_Height(height), m_Path("") {
-		
-		m_InternalFormat = GL_RGBA8;
-		m_DataFormat = GL_RGBA;
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererId);
-		glTextureStorage2D(m_RendererId, 1, m_InternalFormat, m_Width, m_Height);
+		: width(width), height(height), path("") {
 
-		glTextureParameteri(m_RendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(m_RendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        internalFormat = GL_RGBA8;
+        dataFormat = GL_RGBA;
+		glCreateTextures(GL_TEXTURE_2D, 1, &rendererId);
+		glTextureStorage2D(rendererId, 1, internalFormat, width, height);
 
-		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(m_RendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTextureParameteri(rendererId, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(rendererId, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(rendererId, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	}
 
-	void OpenGLTexture2D::SetData(void* data, uint32_t size)
+	void OpenGLTexture2D::setData(void* data, uint32_t size)
 	{
-		glTextureSubImage2D(m_RendererId, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(rendererId, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 	}
 
-	void OpenGLTexture2D::Bind(uint32_t slot) const
+	void OpenGLTexture2D::bind(uint32_t slot) const
 	{
-		glBindTextureUnit(slot, m_RendererId);
+		glBindTextureUnit(slot, rendererId);
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
-		glDeleteTextures(1, &m_RendererId);
+		glDeleteTextures(1, &rendererId);
 	}
 }

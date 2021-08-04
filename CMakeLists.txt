@@ -91,9 +91,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
-add_subdirectory(FoxEngine)
 add_subdirectory(FoxEngine/vendor/GLAD)
 add_subdirectory(FoxEngine/vendor/GLFW)
 add_subdirectory(FoxEngine/vendor/imgui)
+add_subdirectory(FoxEngine)
 add_subdirectory(FoxEngineEditor)
 add_subdirectory(Game)

@@ -6,62 +6,62 @@
 namespace FoxEngine
 {
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& specification)
-		:m_Specification(specification){
-		
-		Invalidate();
+		: specification(specification){
+
+        invalidate();
 	}
 
 	OpenGLFrameBuffer::~OpenGLFrameBuffer() {
-		glDeleteFramebuffers(1, &m_RendererId);
-		glDeleteTextures(1, &m_ColorAttachment);
-		glDeleteTextures(1, &m_DepthAttachment);
+		glDeleteFramebuffers(1, &rendererId);
+		glDeleteTextures(1, &colorAttachment);
+		glDeleteTextures(1, &depthAttachment);
 	}
 
-	void OpenGLFrameBuffer::Invalidate()
+	void OpenGLFrameBuffer::invalidate()
 	{
-		if(m_RendererId)
+		if(rendererId)
 		{
-			glDeleteFramebuffers(1, &m_RendererId);
-			glDeleteTextures(1, &m_ColorAttachment);
-			glDeleteTextures(1, &m_DepthAttachment);
+			glDeleteFramebuffers(1, &rendererId);
+			glDeleteTextures(1, &colorAttachment);
+			glDeleteTextures(1, &depthAttachment);
 		}
 		
-		glCreateFramebuffers(1, &m_RendererId);
-		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererId);
+		glCreateFramebuffers(1, &rendererId);
+		glBindFramebuffer(GL_FRAMEBUFFER, rendererId);
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_ColorAttachment);
-		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Specification.Width, m_Specification.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+		glCreateTextures(GL_TEXTURE_2D, 1, &colorAttachment);
+		glBindTexture(GL_TEXTURE_2D, colorAttachment);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, specification.width, specification.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachment, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorAttachment, 0);
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
-		glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
-		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, m_Specification.Width, m_Specification.Height);
+		glCreateTextures(GL_TEXTURE_2D, 1, &depthAttachment);
+		glBindTexture(GL_TEXTURE_2D, depthAttachment);
+		glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, specification.width, specification.height);
 		
 		FOX_CORE_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Framebuffer is incomplete!");
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void OpenGLFrameBuffer::Bind()
+	void OpenGLFrameBuffer::bind()
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererId);
-		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
+		glBindFramebuffer(GL_FRAMEBUFFER, rendererId);
+		glViewport(0, 0, specification.width, specification.height);
 	}
 
-	void OpenGLFrameBuffer::Unbind()
+	void OpenGLFrameBuffer::unbind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void OpenGLFrameBuffer::Resize(uint32_t width, uint32_t height)
+	void OpenGLFrameBuffer::resize(uint32_t width, uint32_t height)
 	{
-		m_Specification.Width = width;
-		m_Specification.Height = height;
-		
-		Invalidate();
+        specification.width = width;
+        specification.height = height;
+
+        invalidate();
 	}
 }

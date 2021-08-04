@@ -14,7 +14,7 @@ namespace FoxEngine {
         DEFINE_EVENT_CLASS_TYPE(WINDOW_CLOSED);
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_WINDOW);
 
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "WindowClosedEvent ()";
         }
     };
@@ -30,16 +30,16 @@ namespace FoxEngine {
         DEFINE_EVENT_CLASS_TYPE(WINDOW_RESIZED);
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_WINDOW);
 
-        float GetHeight() const
+        float getHeight() const
         {
 	        return height;
         }
 
-        float GetWidth() const
+        float getWidth() const
         {
 	        return width;
         }
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "WindowResizedEvent (width: " + std::to_string(width) + ", height: " + std::to_string(height) + ")";
         }
     };
@@ -55,7 +55,7 @@ namespace FoxEngine {
         DEFINE_EVENT_CLASS_TYPE(WINDOW_MOVED);
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_WINDOW);
 
-        virtual std::string ToString() const override {
+        virtual std::string toString() const override {
             return "WindowMovedEvent (positionY: " + std::to_string(positionX) + ", positionY: " + std::to_string(positionY) + ")";
         }
     };
@@ -72,8 +72,9 @@ namespace FoxEngine {
         DEFINE_EVENT_CLASS_TYPE(WINDOW_FOCUS);
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_WINDOW);
 
-        virtual std::string ToString() const override {
-            return "WindowFocusEvent (isWindowFocused: " + std::to_string(IsWindowFocused) + ", window: " + WindowRef.GetWindowTitle() + ")";
+        virtual std::string toString() const override {
+            return "WindowFocusEvent (isWindowFocused: " + std::to_string(IsWindowFocused) + ", window: " +
+                    WindowRef.getWindowTitle() + ")";
         }
     };
 

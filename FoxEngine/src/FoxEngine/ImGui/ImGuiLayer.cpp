@@ -19,7 +19,7 @@ namespace FoxEngine {
 
 	}
 
-	void ImGuiLayer::OnAttach() {
+	void ImGuiLayer::onAttach() {
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -43,8 +43,8 @@ namespace FoxEngine {
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-		Application& app = Application::Get();
-		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		Application& app = Application::getInstance();
+		GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindow().getNativeWindow());
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -52,24 +52,24 @@ namespace FoxEngine {
         ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
-	void ImGuiLayer::OnDetach() {
+	void ImGuiLayer::onDetach() {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::Begin() {
+	void ImGuiLayer::begin() {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 	
 
-	void ImGuiLayer::End() {
+	void ImGuiLayer::end() {
 		ImGuiIO& io = ImGui::GetIO();
-		Application& app = Application::Get();
+		Application& app = Application::getInstance();
 
-		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float) app.getWindow().getWidth(), (float) app.getWindow().getHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -82,16 +82,16 @@ namespace FoxEngine {
 		}
 	}
 
-	void ImGuiLayer::OnEvent(Event& event)
+	void ImGuiLayer::onEvent(Event& event)
 	{
 		if (m_BlockEvents) {
 			ImGuiIO& io = ImGui::GetIO();
-			event.Handled |= event.IsInCategory(EVENT_CATEGORY_MOUSE) & io.WantCaptureMouse;
-			event.Handled |= event.IsInCategory(EVENT_CATEGORY_KEYBOARD) & io.WantCaptureKeyboard;
+			event.handled |= event.isInCategory(EVENT_CATEGORY_MOUSE) & io.WantCaptureMouse;
+			event.handled |= event.isInCategory(EVENT_CATEGORY_KEYBOARD) & io.WantCaptureKeyboard;
 		}
 	}
 
-	void ImGuiLayer::OnImGuiRender() {
+	void ImGuiLayer::onImGuiRender() {
 		//static bool show = false;
 		//ImGui::ShowDemoWindow(&show);
 	}

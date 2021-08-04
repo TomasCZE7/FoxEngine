@@ -9,8 +9,8 @@ namespace FoxEngine{
 
     class WindowsWindow : public Window {
     private:
-        GLFWwindow* WindowRef;
-        GraphicsContext* m_Context;
+        GLFWwindow* window;
+        GraphicsContext* graphicsContext;
 
         struct WindowData{
             std::string Title;
@@ -19,27 +19,27 @@ namespace FoxEngine{
             std::function<void(Event&)> Callback;
         };
 
-        WindowData m_WindowData;
+        WindowData windowData;
 
-        virtual void Init(const WindowProperties& windowProperties);
-        virtual void Shutdown();
+        virtual void init(const WindowProperties& windowProperties);
+        virtual void shutdown();
 
     public:
         virtual ~WindowsWindow();
         WindowsWindow(const WindowProperties& windowProperties);
 
-        void OnUpdate() override;
-        void OnRender() override;
+        void onUpdate() override;
+        void onRender() override;
 
-        inline unsigned int GetHeight() const override { return m_WindowData.Height; };
-        inline unsigned int GetWidth() const override { return m_WindowData.Width; };
-        inline std::string GetWindowTitle() const override { return m_WindowData.Title; };
+        inline unsigned int getHeight() const override { return windowData.Height; };
+        inline unsigned int getWidth() const override { return windowData.Width; };
+        inline std::string getWindowTitle() const override { return windowData.Title; };
 
-        inline void SetEventCallback(const std::function<void(Event&)>& callback) override { m_WindowData.Callback = callback; }
+        inline void setEventCallback(const std::function<void(Event&)>& callback) override { windowData.Callback = callback; }
 
-        void SetVSync(bool enabled) override;
-        bool IsVSync() const override;
-        inline virtual void* GetNativeWindow() const { return WindowRef; };
+        void setVSync(bool enabled) override;
+        bool isVSync() const override;
+        inline virtual void* getNativeWindow() const { return window; };
     };
 
 }

@@ -6,12 +6,12 @@
 
 namespace FoxEngine
 {
-	Ref<VertexArray> VertexArray::Create()
+	Ref<VertexArray> VertexArray::create()
 	{
-		switch (Renderer::GetAPI())
+		switch (Renderer::getAPI())
 		{
-			case RendererAPI::API::None: return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexArray>();
+			case RendererAPI::API::NONE: return nullptr;
+			case RendererAPI::API::OPENGL: return std::make_shared<OpenGLVertexArray>();
 		}
 		FOX_CORE_ASSERT(false, "Unknown Renderer API!");
 		return nullptr;

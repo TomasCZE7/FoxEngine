@@ -9,108 +9,107 @@
 namespace FoxEngine
 {
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-		: m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio* m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
+		: aspectRatio(aspectRatio), camera(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel), rotation(rotation)
 	{
 		
 	}
 
-	void OrthographicCameraController::OnUpdate(TimeStep ts)
+	void OrthographicCameraController::onUpdate(TimeStep ts)
 	{
 
 		/*if (Input::IsKeyPressed(FOX_KEY_A))
 		{
-			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			cameraPosition.x -= cos(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
+			cameraPosition.y -= sin(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
 		}
 		else if (Input::IsKeyPressed(FOX_KEY_D))
 		{
-			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			cameraPosition.x += cos(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
+			cameraPosition.y += sin(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
 		}
 
 		if (Input::IsKeyPressed(FOX_KEY_W))
 		{
-			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			cameraPosition.x += -sin(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
+			cameraPosition.y += cos(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
 		}
 		else if (Input::IsKeyPressed(FOX_KEY_S))
 		{
-			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+			cameraPosition.x -= -sin(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
+			cameraPosition.y -= cos(glm::radians(cameraRotation)) * cameraTranslationSpeed * ts;
 		}
 
-		if (m_Rotation)
+		if (rotation)
 		{
 			if (Input::IsKeyPressed(FOX_KEY_Q))
-				m_CameraRotation += m_CameraRotationSpeed * ts;
-			if (Input::IsKeyPressed(FOX_KEY_E))
-				m_CameraRotation -= m_CameraRotationSpeed * ts;
+				cameraRotation += cameraRotationSpeed * ts;
+			if (Input::isKeyPressed(FOX_KEY_E))
+				cameraRotation -= cameraRotationSpeed * ts;
 
-			if (m_CameraRotation > 180.0f)
-				m_CameraRotation -= 360.0f;
-			else if (m_CameraRotation <= -180.0f)
-				m_CameraRotation += 360.0f;
+			if (cameraRotation > 180.0f)
+				cameraRotation -= 360.0f;
+			else if (cameraRotation <= -180.0f)
+				cameraRotation += 360.0f;
 
-			m_Camera.SetRotation(m_CameraRotation);
+			camera.setRotation(cameraRotation);
 		}*/
 
-		if(Input::IsMouseButtonPressed(FOX_MOUSE_BUTTON_MIDDLE))
+		if(Input::isMouseButtonPressed(FOX_MOUSE_BUTTON_MIDDLE))
 		{
-			if(m_LastMousePosition.first != -1 && m_LastMousePosition.second != -1)
+			if(lastMousePosition.first != -1 && lastMousePosition.second != -1)
 			{
-				std::pair<float, float> newPos = Input::GetMousePosition();
+				std::pair<float, float> newPos = Input::getMousePosition();
 
-				float xDiff = (newPos.first - m_LastMousePosition.first) / 100.0;
-				float yDiff = (newPos.second - m_LastMousePosition.second) / 100.0;
-				
-				m_CameraPosition.x -= xDiff;
-				m_CameraPosition.y += yDiff;
+				float xDiff = (cameraTranslationSpeed / 4.0) * (newPos.first - lastMousePosition.first) / 100.0;
+				float yDiff = (cameraTranslationSpeed / 4.0) * (newPos.second - lastMousePosition.second) / 100.0;
+
+                cameraPosition.x -= xDiff;
+                cameraPosition.y += yDiff;
 			}
-			m_MouseState = MouseState::MOVING_CAMERA;
-			m_LastMousePosition = Input::GetMousePosition();
-		} else if(m_LastMousePosition.first != -1 && m_LastMousePosition.second != -1)
+            mouseState = MouseState::MOVING_CAMERA;
+            lastMousePosition = Input::getMousePosition();
+		} else if(lastMousePosition.first != -1 && lastMousePosition.second != -1)
 		{
-			m_LastMousePosition.first = -1;
-			m_LastMousePosition.first = -1;
-			m_MouseState = MouseState::IDLE;
+            lastMousePosition.first = -1;
+            lastMousePosition.first = -1;
+            mouseState = MouseState::IDLE;
 		}
 
-		m_Camera.SetPosition(m_CameraPosition);
+        camera.setPosition(cameraPosition);
 
-		m_CameraTranslationSpeed = m_ZoomLevel;
+        cameraTranslationSpeed = zoomLevel;
 	}
 
-	void OrthographicCameraController::OnEvent(Event& e)
+	void OrthographicCameraController::onEvent(Event& e)
 	{
 		EventCaster eventCaster(e);
-		eventCaster.Cast<MouseScrolledEvent>(FOX_BIND_EVENT_FUNCTION(OrthographicCameraController::OnMouseScrolled));
-		eventCaster.Cast<WindowResizedEvent>(FOX_BIND_EVENT_FUNCTION(OrthographicCameraController::OnWindowResized));
+        eventCaster.cast<MouseScrolledEvent>(FOX_BIND_EVENT_FUNCTION(OrthographicCameraController::onMouseScrolled));
+        eventCaster.cast<WindowResizedEvent>(FOX_BIND_EVENT_FUNCTION(OrthographicCameraController::onWindowResized));
 	}
 
-	void OrthographicCameraController::OnResize(float width, float height)
+	void OrthographicCameraController::onResize(float width, float height)
 	{
-		m_AspectRatio = width / height;
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        aspectRatio = width / height;
+        camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 	}
 
-	void OrthographicCameraController::CalculateView()
+	void OrthographicCameraController::calculateView()
 	{
-		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
-		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
+        bounds = {-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
+        camera.setProjection(bounds.left, bounds.right, bounds.bottom, bounds.top);
 	}
 
-	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
+	bool OrthographicCameraController::onMouseScrolled(MouseScrolledEvent& e)
 	{
-
-		m_ZoomLevel -= e.GetOffsetY() * 0.25f;
-		m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
-		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+        zoomLevel -= e.getOffsetY() * 0.25f;
+        zoomLevel = std::clamp(zoomLevel, zoomLevelMin, zoomLevelMax);
+        camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
 		return false;
 	}
 
-	bool OrthographicCameraController::OnWindowResized(WindowResizedEvent& e)
+	bool OrthographicCameraController::onWindowResized(WindowResizedEvent& e)
 	{
-		OnResize((float)e.GetWidth(), (float)e.GetHeight());
+        onResize((float) e.getWidth(), (float) e.getHeight());
 		return false;
 	}
 }

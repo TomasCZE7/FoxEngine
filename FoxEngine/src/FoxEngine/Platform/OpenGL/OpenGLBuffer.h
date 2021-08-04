@@ -7,35 +7,35 @@ namespace FoxEngine
 	class OpenGLVertexBuffer : public VertexBuffer
 	{
 	private:
-		uint32_t RendererId;
-		BufferLayout m_Layout;
+		uint32_t rendererId;
+		BufferLayout layout;
 	public:
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		OpenGLVertexBuffer(uint32_t size);
 		virtual ~OpenGLVertexBuffer();
 
-		virtual void Bind() const override;
-		virtual void Unbind() const override;
+		virtual void bind() const override;
+		virtual void unbind() const override;
 		
-		virtual void SetLayout(const BufferLayout& layout) override { m_Layout = layout; }
-		virtual void SetData(const void* data, uint32_t size) override;
-		virtual const BufferLayout& GetLayout() const override { return m_Layout; }
+		virtual void setLayout(const BufferLayout& layout) override { this->layout = layout; }
+		virtual void setData(const void* data, uint32_t size) override;
+		virtual const BufferLayout& getLayout() const override { return layout; }
 	
 	};
 
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
 	private:
-		uint32_t RendererId;
-		uint32_t Count;
+		uint32_t rendererId;
+		uint32_t count;
 	public:
 		OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
 		virtual ~OpenGLIndexBuffer();
 
-		virtual uint32_t GetCount() const { return Count; }
+		virtual uint32_t getCount() const { return count; }
 		
-		virtual void Bind() const;
-		virtual void Unbind() const;
+		virtual void bind() const;
+		virtual void unbind() const;
 
 	};
 }

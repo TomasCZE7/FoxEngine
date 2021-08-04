@@ -6,57 +6,57 @@
 
 namespace FoxEngine
 {
-	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
+	Ref<Shader> Shader::create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 	{
-		switch (Renderer::GetAPI())
+		switch (Renderer::getAPI())
 		{
-			case RendererAPI::API::None: return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
+			case RendererAPI::API::NONE: return nullptr;
+			case RendererAPI::API::OPENGL: return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
 		FOX_CORE_ASSERT(false, "Unknown Renderer API!");
 		return nullptr;
 	}
 
-	Ref<Shader> Shader::Create(const std::string& path)
+	Ref<Shader> Shader::create(const std::string& path)
 	{
-		switch (Renderer::GetAPI())
+		switch (Renderer::getAPI())
 		{
-		case RendererAPI::API::None: return nullptr;
-		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLShader>(path);
+		case RendererAPI::API::NONE: return nullptr;
+		case RendererAPI::API::OPENGL: return std::make_shared<OpenGLShader>(path);
 		}
 		FOX_CORE_ASSERT(false, "Unknown Renderer API!");
 		return nullptr;
 	}
 
-	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
+	void ShaderLibrary::add(const std::string& name, const Ref<Shader>& shader)
 	{
-		FOX_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "Shader already exists with this name.");
-		m_Shaders[name] = shader;
+		FOX_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.End(), "Shader already exists with this name.");
+		shaders[name] = shader;
 	}
 	
-	void ShaderLibrary::Add(const Ref<Shader>& shader)
+	void ShaderLibrary::add(const Ref<Shader>& shader)
 	{
-		const std::string& name = shader->GetName();
-		Add(name, shader);
+		const std::string& name = shader->getName();
+        add(name, shader);
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
+	Ref<Shader> ShaderLibrary::load(const std::string& name, const std::string& filepath)
 	{
-		auto shader = Shader::Create(filepath);
-		Add(name, shader);
+		auto shader = Shader::create(filepath);
+        add(name, shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
+	Ref<Shader> ShaderLibrary::load(const std::string& filepath)
 	{
-		auto shader = Shader::Create(filepath);
-		Add(shader);
+		auto shader = Shader::create(filepath);
+        add(shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	Ref<Shader> ShaderLibrary::getByName(const std::string& name)
 	{
-		FOX_CORE_ASSERT(m_Shaders.find(name) != m_Shaders.end(), "Shader not found.");
-		return m_Shaders[name];
+		FOX_CORE_ASSERT(m_Shaders.find(name) != m_Shaders.End(), "Shader not found.");
+		return shaders[name];
 	}
 }

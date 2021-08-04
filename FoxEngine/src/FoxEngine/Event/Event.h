@@ -25,19 +25,19 @@ namespace FoxEngine {
     class FOX_API Event {
         friend class EventCaster;
     public:
-        bool Handled = false;
+        bool handled = false;
     public:
         virtual ~Event() = default;
-        virtual EventType GetEventType() const = 0;
-        virtual int GetEventCategoryFlags() const = 0;
-        virtual const char* GetName() const = 0;
-        virtual std::string ToString() const { return GetName(); }
+        virtual EventType getEventType() const = 0;
+        virtual int getEventCategoryFlags() const = 0;
+        virtual const char* getName() const = 0;
+        virtual std::string toString() const { return getName(); }
 
-        inline bool IsInCategory(EventCategory category){
-            return GetEventCategoryFlags() & category;
+        inline bool isInCategory(EventCategory category){
+            return getEventCategoryFlags() & category;
         }
 
-        bool IsHandled() const { return Handled; }
+        bool isHandled() const { return handled; }
 
     };
 
@@ -52,9 +52,9 @@ namespace FoxEngine {
         }
 
         template<typename T>
-        bool Cast(EventFunction<T> function){
-            if(event.GetEventType() == T::GetStaticType()){
-                event.Handled = function(*(T*)&event);
+        bool cast(EventFunction<T> function){
+            if(event.getEventType() == T::getStaticType()){
+                event.handled = function(*(T*)&event);
                 return true;
             }
             return false;
@@ -62,14 +62,14 @@ namespace FoxEngine {
     };
 
     inline std::ostream &operator<<(std::ostream &os, const Event& event) {
-        return os << event.ToString();
+        return os << event.toString();
     }
 
 }
 
 
-#define DEFINE_EVENT_CLASS_TYPE(type) static EventType GetStaticType(){ return EventType::type; } \
-                                        virtual EventType GetEventType() const override { return GetStaticType(); } \
-                                        virtual const char* GetName() const override { return #type; }
+#define DEFINE_EVENT_CLASS_TYPE(type) static EventType getStaticType(){ return EventType::type; } \
+                                        virtual EventType getEventType() const override { return getStaticType(); } \
+                                        virtual const char* getName() const override { return #type; }
 
-#define DEFINE_EVENT_CLASS_CATEGORY(category) virtual int GetEventCategoryFlags() const override { return category; }
+#define DEFINE_EVENT_CLASS_CATEGORY(category) virtual int getEventCategoryFlags() const override { return category; }

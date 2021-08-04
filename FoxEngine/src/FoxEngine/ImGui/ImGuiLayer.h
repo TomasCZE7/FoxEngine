@@ -12,13 +12,13 @@ namespace FoxEngine {
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		virtual void OnAttach() override;
-		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;
-		virtual void Begin();
-		virtual void End();
+		virtual void onAttach() override;
+		virtual void onDetach() override;
+		virtual void onImGuiRender() override;
+		virtual void begin();
+		virtual void end();
 
-		void OnEvent(Event& event) override;
+		void onEvent(Event& event) override;
 		
 		void SetBlockEvents(bool block) { m_BlockEvents = block; }
 		

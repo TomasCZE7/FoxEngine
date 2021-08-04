@@ -42,30 +42,30 @@ namespace FoxEngine
 		Renderer2D::Statistics Statistics;
 	};
 
-	static Renderer2DStorage s_Storage;
+	static Renderer2DStorage storage;
 	
-	void Renderer2D::Init()
+	void Renderer2D::init()
 	{
-		s_Storage.QuadVertexArray = VertexArray::Create();
-		s_Storage.TextureShader = Shader::Create("assets/shaders/FlatColor.glsl");
+        storage.QuadVertexArray = VertexArray::create();
+        storage.TextureShader = Shader::create("assets/shaders/FlatColor.glsl");
 
-		s_Storage.QuadVertexBuffer = VertexBuffer::Create(s_Storage.MaxVertices * sizeof(QuadVertex));
-		s_Storage.QuadVertexBuffer->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float4, "a_Color" },
-			{ ShaderDataType::Float2, "a_TexCoord" },
-			{ ShaderDataType::Float, "a_TextureIndex" },
-			{ ShaderDataType::Float, "a_TextureTilingFactor" }
-			});
+        storage.QuadVertexBuffer = VertexBuffer::create(storage.MaxVertices * sizeof(QuadVertex));
+        storage.QuadVertexBuffer->setLayout({
+                                                      {ShaderDataType::Float3, "a_Position"},
+                                                      {ShaderDataType::Float4, "a_Color"},
+                                                      {ShaderDataType::Float2, "a_TexCoord"},
+                                                      {ShaderDataType::Float,  "a_TextureIndex"},
+                                                      {ShaderDataType::Float,  "a_TextureTilingFactor"}
+                                              });
 
-		s_Storage.QuadVertexArray->AddVertexBuffer(s_Storage.QuadVertexBuffer);
+        storage.QuadVertexArray->addVertexBuffer(storage.QuadVertexBuffer);
 
-		s_Storage.QuadVertexBufferBase = new QuadVertex[s_Storage.MaxVertices];
+        storage.QuadVertexBufferBase = new QuadVertex[storage.MaxVertices];
 
-		uint32_t* indices = new uint32_t[s_Storage.MaxIndices];
+		uint32_t* indices = new uint32_t[storage.MaxIndices];
 
 		uint32_t offset = 0;
-		for(uint32_t i = 0; i < s_Storage.MaxIndices; i+= 6)
+		for(uint32_t i = 0; i < storage.MaxIndices; i+= 6)
 		{
 			indices[i + 0] = offset + 0;
 			indices[i + 1] = offset + 1;
@@ -78,74 +78,74 @@ namespace FoxEngine
 			offset += 4;
 		}
 
-		Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, s_Storage.MaxIndices);
+		Ref<IndexBuffer> indexBuffer = IndexBuffer::create(indices, storage.MaxIndices);
 
-		s_Storage.QuadVertexArray->SetIndexBuffer(indexBuffer);
+        storage.QuadVertexArray->setIndexBuffer(indexBuffer);
 
 		delete[] indices;
-		
-		s_Storage.WhiteTexture = Texture2D::Create(1, 1);
-		uint32_t whiteTextureData = 0xffffffff;
-		s_Storage.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-		int32_t samplers[s_Storage.MaxTextureSlots];
-		for(uint32_t i = 0; i < s_Storage.MaxTextureSlots; i++)
+        storage.WhiteTexture = Texture2D::create(1, 1);
+		uint32_t whiteTextureData = 0xffffffff;
+        storage.WhiteTexture->setData(&whiteTextureData, sizeof(uint32_t));
+
+		int32_t samplers[storage.MaxTextureSlots];
+		for(uint32_t i = 0; i < storage.MaxTextureSlots; i++)
 		{
 			samplers[i] = i;
 		}
-		
-		s_Storage.TextureShader = Shader::Create("assets/shaders/Texture.glsl");
-		s_Storage.TextureShader->Bind();
-		s_Storage.TextureShader->SetUniformIntArray("u_Textures", samplers, s_Storage.MaxTextureSlots);
 
-		s_Storage.TextureSlots[0] = s_Storage.WhiteTexture;
+        storage.TextureShader = Shader::create("assets/shaders/Texture.glsl");
+        storage.TextureShader->bind();
+        storage.TextureShader->setUniformIntArray("u_Textures", samplers, storage.MaxTextureSlots);
 
-		s_Storage.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
-		s_Storage.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
-		s_Storage.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
-		s_Storage.QuadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
+        storage.TextureSlots[0] = storage.WhiteTexture;
+
+        storage.QuadVertexPositions[0] = {-0.5f, -0.5f, 0.0f, 1.0f };
+        storage.QuadVertexPositions[1] = {0.5f, -0.5f, 0.0f, 1.0f };
+        storage.QuadVertexPositions[2] = {0.5f, 0.5f, 0.0f, 1.0f };
+        storage.QuadVertexPositions[3] = {-0.5f, 0.5f, 0.0f, 1.0f };
 	}
 
-	void Renderer2D::ShutDown()
+	void Renderer2D::shutDown()
 	{
 	}
 
-	void Renderer2D::BeginScene(const OrthographicCamera& camera)
+	void Renderer2D::beginScene(const OrthographicCamera& camera)
 	{
-		
-		s_Storage.TextureShader->Bind();
-		s_Storage.TextureShader->SetUniformMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 
-		s_Storage.QuadIndexCount = 0;
-		s_Storage.QuadVertexBufferPtr = s_Storage.QuadVertexBufferBase;
+        storage.TextureShader->bind();
+        storage.TextureShader->setUniformMat4("u_ViewProjection", camera.getViewProjectionMatrix());
 
-		s_Storage.TextureSlotIndex = 1;
+        storage.QuadIndexCount = 0;
+        storage.QuadVertexBufferPtr = storage.QuadVertexBufferBase;
+
+        storage.TextureSlotIndex = 1;
 	}
 
-	void Renderer2D::EndScene()
+	void Renderer2D::endScene()
 	{
 		FOX_PROFILE_FUNCTION();
 
-		uint32_t dataSize = (uint8_t*)s_Storage.QuadVertexBufferPtr - (uint8_t*)s_Storage.QuadVertexBufferBase;
+		uint32_t dataSize = (uint8_t*)storage.QuadVertexBufferPtr - (uint8_t*)storage.QuadVertexBufferBase;
 
-		s_Storage.QuadVertexBuffer->SetData(s_Storage.QuadVertexBufferBase, dataSize);
-		
-		Flush();
+        storage.QuadVertexBuffer->setData(storage.QuadVertexBufferBase, dataSize);
+
+        flush();
 	}
 
-	void Renderer2D::Flush()
+	void Renderer2D::flush()
 	{
-		for (uint32_t i = 0; i < s_Storage.TextureSlotIndex; i++)
+		for (uint32_t i = 0; i < storage.TextureSlotIndex; i++)
 		{
-			auto texture = s_Storage.TextureSlots[i];
-			s_Storage.TextureSlots[i]->Bind(i);
+			auto texture = storage.TextureSlots[i];
+            storage.TextureSlots[i]->bind(i);
 		}
 
-		RenderCommand::DrawIndexed(s_Storage.QuadVertexArray, s_Storage.QuadIndexCount);
-		s_Storage.Statistics.DrawCalls++;
+        RenderCommand::drawIndexed(storage.QuadVertexArray, storage.QuadIndexCount);
+		storage.Statistics.drawCalls++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color)
 	{
 		const float textureIndex = 0.0f; //White texture
 		const size_t quadVertexCount = 4;
@@ -156,30 +156,30 @@ namespace FoxEngine
 			{ 0.0f, 1.0f },
 		};
 
-		if (s_Storage.QuadIndexCount > s_Storage.MaxIndices)
+		if (storage.QuadIndexCount > storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Storage.QuadVertexBufferPtr->Position = transform * s_Storage.QuadVertexPositions[i];
-			s_Storage.QuadVertexBufferPtr->Color = color;
-			s_Storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Storage.QuadVertexBufferPtr++;
+            storage.QuadVertexBufferPtr->Position = transform * storage.QuadVertexPositions[i];
+            storage.QuadVertexBufferPtr->Color = color;
+            storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+            storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			storage.QuadVertexBufferPtr++;
 		}
 
-		s_Storage.QuadIndexCount += 6;
-		s_Storage.Statistics.QuadCount++;
+        storage.QuadIndexCount += 6;
+		storage.Statistics.quadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& textureTint,
-		float textureTilingFactor)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& textureTint,
+                              float textureTilingFactor)
 	{
-		if (s_Storage.QuadIndexCount >= s_Storage.MaxIndices)
+		if (storage.QuadIndexCount >= storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 
 		const size_t quadVertexCount = 4;
@@ -192,8 +192,8 @@ namespace FoxEngine
 		};
 
 		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Storage.TextureSlotIndex; i++) {
-			if (*s_Storage.TextureSlots[i].get() == *texture.get())
+		for (uint32_t i = 1; i < storage.TextureSlotIndex; i++) {
+			if (*storage.TextureSlots[i].get() == *texture.get())
 			{
 				textureIndex = (float)i;
 				break;
@@ -202,41 +202,41 @@ namespace FoxEngine
 
 		if (textureIndex == 0.0f)
 		{
-			textureIndex = (float)s_Storage.TextureSlotIndex;
-			s_Storage.TextureSlots[s_Storage.TextureSlotIndex] = texture;
-			s_Storage.TextureSlotIndex++;
+			textureIndex = (float)storage.TextureSlotIndex;
+            storage.TextureSlots[storage.TextureSlotIndex] = texture;
+			storage.TextureSlotIndex++;
 		}
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Storage.QuadVertexBufferPtr->Position = transform * s_Storage.QuadVertexPositions[i];
-			s_Storage.QuadVertexBufferPtr->Color = textureTint;
-			s_Storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Storage.QuadVertexBufferPtr->TextureTilingFactor = textureTilingFactor;
-			s_Storage.QuadVertexBufferPtr++;
+            storage.QuadVertexBufferPtr->Position = transform * storage.QuadVertexPositions[i];
+            storage.QuadVertexBufferPtr->Color = textureTint;
+            storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+            storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
+            storage.QuadVertexBufferPtr->TextureTilingFactor = textureTilingFactor;
+			storage.QuadVertexBufferPtr++;
 		}
 
-		s_Storage.QuadIndexCount += 6;
-		s_Storage.Statistics.QuadCount++;
+        storage.QuadIndexCount += 6;
+		storage.Statistics.quadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture,
-		const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawQuad(const glm::mat4& transform, const Ref<SubTexture2D>& subTexture,
+                              const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		if (s_Storage.QuadIndexCount >= s_Storage.MaxIndices)
+		if (storage.QuadIndexCount >= storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 
 		const size_t quadVertexCount = 4;
 
-		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
-		const Ref<Texture2D> texture = subTexture->GetTexture();
+		const glm::vec2* textureCoords = subTexture->getTextureCoords();
+		const Ref<Texture2D> texture = subTexture->getTexture();
 
 		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Storage.TextureSlotIndex; i++) {
-			if (*s_Storage.TextureSlots[i].get() == *texture.get())
+		for (uint32_t i = 1; i < storage.TextureSlotIndex; i++) {
+			if (*storage.TextureSlots[i].get() == *texture.get())
 			{
 				textureIndex = (float)i;
 				break;
@@ -245,87 +245,87 @@ namespace FoxEngine
 
 		if (textureIndex == 0.0f)
 		{
-			textureIndex = (float)s_Storage.TextureSlotIndex;
-			s_Storage.TextureSlots[s_Storage.TextureSlotIndex] = texture;
-			s_Storage.TextureSlotIndex++;
+			textureIndex = (float)storage.TextureSlotIndex;
+            storage.TextureSlots[storage.TextureSlotIndex] = texture;
+			storage.TextureSlotIndex++;
 		}
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Storage.QuadVertexBufferPtr->Position = transform * s_Storage.QuadVertexPositions[i];
-			s_Storage.QuadVertexBufferPtr->Color = textureTint;
-			s_Storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Storage.QuadVertexBufferPtr->TextureTilingFactor = textureTilingFactor;
-			s_Storage.QuadVertexBufferPtr++;
+            storage.QuadVertexBufferPtr->Position = transform * storage.QuadVertexPositions[i];
+            storage.QuadVertexBufferPtr->Color = textureTint;
+            storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+            storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
+            storage.QuadVertexBufferPtr->TextureTilingFactor = textureTilingFactor;
+			storage.QuadVertexBufferPtr++;
 		}
 
-		s_Storage.QuadIndexCount += 6;
-		s_Storage.Statistics.QuadCount++;
+        storage.QuadIndexCount += 6;
+		storage.Statistics.quadCount++;
 	}
 
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
+	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, color);
+        drawQuad({position.x, position.y, 0.0f}, size, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
+	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{	
-		if(s_Storage.QuadIndexCount > s_Storage.MaxIndices)
+		if(storage.QuadIndexCount > storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, color);
+        drawQuad(transform, color);
 		
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture,
-		const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture,
+                              const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		DrawQuad({ position.x, position.y, 0.0f}, size, texture, textureTint, textureTilingFactor);
+        drawQuad({position.x, position.y, 0.0f}, size, texture, textureTint, textureTilingFactor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture,
-	                          const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture,
+                              const glm::vec4& textureTint, float textureTilingFactor)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, texture, textureTint, textureTilingFactor);
+        drawQuad(transform, texture, textureTint, textureTilingFactor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture,
-		const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture,
+                              const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		DrawQuad({ position.x, position.y, 0.0f }, size, subTexture, textureTint, textureTilingFactor);
+        drawQuad({position.x, position.y, 0.0f}, size, subTexture, textureTint, textureTilingFactor);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture,
-		const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<SubTexture2D>& subTexture,
+                              const glm::vec4& textureTint, float textureTilingFactor)
 	{
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
 			* glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
-		DrawQuad(transform, subTexture, textureTint, textureTilingFactor);
+        drawQuad(transform, subTexture, textureTint, textureTilingFactor);
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
-	                                 const glm::vec4& color)
+	void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
+                                     const glm::vec4& color)
 	{
-		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, color);
+        drawRotatedQuad({position.x, position.y, 0.0f}, size, rotation, color);
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
-		const glm::vec4& color)
+	void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
+                                     const glm::vec4& color)
 	{
-		if (s_Storage.QuadIndexCount >= s_Storage.MaxIndices)
+		if (storage.QuadIndexCount >= storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 		const float textureIndex = 0.0f;
 		const size_t quadVertexCount = 4;
@@ -342,29 +342,29 @@ namespace FoxEngine
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Storage.QuadVertexBufferPtr->Position = transform * s_Storage.QuadVertexPositions[i];
-			s_Storage.QuadVertexBufferPtr->Color = color;
-			s_Storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Storage.QuadVertexBufferPtr++;
+            storage.QuadVertexBufferPtr->Position = transform * storage.QuadVertexPositions[i];
+            storage.QuadVertexBufferPtr->Color = color;
+            storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+            storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			storage.QuadVertexBufferPtr++;
 		}
 
-		s_Storage.QuadIndexCount += 6;
-		s_Storage.Statistics.QuadCount++;
+        storage.QuadIndexCount += 6;
+		storage.Statistics.quadCount++;
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
-		const Ref<Texture2D>& texture, const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
+                                     const Ref<Texture2D>& textures, const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, texture, textureTint, textureTilingFactor);
+        drawRotatedQuad({position.x, position.y, 0.0f}, size, rotation, textures, textureTint, textureTilingFactor);
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
-		const Ref<Texture2D>& texture, const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
+                                     const Ref<Texture2D>& texture, const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		if (s_Storage.QuadIndexCount >= s_Storage.MaxIndices)
+		if (storage.QuadIndexCount >= storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 		float textureIndex = 0.0f;
 		const size_t quadVertexCount = 4;
@@ -374,8 +374,8 @@ namespace FoxEngine
 			{ 1.0f, 1.0f },
 			{ 0.0f, 1.0f },
 		};
-		for (uint32_t i = 1; i < s_Storage.TextureSlotIndex; i++) {
-			if (*s_Storage.TextureSlots[i].get() == *texture.get())
+		for (uint32_t i = 1; i < storage.TextureSlotIndex; i++) {
+			if (*storage.TextureSlots[i].get() == *texture.get())
 			{
 				textureIndex = (float)i;
 				break;
@@ -384,9 +384,9 @@ namespace FoxEngine
 
 		if (textureIndex == 0.0f)
 		{
-			textureIndex = (float)s_Storage.TextureSlotIndex;
-			s_Storage.TextureSlots[s_Storage.TextureSlotIndex] = texture;
-			s_Storage.TextureSlotIndex++;
+			textureIndex = (float)storage.TextureSlotIndex;
+            storage.TextureSlots[storage.TextureSlotIndex] = texture;
+			storage.TextureSlotIndex++;
 		}
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
@@ -395,40 +395,40 @@ namespace FoxEngine
 		
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Storage.QuadVertexBufferPtr->Position = transform * s_Storage.QuadVertexPositions[i];
-			s_Storage.QuadVertexBufferPtr->Color = textureTint;
-			s_Storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Storage.QuadVertexBufferPtr++;
+            storage.QuadVertexBufferPtr->Position = transform * storage.QuadVertexPositions[i];
+            storage.QuadVertexBufferPtr->Color = textureTint;
+            storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+            storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			storage.QuadVertexBufferPtr++;
 		}
 
-		s_Storage.QuadIndexCount += 6;
-		s_Storage.Statistics.QuadCount++;
+        storage.QuadIndexCount += 6;
+		storage.Statistics.quadCount++;
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
-		const Ref<SubTexture2D>& subTexture, const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
+                                     const Ref<SubTexture2D>& subTexture, const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		DrawRotatedQuad({ position.x, position.y, 0.0f }, size, rotation, subTexture, textureTint, textureTilingFactor);
+        drawRotatedQuad({position.x, position.y, 0.0f}, size, rotation, subTexture, textureTint, textureTilingFactor);
 
 	}
 
-	void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
-		const Ref<SubTexture2D>& subTexture, const glm::vec4& textureTint, float textureTilingFactor)
+	void Renderer2D::drawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
+                                     const Ref<SubTexture2D>& subTexture, const glm::vec4& textureTint, float textureTilingFactor)
 	{
-		if (s_Storage.QuadIndexCount >= s_Storage.MaxIndices)
+		if (storage.QuadIndexCount >= storage.MaxIndices)
 		{
-			StartNewBatch();
+            startNewBatch();
 		}
 
 		const size_t quadVertexCount = 4;
 
-		const glm::vec2* textureCoords = subTexture->GetTextureCoords();
-		const Ref<Texture2D> texture = subTexture->GetTexture();
+		const glm::vec2* textureCoords = subTexture->getTextureCoords();
+		const Ref<Texture2D> texture = subTexture->getTexture();
 
 		float textureIndex = 0.0f;
-		for (uint32_t i = 1; i < s_Storage.TextureSlotIndex; i++) {
-			if (*s_Storage.TextureSlots[i].get() == *texture.get())
+		for (uint32_t i = 1; i < storage.TextureSlotIndex; i++) {
+			if (*storage.TextureSlots[i].get() == *texture.get())
 			{
 				textureIndex = (float)i;
 				break;
@@ -437,9 +437,9 @@ namespace FoxEngine
 
 		if (textureIndex == 0.0f)
 		{
-			textureIndex = (float)s_Storage.TextureSlotIndex;
-			s_Storage.TextureSlots[s_Storage.TextureSlotIndex] = texture;
-			s_Storage.TextureSlotIndex++;
+			textureIndex = (float)storage.TextureSlotIndex;
+            storage.TextureSlots[storage.TextureSlotIndex] = texture;
+			storage.TextureSlotIndex++;
 		}
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
@@ -448,36 +448,36 @@ namespace FoxEngine
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Storage.QuadVertexBufferPtr->Position = transform * s_Storage.QuadVertexPositions[i];
-			s_Storage.QuadVertexBufferPtr->Color = textureTint;
-			s_Storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
-			s_Storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Storage.QuadVertexBufferPtr->TextureTilingFactor = textureTilingFactor;
-			s_Storage.QuadVertexBufferPtr++;
+            storage.QuadVertexBufferPtr->Position = transform * storage.QuadVertexPositions[i];
+            storage.QuadVertexBufferPtr->Color = textureTint;
+            storage.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+            storage.QuadVertexBufferPtr->TextureIndex = textureIndex;
+            storage.QuadVertexBufferPtr->TextureTilingFactor = textureTilingFactor;
+			storage.QuadVertexBufferPtr++;
 		}
 
-		s_Storage.QuadIndexCount += 6;
-		s_Storage.Statistics.QuadCount++;
+        storage.QuadIndexCount += 6;
+		storage.Statistics.quadCount++;
 	}
 
-	void Renderer2D::ResetStats()
+	void Renderer2D::resetStats()
 	{
-		memset(&s_Storage.Statistics, 0, sizeof(Statistics));
+		memset(&storage.Statistics, 0, sizeof(Statistics));
 	}
 
-	Renderer2D::Statistics Renderer2D::GetStats()
+	Renderer2D::Statistics Renderer2D::getStats()
 	{
-		return s_Storage.Statistics;
+		return storage.Statistics;
 	}
 
-	void Renderer2D::StartNewBatch()
+	void Renderer2D::startNewBatch()
 	{
-		EndScene();
-		
-		s_Storage.QuadVertexBufferPtr = s_Storage.QuadVertexBufferBase;
-		s_Storage.QuadIndexCount = 0;
+        endScene();
 
-		s_Storage.TextureSlotIndex = 1;
+        storage.QuadVertexBufferPtr = storage.QuadVertexBufferBase;
+        storage.QuadIndexCount = 0;
+
+        storage.TextureSlotIndex = 1;
 	}
 
 }

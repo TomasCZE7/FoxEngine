@@ -7,13 +7,13 @@
 namespace FoxEngine {
 
     struct WindowProperties {
-            std::string Title;
-            unsigned int Width;
-            unsigned int Height;
+            std::string title;
+            unsigned int width;
+            unsigned int height;
 
             public:
             WindowProperties(std::string title = "Fox Engine", unsigned int width = 1280, unsigned int height = 720)
-            : Title(title), Width(width), Height(height){
+            : title(title), width(width), height(height){
 
             }
 
@@ -23,21 +23,21 @@ namespace FoxEngine {
             public:
             virtual ~Window(){}
 
-            virtual void OnUpdate() = 0;
-            virtual void OnRender() = 0;
+            virtual void onUpdate() = 0;
+            virtual void onRender() = 0;
 
-            virtual unsigned int GetHeight() const = 0;
-            virtual unsigned int GetWidth() const = 0;
+            virtual unsigned int getHeight() const = 0;
+            virtual unsigned int getWidth() const = 0;
 
-            virtual void SetVSync(bool enabled) = 0;
-            virtual bool IsVSync() const = 0;
+            virtual void setVSync(bool enabled) = 0;
+            virtual bool isVSync() const = 0;
 
-            virtual void SetEventCallback(const std::function<void(Event&)>& callback) = 0;
+            virtual void setEventCallback(const std::function<void(Event &)>& callback) = 0;
                 
-            static Window* Create(const WindowProperties& properties = WindowProperties());
+            static Window* create(const WindowProperties& properties = WindowProperties());
 
-            virtual void* GetNativeWindow() const = 0;
-            virtual inline std::string GetWindowTitle() const = 0;
+            virtual void* getNativeWindow() const = 0;
+            virtual inline std::string getWindowTitle() const = 0;
 
     };
 

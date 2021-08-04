@@ -29,14 +29,16 @@ namespace FoxEngine
 		
 		std::vector<float> m_TimeSteps;
 		int32_t m_TimeStepsMaxCount = 120;
+		float m_LongestTimeStep = -1;
+		float m_TimeStepAverage = -1;
 	public:
 		EditorLayer();
 		virtual ~EditorLayer() = default;
-		virtual void OnAttach() override;
-		virtual void OnDetach() override;
-		virtual void OnImGuiRender() override;
-		virtual void OnEvent(Event& event) override;
-		virtual void OnUpdate(TimeStep timeStep) override;
+		virtual void onAttach() override;
+		virtual void onDetach() override;
+		virtual void onImGuiRender() override;
+		virtual void onEvent(Event& event) override;
+		virtual void onUpdate(TimeStep timeStep) override;
 	};
 }
 

@@ -6,7 +6,7 @@
 namespace FoxEngine {
 
 	Layer::Layer(const std::string& name)
-		: m_Name(name)
+		: name(name)
 	{
 
 	}

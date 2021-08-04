@@ -7,20 +7,20 @@
 namespace FoxEngine
 {
 	OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
-		:WindowHandle(windowHandle){
-		FOX_ASSERT(WindowHandle, "Window is null!")
+		: windowHandle(windowHandle){
+		FOX_ASSERT(windowHandle, "Window is null!")
 	}
 
-	void OpenGLContext::Init()
+	void OpenGLContext::init()
 	{
-		glfwMakeContextCurrent(WindowHandle);
+		glfwMakeContextCurrent(windowHandle);
 		int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		FOX_CORE_ASSERT(gladStatus, "Failed to initialize GLAD!");
 		FOX_CORE_INFO("Graphics card: {0}", glGetString(GL_RENDERER));
 	}
 
-	void OpenGLContext::SwapBuffers()
+	void OpenGLContext::swapBuffers()
 	{
-		glfwSwapBuffers(WindowHandle);
+		glfwSwapBuffers(windowHandle);
 	}
 }

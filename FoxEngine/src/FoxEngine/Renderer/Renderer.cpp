@@ -7,35 +7,36 @@
 namespace FoxEngine
 {
 
-	Renderer::SceneData* Renderer::m_SceneData = new SceneData();
+	Renderer::SceneData* Renderer::sceneData = new SceneData();
 	
-	void Renderer::BeginScene(OrthographicCamera& camera)
+	void Renderer::beginScene(OrthographicCamera& camera)
 	{
-		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+        sceneData->viewProjectionMatrix = camera.getViewProjectionMatrix();
 	}
 
-	void Renderer::EndScene()
+	void Renderer::endScene()
 	{
 	}
 
-	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, glm::mat4 transform)
+	void Renderer::submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, glm::mat4 transform)
 	{
-		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMat4("u_Transform", transform);
-		
-		vertexArray->Bind();
-		RenderCommand::DrawIndexed(vertexArray);
+        shader->bind();
+        std::dynamic_pointer_cast<OpenGLShader>(shader)->setUniformMat4("u_ViewProjection",
+                                                                        sceneData->viewProjectionMatrix);
+        std::dynamic_pointer_cast<OpenGLShader>(shader)->setUniformMat4("u_Transform", transform);
+
+        vertexArray->bind();
+        RenderCommand::drawIndexed(vertexArray);
 	}
 
-	void Renderer::Init()
+	void Renderer::init()
 	{
-		RenderCommand::Init();
-		Renderer2D::Init();
+        RenderCommand::init();
+        Renderer2D::init();
 	}
 
-	void Renderer::OnWindowResized(uint32_t width, uint32_t height)
+	void Renderer::onWindowResized(uint32_t width, uint32_t height)
 	{
-		RenderCommand::SetViewPort(0, 0, width, height);
+        RenderCommand::setViewPort(0, 0, width, height);
 	}
 }

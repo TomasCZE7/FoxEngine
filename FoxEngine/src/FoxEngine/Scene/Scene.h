@@ -10,14 +10,14 @@ namespace FoxEngine
 	class Scene
 	{
 	private:
-		entt::registry m_Registry;
+		entt::registry registry;
 	public:
 		Scene();
 		~Scene();
 
-		Entity CreateEntity(char* name = "Entity");
+		Entity createEntity(char* name = "Entity");
 
-		void OnUpdate(TimeStep ts);
+		void onUpdate(TimeStep ts);
 
 		friend class Entity;
 	};

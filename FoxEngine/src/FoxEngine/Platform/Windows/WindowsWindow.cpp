@@ -13,24 +13,24 @@ namespace FoxEngine{
         FOX_CORE_ERROR("GLFW Error ({0}): {1}", errorCode, message);
     }
 
-    Window* Window::Create(const WindowProperties& windowProperties){
-        return new WindowsWindow(windowProperties);
+    Window* Window::create(const WindowProperties& properties){
+        return new WindowsWindow(properties);
     }
 
     WindowsWindow::~WindowsWindow() {
     }
 
     WindowsWindow::WindowsWindow(const WindowProperties& windowProperties) {
-        Init(windowProperties);
+        init(windowProperties);
     }
 
-    void WindowsWindow::Init(const WindowProperties& windowProperties) {
-        m_WindowData.Title = windowProperties.Title;
-        m_WindowData.Width = windowProperties.Width;
-        m_WindowData.Height = windowProperties.Height;
+    void WindowsWindow::init(const WindowProperties& windowProperties) {
+        windowData.Title = windowProperties.title;
+        windowData.Width = windowProperties.width;
+        windowData.Height = windowProperties.height;
 
 
-        FOX_CORE_DEBUG("Creating window {0} ({1} x {2})", m_WindowData.Title, m_WindowData.Width, m_WindowData.Height);
+        FOX_CORE_DEBUG("Creating window {0} ({1} x {2})", windowData.Title, windowData.Width, windowData.Height);
 
         if(!s_glfwInitialized){
             int success = glfwInit();
@@ -39,16 +39,16 @@ namespace FoxEngine{
             s_glfwInitialized = true;
         }
 
-        WindowRef = glfwCreateWindow((int)m_WindowData.Width, (int)m_WindowData.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
-        m_Context = new OpenGLContext(WindowRef);
-        m_Context->Init();
+        window = glfwCreateWindow((int)windowData.Width, (int)windowData.Height, windowData.Title.c_str(), nullptr, nullptr);
+        graphicsContext = new OpenGLContext(window);
+        graphicsContext->init();
 
 
-        glfwSetWindowUserPointer(WindowRef, &m_WindowData);
+        glfwSetWindowUserPointer(window, &windowData);
 
-        SetVSync(true);
+        setVSync(true);
 
-        glfwSetWindowSizeCallback(WindowRef, [](GLFWwindow* window, int width, int height)
+        glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
             {
                 WindowData& data = *(WindowData*) glfwGetWindowUserPointer(window);
                 data.Height = height;
@@ -58,7 +58,7 @@ namespace FoxEngine{
                 data.Callback(event);
             });
 
-        glfwSetWindowCloseCallback(WindowRef, [](GLFWwindow* window)
+        glfwSetWindowCloseCallback(window, [](GLFWwindow* window)
             {
                 WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
@@ -66,7 +66,7 @@ namespace FoxEngine{
                 data.Callback(event);
             });
 
-        glfwSetKeyCallback(WindowRef, [](GLFWwindow* window, int key, int scancode, int action, int modes)
+        glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int modes)
             {
                 WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
@@ -91,7 +91,7 @@ namespace FoxEngine{
                     }
                 }
             });
-        glfwSetMouseButtonCallback(WindowRef, [](GLFWwindow* window, int button, int action, int modes) {
+        glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int modes) {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             switch (action) {
@@ -110,7 +110,7 @@ namespace FoxEngine{
             }
             });
     	
-            glfwSetCharCallback(WindowRef, [](GLFWwindow* window, unsigned int character)
+            glfwSetCharCallback(window, [](GLFWwindow* window, unsigned int character)
                 {
                     WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
@@ -118,7 +118,7 @@ namespace FoxEngine{
                     data.Callback(event);
                 });
     	
-        glfwSetScrollCallback(WindowRef, [](GLFWwindow* window, double xOffest, double yOffset) {
+        glfwSetScrollCallback(window, [](GLFWwindow* window, double xOffest, double yOffset) {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             MouseScrolledEvent event(0, 0, (float)xOffest, (float)yOffset);
@@ -126,7 +126,7 @@ namespace FoxEngine{
             });
 
 
-        glfwSetCursorPosCallback(WindowRef, [](GLFWwindow* window, double xPos, double yPos) {
+        glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xPos, double yPos) {
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             MouseMovedEvent event((float) xPos, (float)yPos);
@@ -134,24 +134,24 @@ namespace FoxEngine{
             });
     }
 
-    void WindowsWindow::Shutdown() {
-        glfwDestroyWindow(WindowRef);
+    void WindowsWindow::shutdown() {
+        glfwDestroyWindow(window);
     }
 
-    void WindowsWindow::OnUpdate() {
+    void WindowsWindow::onUpdate() {
         glfwPollEvents();
-        m_Context->SwapBuffers();
+        graphicsContext->swapBuffers();
     }
 
-    void WindowsWindow::OnRender() {}
+    void WindowsWindow::onRender() {}
 
-    void WindowsWindow::SetVSync(bool enabled) {
+    void WindowsWindow::setVSync(bool enabled) {
         glfwSwapInterval(enabled ? 1 : 0);
-        m_WindowData.VSync = enabled;
+        windowData.VSync = enabled;
     }
 
-    bool WindowsWindow::IsVSync() const {
-        return m_WindowData.VSync;
+    bool WindowsWindow::isVSync() const {
+        return windowData.VSync;
     }
 
 }

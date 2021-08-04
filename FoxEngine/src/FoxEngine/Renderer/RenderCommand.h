@@ -6,31 +6,31 @@ namespace FoxEngine
 	class RenderCommand
 	{
 	private:
-		static RendererAPI* s_RendererAPI;
+		static RendererAPI* rendererApi;
 	public:
-		inline static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
+		inline static void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
 		{
-			s_RendererAPI->DrawIndexed(vertexArray, indexCount);
+            rendererApi->drawIndexed(vertexArray, indexCount);
 		}
 
-		inline static void SetClearColor(const glm::vec4& color)
+		inline static void setClearColor(const glm::vec4& color)
 		{
-			s_RendererAPI->SetClearColor(color);
+            rendererApi->setClearColor(color);
 		}
 
-		inline static void Clear()
+		inline static void clear()
 		{
-			s_RendererAPI->Clear();
+            rendererApi->clear();
 		}
 
-		inline static void Init()
+		inline static void init()
 		{
-			s_RendererAPI->Init();
+			rendererApi->init();
 		}
 
-		inline static void SetViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+		inline static void setViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 		{
-			s_RendererAPI->SetViewPort(x, y, width, height);
+            rendererApi->setViewPort(x, y, width, height);
 		}
 	};
 }

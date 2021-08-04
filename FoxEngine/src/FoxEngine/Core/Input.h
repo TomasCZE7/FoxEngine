@@ -7,12 +7,12 @@ namespace FoxEngine
 	class Input{
 	private:
 	public:
-		static bool IsKeyPressed(int keycode);
-		static bool IsMouseButtonPressed(int button);
-		static std::pair<float, float> GetMousePosition();
-		static float GetMouseX();
-		static float GetMouseY();
-	
+		static bool isKeyPressed(int keycode);
+		static bool isMouseButtonPressed(int button);
+		static std::pair<float, float> getMousePosition();
+		static float getMouseX();
+		static float getMouseY();
+
 	};
 	
 }

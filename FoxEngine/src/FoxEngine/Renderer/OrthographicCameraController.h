@@ -14,59 +14,59 @@ namespace FoxEngine
 	
 	struct OrthographicCameraBounds
 	{
-		float Left, Right;
-		float Bottom, Top;
+		float left, right;
+		float bottom, top;
 
-		float GetWidth() { return Right - Left; }
-		float GetHeight() { return Top - Bottom; }
+		float GetWidth() { return right - left; }
+		float GetHeight() { return top - bottom; }
 	};
 
 	
 	class OrthographicCameraController
 	{
 	private:
-		float m_AspectRatio;
-		float m_ZoomLevel = 1.0f;
-		OrthographicCameraBounds m_Bounds;
-		OrthographicCamera m_Camera;
-		bool m_Rotation;
+		float aspectRatio;
+		float zoomLevel = 1.0f;
+		OrthographicCameraBounds bounds;
+		OrthographicCamera camera;
+		bool rotation;
 
-		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
-		float m_CameraRotation = 0.0f;
+		glm::vec3 cameraPosition = {0.0f, 0.0f, 0.0f };
+		float cameraRotation = 0.0f;
 		
-		float m_CameraRotationSpeed = 120.0f;
-		float m_CameraTranslationSpeed = 1.0f;
-		float m_ZoomSpeed = 0.25f;
-		float m_ZoomLevelMax = 6.0f, m_ZoomLevelMin = 0.25f;
+		float cameraRotationSpeed = 120.0f;
+		float cameraTranslationSpeed = 1.0f;
+		float zoomSpeed = 0.25f;
+		float zoomLevelMax = 6.0f, zoomLevelMin = 0.25f;
 
-		std::pair<float, float> m_LastMousePosition;
+		std::pair<float, float> lastMousePosition;
 
-		MouseState m_MouseState = MouseState::IDLE;
+		MouseState mouseState = MouseState::IDLE;
 	public:
 		OrthographicCameraController(float aspectRatio, bool rotation = false);
-		void OnUpdate(TimeStep ts);
-		void OnEvent(Event& e);
-		OrthographicCamera& GetCamera() { return m_Camera; }
-		const OrthographicCamera& GetCamera() const { return m_Camera; }
-		const OrthographicCameraBounds& GetBounds() const { return m_Bounds; }
-		const MouseState& GetMouseState() const { return m_MouseState; }
+		void onUpdate(TimeStep ts);
+		void onEvent(Event& e);
+		OrthographicCamera& getCamera() { return camera; }
+		const OrthographicCamera& getCamera() const { return camera; }
+		const OrthographicCameraBounds& getBounds() const { return bounds; }
+		const MouseState& getMouseState() const { return mouseState; }
 
 		//Setters
-		void SetCameraRotationSpeed(float cameraRotationSpeed) { m_CameraRotationSpeed = cameraRotationSpeed; }
-		void SetCameraTranslationSpeed(float cameraTranslationSpeed) { m_CameraTranslationSpeed = cameraTranslationSpeed; }
-		void SetZoomSpeed(float zoomSpeed) { m_ZoomSpeed = zoomSpeed; }
-		void SetZoomLevelMax(float zoomLevelMax) { m_ZoomLevelMax = zoomLevelMax; }
-		void SetZoomLevelMin(float zoomLevelMin) { m_ZoomLevelMin = zoomLevelMin; }
-		void SetZoomLevel(float zoomLevel) {
-			m_ZoomLevel = zoomLevel;
-			CalculateView();
+		void setCameraRotationSpeed(float cameraRotationSpeed) { cameraRotationSpeed = cameraRotationSpeed; }
+		void setCameraTranslationSpeed(float cameraTranslationSpeed) { cameraTranslationSpeed = cameraTranslationSpeed; }
+		void setZoomSpeed(float zoomSpeed) { zoomSpeed = zoomSpeed; }
+		void setZoomLevelMax(float zoomLevelMax) { zoomLevelMax = zoomLevelMax; }
+		void setZoomLevelMin(float zoomLevelMin) { zoomLevelMin = zoomLevelMin; }
+		void setZoomLevel(float zoomLevel) {
+            zoomLevel = zoomLevel;
+            calculateView();
 		}
 
-		void OnResize(float width, float height);
+		void onResize(float width, float height);
 
-		void CalculateView();
+		void calculateView();
 	private:
-		bool OnMouseScrolled(MouseScrolledEvent& e);
-		bool OnWindowResized(WindowResizedEvent& e);
+		bool onMouseScrolled(MouseScrolledEvent& e);
+		bool onWindowResized(WindowResizedEvent& e);
 	};
 }

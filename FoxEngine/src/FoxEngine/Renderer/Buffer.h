@@ -11,7 +11,7 @@ namespace FoxEngine
 		Bool
 	};
 
-	static uint32_t GetShaderDataTypeSize(ShaderDataType type)
+	static uint32_t getShaderDataTypeSize(ShaderDataType type)
 	{
 		switch(type)
 		{
@@ -34,19 +34,19 @@ namespace FoxEngine
 	struct BufferElement
 	{
 		ShaderDataType Type;
-		std::string Name;
-		uint32_t Size;
-		uint32_t Offset;
-		bool Normalized;
+		std::string name;
+		uint32_t size;
+		uint32_t offset;
+		bool normalized;
 
 		BufferElement() {}
 
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
-			: Name(name), Type(type), Size(GetShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
+			: name(name), Type(type), size(getShaderDataTypeSize(type)), offset(0), normalized(normalized)
 		{
 
 		}
-		uint32_t GetComponentCount() const
+		uint32_t getComponentCount() const
 		{
 			switch(Type)
 			{
@@ -70,35 +70,35 @@ namespace FoxEngine
 	class BufferLayout
 	{
 	private:
-		std::vector<BufferElement> m_Elements;
-		uint32_t m_Stride = 0;
+		std::vector<BufferElement> elements;
+		uint32_t stride = 0;
 	public:
 		BufferLayout() {}
 		BufferLayout(const std::initializer_list<BufferElement>& elements)
-			: m_Elements(elements)
+			: elements(elements)
 		{
-			CalculateOffsetAndStride();
+            calculateOffsetAndStride();
 		}
 
-		void CalculateOffsetAndStride()
+		void calculateOffsetAndStride()
 		{
 			uint32_t offset = 0;
-			m_Stride = 0;
-			for(auto& element : m_Elements)
+            stride = 0;
+			for(auto& element : elements)
 			{
-				element.Offset = offset;
-				offset += element.Size;
-				m_Stride += element.Size;
+				element.offset = offset;
+				offset += element.size;
+                stride += element.size;
 			}
 		}
 		
-		inline const std::vector<BufferElement>& GetElements() const { return m_Elements; }
-		inline uint32_t GetStride() const { return m_Stride; }
+		inline const std::vector<BufferElement>& getElements() const { return elements; }
+		inline uint32_t getStride() const { return stride; }
 
-		std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
-		std::vector<BufferElement>::iterator end() { return m_Elements.end(); }
-		std::vector<BufferElement>::const_iterator begin() const { return m_Elements.begin(); }
-		std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
+		std::vector<BufferElement>::iterator begin() { return elements.begin(); }
+		std::vector<BufferElement>::iterator end() { return elements.end(); }
+		std::vector<BufferElement>::const_iterator begin() const { return elements.begin(); }
+		std::vector<BufferElement>::const_iterator end() const { return elements.end(); }
 	};
 	
 	class VertexBuffer
@@ -107,15 +107,15 @@ namespace FoxEngine
 		virtual ~VertexBuffer() {
 		}
 		
-		virtual void Bind() const = 0;
-		virtual void Unbind() const  = 0;
+		virtual void bind() const = 0;
+		virtual void unbind() const  = 0;
 		
-		virtual void SetLayout(const BufferLayout& layout) = 0;
-		virtual void SetData(const void* data, uint32_t size) = 0;
-		virtual const BufferLayout& GetLayout() const  = 0;
+		virtual void setLayout(const BufferLayout& layout) = 0;
+		virtual void setData(const void* data, uint32_t size) = 0;
+		virtual const BufferLayout& getLayout() const  = 0;
 
-		static Ref<VertexBuffer> Create(uint32_t size);
-		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> create(uint32_t size);
+		static Ref<VertexBuffer> create(float* vertices, uint32_t size);
 	};
 	
 	class IndexBuffer
@@ -124,11 +124,11 @@ namespace FoxEngine
 		virtual ~IndexBuffer() {
 		}
 
-		virtual void Bind() const = 0;
-		virtual void Unbind() const = 0;
+		virtual void bind() const = 0;
+		virtual void unbind() const = 0;
 
-		virtual uint32_t GetCount() const = 0;
+		virtual uint32_t getCount() const = 0;
 
-		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
+		static Ref<IndexBuffer> create(uint32_t* indices, uint32_t size);
 	};
 }

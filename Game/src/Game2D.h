@@ -7,10 +7,10 @@ private:
 public:
 	EditorLayer();
 	virtual ~EditorLayer() = default;
-	virtual void OnAttach() override;
-	virtual void OnDetach() override;
-	virtual void OnImGuiRender() override;
-	virtual void OnEvent(FoxEngine::Event& event) override;
-	virtual void OnUpdate(FoxEngine::TimeStep timeStep) override;
+	virtual void onAttach() override;
+	virtual void onDetach() override;
+	virtual void onImGuiRender() override;
+	virtual void onEvent(FoxEngine::Event& event) override;
+	virtual void onUpdate(FoxEngine::TimeStep timeStep) override;
 };
 

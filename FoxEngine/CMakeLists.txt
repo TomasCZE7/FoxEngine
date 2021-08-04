@@ -3,15 +3,6 @@ set(PROJECT_NAME FoxEngine)
 ################################################################################
 # Source groups
 ################################################################################
-set(no_group_source_files
-    "src/FoxEngine/scene/Components.h"
-    "src/FoxEngine/scene/Entity.cpp"
-    "src/FoxEngine/scene/Entity.h"
-    "src/FoxEngine/scene/Scene.cpp"
-    "src/FoxEngine/scene/Scene.h"
-)
-source_group("" FILES ${no_group_source_files})
-
 set(src
     "src/fepch.cpp"
     "src/fepch.h"
@@ -112,6 +103,15 @@ set(src__FoxEngine__Renderer
     "src/FoxEngine/Renderer/VertexArray.h"
 )
 source_group("src\\FoxEngine\\Renderer" FILES ${src__FoxEngine__Renderer})
+
+set(src__FoxEngine__Scene
+        "src/FoxEngine/Scene/Components.h"
+        "src/FoxEngine/Scene/Entity.cpp"
+        "src/FoxEngine/Scene/Entity.h"
+        "src/FoxEngine/Scene/Scene.cpp"
+        "src/FoxEngine/Scene/Scene.h"
+        )
+source_group("src\\FoxEngine\\Scene" FILES ${src__FoxEngine__Scene})
 
 set(vendor__glm__glm
     "vendor/glm/glm/common.hpp"
@@ -555,7 +555,6 @@ set(vendor__stb_image
 source_group("vendor\\stb_image" FILES ${vendor__stb_image})
 
 set(ALL_FILES
-    ${no_group_source_files}
     ${src}
     ${src__FoxEngine__Core}
     ${src__FoxEngine__Debug}
@@ -563,6 +562,7 @@ set(ALL_FILES
     ${src__FoxEngine__ImGui}
     ${src__FoxEngine__Platform__OpenGL}
     ${src__FoxEngine__Platform__Windows}
+    ${src__FoxEngine__Scene}
     ${src__FoxEngine__Renderer}
     ${vendor__glm__glm}
     ${vendor__glm__glm__detail}
@@ -577,7 +577,7 @@ set(ALL_FILES
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
 
-add_precompiled_header(${PROJECT_NAME} "fepch.h" "src/fepch.cpp")
+target_precompile_headers(${PROJECT_NAME} PRIVATE "src/fepch.h")
 
 use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
 set(ROOT_NAMESPACE FoxEngine)

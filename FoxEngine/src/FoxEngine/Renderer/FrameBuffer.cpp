@@ -6,12 +6,12 @@
 
 namespace FoxEngine
 {
-	Ref<FrameBuffer> FrameBuffer::Create(const FrameBufferSpecification& specification)
+	Ref<FrameBuffer> FrameBuffer::create(const FrameBufferSpecification& specification)
 	{
-		switch (Renderer::GetAPI())
+		switch (Renderer::getAPI())
 		{
-			case RendererAPI::API::None: return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLFrameBuffer>(specification);
+			case RendererAPI::API::NONE: return nullptr;
+			case RendererAPI::API::OPENGL: return std::make_shared<OpenGLFrameBuffer>(specification);
 		}
 		FOX_CORE_ASSERT(false, "Unknown Rednerer API!");
 		return nullptr;

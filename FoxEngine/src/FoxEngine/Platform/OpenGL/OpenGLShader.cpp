@@ -22,91 +22,91 @@ namespace FoxEngine
 	}
 	
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
-		: m_Name(name){
+		: name(name){
 		std::unordered_map < GLenum, std::string > sources;
 		sources[GL_VERTEX_SHADER] = vertexSource;
 		sources[GL_FRAGMENT_SHADER] = fragmentSource;
-		Compile(sources);
+        compile(sources);
 
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& path)
 	{
-        std::string shaderSource = ReadFile(path);
-		auto shaderSources = PreProcess(shaderSource);
-		Compile(shaderSources);
+        std::string shaderSource = readFile(path);
+		auto shaderSources = preProcess(shaderSource);
+        compile(shaderSources);
 		auto lastSlash = path.find_last_of("/\\");
 		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
 		auto lastDot = path.rfind('.');
 		auto count = lastDot == std::string::npos ? path.size() - lastSlash : lastDot - lastSlash;
-		m_Name = path.substr(lastSlash, count);
+        name = path.substr(lastSlash, count);
 	}
 
 	OpenGLShader::~OpenGLShader()
 	{
-		glDeleteProgram(m_RendererId);
+		glDeleteProgram(rendererId);
 	}
 
-	void OpenGLShader::Bind()
+	void OpenGLShader::bind()
 	{
 		;
-		glUseProgram(m_RendererId);
+		glUseProgram(rendererId);
 	}
 
-	void OpenGLShader::Unbind()
+	void OpenGLShader::unbind()
 	{
 		glUseProgram(0);
 	}
 
-	void OpenGLShader::SetUniformInt(const std::string& name, int value)
+	void OpenGLShader::setUniformInt(const std::string& name, int value)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniform1i(location, value);
 	}
 
-	void OpenGLShader::SetUniformIntArray(const std::string& name, int* values, uint32_t count)
+	void OpenGLShader::setUniformIntArray(const std::string& name, int* values, uint32_t count)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniform1iv(location, count, values);
 	}
 
-	void OpenGLShader::SetUniformMat3(const std::string& name, const glm::mat3& matrix)
+	void OpenGLShader::setUniformMat3(const std::string& name, const glm::mat3& matrix)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void OpenGLShader::SetUniformMat4(const std::string& name, const glm::mat4& matrix)
+	void OpenGLShader::setUniformMat4(const std::string& name, const glm::mat4& matrix)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void OpenGLShader::SetUniformFloat(const std::string& name, float value)
+	void OpenGLShader::setUniformFloat(const std::string& name, float value)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniform1f(location, value);
 	}
 
-	void OpenGLShader::SetUniformFloat2(const std::string& name, const glm::vec2& values)
+	void OpenGLShader::setUniformFloat2(const std::string& name, const glm::vec2& values)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniform2f(location, values.x, values.y);
 	}
 
-	void OpenGLShader::SetUniformFloat3(const std::string& name, const glm::vec3& values)
+	void OpenGLShader::setUniformFloat3(const std::string& name, const glm::vec3& values)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniform3f(location, values.x, values.y, values.z);
 	}
 
-	void OpenGLShader::SetUniformFloat4(const std::string& name, const glm::vec4& values)
+	void OpenGLShader::setUniformFloat4(const std::string& name, const glm::vec4& values)
 	{
-		GLint location = glGetUniformLocation(m_RendererId, name.c_str());
+		GLint location = glGetUniformLocation(rendererId, name.c_str());
 		glUniform4f(location, values.x, values.y, values.z, values.w);
 	}
 
-	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
+	void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 	{
 		GLuint program = glCreateProgram();
 		FOX_CORE_ASSERT(shaderSources.size() <= 2, "Only 2 shaders supported!");
@@ -145,7 +145,7 @@ namespace FoxEngine
 			glShaderIDs[shaderIndex++] = shader;
 		}
 
-		m_RendererId = program;
+        rendererId = program;
 
 		// Link our program
 		glLinkProgram(program);
@@ -178,7 +178,7 @@ namespace FoxEngine
 	}
 
 
-	std::string OpenGLShader::ReadFile(const std::string& path)
+	std::string OpenGLShader::readFile(const std::string& path)
 	{
 		std::string result;
 		std::ifstream in(path, std::ios::in | std::ios::binary);
@@ -192,12 +192,12 @@ namespace FoxEngine
 		}
 		else
 		{
-			FOX_CORE_ERROR("", path);
+            FOX_CORE_ERROR("", path);
 		}
 		return result;
 	}
 
-	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
+	std::unordered_map<GLenum, std::string> OpenGLShader::preProcess(const std::string& source)
 	{
 		std::unordered_map<GLenum, std::string> shaderSources;
 

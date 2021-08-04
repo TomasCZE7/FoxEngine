@@ -9,18 +9,20 @@ namespace FoxEngine {
 
 	class FOX_API Layer {
 	protected:
-		std::string m_Name;
+		std::string name;
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();
 
-		virtual void OnAttach() {}
-		virtual void OnDetach() {}
-		virtual void OnUpdate(TimeStep timeStep) {}
-		virtual void OnImGuiRender() {}
-		virtual void OnEvent(Event& event) {}
+		virtual void onAttach() {}
+		virtual void onDetach() {}
+		virtual void onUpdate(TimeStep timeStep) {}
+		virtual void onImGuiRender() {}
+		virtual void onEvent(Event& event) {}
 
-		inline const std::string& GetName() const { return m_Name; }
-	};
+		inline const std::string& getName() const { return name; }
+		inline const std::string* const getNamePtr() const { return &name; }
+
+    };
 
 }

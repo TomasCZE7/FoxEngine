@@ -28,54 +28,54 @@ namespace FoxEngine
 	
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
-		glCreateVertexArrays(1, &RendererId);
+		glCreateVertexArrays(1, &rendererId);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
-		glDeleteVertexArrays(1, &RendererId);
+		glDeleteVertexArrays(1, &rendererId);
 	}
 
-	void OpenGLVertexArray::Bind() const
+	void OpenGLVertexArray::bind() const
 	{
-		glBindVertexArray(RendererId);
+		glBindVertexArray(rendererId);
 	}
 
-	void OpenGLVertexArray::Unbind() const
+	void OpenGLVertexArray::unbind() const
 	{
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
+	void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
-		FOX_ASSERT(vertexBuffer->GetLayout().GetElements().size, "Vertex buffer has no elements in the layout!");
+		FOX_ASSERT(vertexBuffer->getLayout().getElements().size, "Vertex buffer has no elements in the layout!");
 
-		glBindVertexArray(RendererId);
-		vertexBuffer->Bind();
+		glBindVertexArray(rendererId);
+        vertexBuffer->bind();
 		
 		uint32_t index = 0;
-		const auto& layout = vertexBuffer->GetLayout();
+		const auto& layout = vertexBuffer->getLayout();
 		for (const auto& element : layout)
 		{
 				glEnableVertexAttribArray(index);
 				glVertexAttribPointer(index,
-				element.GetComponentCount(),
+                                      element.getComponentCount(),
 				ShaderDataTypeToOpenGLType(element.Type),
-				element.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.Offset);
+                                      element.normalized ? GL_TRUE : GL_FALSE,
+                                      layout.getStride(),
+				(const void*)element.offset);
 			
 			index++;
 		}
-		
-		m_VertexBuffers.push_back(vertexBuffer);
+
+        vertexBuffers.push_back(vertexBuffer);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
+	void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
-		glBindVertexArray(RendererId);
-		indexBuffer->Bind();
+		glBindVertexArray(rendererId);
+        indexBuffer->bind();
 
-		m_IndexBuffer = indexBuffer;
+        this->indexBuffer = indexBuffer;
 	}
 }

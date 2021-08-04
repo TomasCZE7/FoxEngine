@@ -10,24 +10,21 @@
 namespace FoxEngine
 {
 
-	Application* Application::s_Instance = nullptr;
+	Application* Application::instance = nullptr;
 
 	Application::Application(const std::string& name)
 	{
-		FOX_ASSERT(!s_Instance, "Application already exists!")
-		s_Instance = this;
+		FOX_ASSERT(!instance, "Application already exists!")
+		instance = this;
 
 		FOX_CORE_DEBUG("Application was created.");
-        m_WindowPtr = std::unique_ptr<Window>(Window::Create(WindowProperties(name)));
-		m_WindowPtr->SetEventCallback(FOX_BIND_EVENT_FUNCTION(Application::OnEvent));
+        window = std::unique_ptr<Window>(Window::create(WindowProperties(name)));
+        window->setEventCallback(FOX_BIND_EVENT_FUNCTION(Application::onEvent));
 
-        std::filesystem::path p = std::filesystem::current_path();
-        FOX_CORE_DEBUG("Path: {0}", p);
+        Renderer::init();
 
-        Renderer::Init();
-
-		m_ImGuiLayer = new ImGuiLayer();
-		PushOverlay(m_ImGuiLayer);
+        imGuiLayer = new ImGuiLayer();
+        pushOverlay(imGuiLayer);
 	}
 
 	Application::~Application()
@@ -35,73 +32,73 @@ namespace FoxEngine
 
 	}
 	
-	void Application::Run()
+	void Application::run()
 	{
 		FOX_CORE_DEBUG("Application started.");
-		while(Running)
+		while(running)
 		{
 			float time = (float) glfwGetTime();
-			TimeStep timestep = time - m_LastFrameTime;
-			m_LastFrameTime = time;
+			TimeStep timestep = time - lastFrameTime;
+            lastFrameTime = time;
 			//Updating
-			if (!m_Minimized) {
-				for (Layer* layer : m_LayerStack) {
-					layer->OnUpdate(timestep);
+			if (!minimized) {
+				for (Layer* layer : layerStack) {
+                    layer->onUpdate(timestep);
 				}
 			}
 
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack) {
-				layer->OnImGuiRender();
+            imGuiLayer->begin();
+			for (Layer* layer : layerStack) {
+                layer->onImGuiRender();
 			}
-			m_ImGuiLayer->End();
-			
-			
-            m_WindowPtr->OnUpdate();
+            imGuiLayer->end();
+
+
+            window->onUpdate();
 		}
 	}
 
-	void Application::OnEvent(Event& event) {
+	void Application::onEvent(Event& event) {
 		EventCaster caster(event);
-		caster.Cast<WindowClosedEvent>(FOX_BIND_EVENT_FUNCTION(Application::OnWindowClosed));
-		caster.Cast<WindowResizedEvent>(FOX_BIND_EVENT_FUNCTION(Application::OnWindowResized));
+        caster.cast<WindowClosedEvent>(FOX_BIND_EVENT_FUNCTION(Application::onWindowClosed));
+        caster.cast<WindowResizedEvent>(FOX_BIND_EVENT_FUNCTION(Application::onWindowResized));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
+		for (auto it = layerStack.end(); it != layerStack.begin();) {
 
-			(*--it)->OnEvent(event);
-			if (event.IsHandled()) {
+            (*--it)->onEvent(event);
+			if (event.isHandled()) {
 				break;
 			}
 
 		}
 	}
 
-	bool Application::OnWindowClosed(WindowClosedEvent& event) {
-		Running = false;
+	bool Application::onWindowClosed(WindowClosedEvent& event) {
+        running = false;
 		return true;
 	}
 
-	bool Application::OnWindowResized(WindowResizedEvent& event)
+	bool Application::onWindowResized(WindowResizedEvent& event)
 	{
-		if(event.GetWidth() == 0 || event.GetHeight() == 0)
+		if(event.getWidth() == 0 || event.getHeight() == 0)
 		{
-			m_Minimized = true;
+            minimized = true;
 			return false;
 		}
 
-		m_Minimized = false;
-		Renderer::OnWindowResized(event.GetWidth(), event.GetHeight());
+        minimized = false;
+        Renderer::onWindowResized(event.getWidth(), event.getHeight());
 		return false;
 	}
 
-	void Application::PushLayer(Layer* layer) {
-		m_LayerStack.PushLayer(layer);
-		layer->OnAttach();
+	void Application::pushLayer(Layer* layer) {
+        layerStack.pushLayer(layer);
+        layer->onAttach();
 	}
 
-	void Application::PushOverlay(Layer* layer) {
-		m_LayerStack.PushOverlay(layer);
-		layer->OnAttach();
+	void Application::pushOverlay(Layer* layer) {
+        layerStack.pushOverlay(layer);
+        layer->onAttach();
 	}
 
 }

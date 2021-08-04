@@ -10,8 +10,8 @@ namespace FoxEngine
 	
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size)
 	{
-		glCreateBuffers(1, &RendererId);
-		glBindBuffer(GL_ARRAY_BUFFER, RendererId);
+		glCreateBuffers(1, &rendererId);
+		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
@@ -19,30 +19,30 @@ namespace FoxEngine
 	{
 		FOX_PROFILE_FUNCTION();
 		
-		glCreateBuffers(1, &RendererId);
-		glBindBuffer(GL_ARRAY_BUFFER, RendererId);
+		glCreateBuffers(1, &rendererId);
+		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 
 	}
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
-		glDeleteBuffers(1, &RendererId);
+		glDeleteBuffers(1, &rendererId);
 	}
 
-	void OpenGLVertexBuffer::Bind() const
+	void OpenGLVertexBuffer::bind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, RendererId);
+		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 	}
 
-	void OpenGLVertexBuffer::Unbind() const
+	void OpenGLVertexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+	void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, RendererId);
+		glBindBuffer(GL_ARRAY_BUFFER, rendererId);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
@@ -50,24 +50,24 @@ namespace FoxEngine
 	//IndexBuffer -----------------------------------
 	
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
-		: Count(count)
+		: count(count)
 	{
-		glCreateBuffers(1, &RendererId);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, RendererId);
+		glCreateBuffers(1, &rendererId);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
-		glDeleteBuffers(1, &RendererId);
+		glDeleteBuffers(1, &rendererId);
 	}
 
-	void OpenGLIndexBuffer::Bind() const
+	void OpenGLIndexBuffer::bind() const
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, RendererId);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId);
 	}
 
-	void OpenGLIndexBuffer::Unbind() const
+	void OpenGLIndexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

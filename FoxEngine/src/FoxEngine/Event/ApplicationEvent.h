@@ -14,8 +14,8 @@ namespace FoxEngine {
         }
         DEFINE_EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION);
 
-        virtual std::string ToString() const override {
-            return GetName();
+        virtual std::string toString() const override {
+            return getName();
         };
     };
 
@@ -33,8 +33,8 @@ namespace FoxEngine {
         }
         DEFINE_EVENT_CLASS_TYPE(APPLICATION_CONNECTED)
 
-        virtual std::string ToString() const override {
-            return GetName();
+        virtual std::string toString() const override {
+            return getName();
         }
     };
 
@@ -46,8 +46,8 @@ namespace FoxEngine {
 
         DEFINE_EVENT_CLASS_TYPE(APPLICATION_TICKED);
 
-        virtual std::string ToString() const override {
-            return GetName();
+        virtual std::string toString() const override {
+            return getName();
         }
     };
 
@@ -59,8 +59,8 @@ namespace FoxEngine {
 
         DEFINE_EVENT_CLASS_TYPE(APPLICATION_UPDATED);
 
-        virtual std::string ToString() const override {
-            return GetName();
+        virtual std::string toString() const override {
+            return getName();
         }
     };
 
@@ -72,8 +72,8 @@ namespace FoxEngine {
 
         DEFINE_EVENT_CLASS_TYPE(APPLICATION_RENDERED);
 
-        virtual std::string ToString() const override {
-            return GetName();
+        virtual std::string toString() const override {
+            return getName();
         }
     };
 

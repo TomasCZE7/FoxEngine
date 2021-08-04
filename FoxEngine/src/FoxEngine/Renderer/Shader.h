@@ -11,38 +11,38 @@
 	public:
 		virtual ~Shader() = default;
 
-		virtual void Bind() = 0;
-		virtual void Unbind() = 0;
+		virtual void bind() = 0;
+		virtual void unbind() = 0;
 
-		virtual void SetUniformInt(const std::string& name, int value) = 0;
-		virtual void SetUniformIntArray(const std::string& name, int* values, uint32_t count) = 0;
+		virtual void setUniformInt(const std::string& name, int value) = 0;
+		virtual void setUniformIntArray(const std::string& name, int* values, uint32_t count) = 0;
 
-		virtual void SetUniformMat3(const std::string& name, const glm::mat3& matrix) = 0;
-		virtual void SetUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
+		virtual void setUniformMat3(const std::string& name, const glm::mat3& matrix) = 0;
+		virtual void setUniformMat4(const std::string& name, const glm::mat4& matrix) = 0;
 
-		virtual void SetUniformFloat(const std::string& name, float value)= 0;
-		virtual void SetUniformFloat2(const std::string& name, const glm::vec2& values) = 0;
-		virtual void SetUniformFloat3(const std::string& name, const glm::vec3& values) = 0;
-		virtual void SetUniformFloat4(const std::string& name, const glm::vec4& values) = 0;
+		virtual void setUniformFloat(const std::string& name, float value)= 0;
+		virtual void setUniformFloat2(const std::string& name, const glm::vec2& values) = 0;
+		virtual void setUniformFloat3(const std::string& name, const glm::vec3& values) = 0;
+		virtual void setUniformFloat4(const std::string& name, const glm::vec4& values) = 0;
 
-		virtual const std::string& GetName() const = 0;
+		virtual const std::string& getName() const = 0;
 		
-		static Ref<Shader> Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
-		static Ref<Shader> Create(const std::string& path);
+		static Ref<Shader> create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
+		static Ref<Shader> create(const std::string& path);
 
 	};
 
  	class ShaderLibrary
  	{
 	private:
- 		//<Name, Shader>
-		std::unordered_map<std::string, Ref<Shader>> m_Shaders;
+ 		//<name, Shader>
+		std::unordered_map<std::string, Ref<Shader>> shaders;
  	public:
-		void Add(const Ref<Shader>& shader);
-		void Add(const std::string& name, const Ref<Shader>& shader);
-		Ref<Shader> Load(const std::string& name, const std::string& filepath);
-		Ref<Shader> Load(const std::string& filepath);
+		void add(const Ref<Shader>& shader);
+		void add(const std::string& name, const Ref<Shader>& shader);
+		Ref<Shader> load(const std::string& name, const std::string& filepath);
+		Ref<Shader> load(const std::string& filepath);
 
-		Ref<Shader> Get(const std::string& name);
+		Ref<Shader> getByName(const std::string& name);
  	};
 }

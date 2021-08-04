@@ -12,7 +12,7 @@ namespace FoxEngine {
     {
         std::string Name;
         long long Start, End;
-        uint32_t ThreadID;
+        uint32_t ThreadId;
     };
 
     struct InstrumentationSession
@@ -23,65 +23,65 @@ namespace FoxEngine {
     class Instrumentor
     {
     private:
-        InstrumentationSession* m_CurrentSession;
-        std::ofstream m_OutputStream;
-        int m_ProfileCount;
+        InstrumentationSession* currentSession;
+        std::ofstream outputStream;
+        int profileCount;
     public:
         Instrumentor()
-            : m_CurrentSession(nullptr), m_ProfileCount(0)
+            : currentSession(nullptr), profileCount(0)
         {
         }
 
-        void BeginSession(const std::string& name, const std::string& filepath = "results.json")
+        void beginSession(const std::string& name, const std::string& filepath = "results.json")
         {
-            m_OutputStream.open(filepath);
-            WriteHeader();
-            m_CurrentSession = new InstrumentationSession{ name };
+            outputStream.open(filepath);
+            writeHeader();
+            currentSession = new InstrumentationSession{ name };
         }
 
-        void EndSession()
+        void endSession()
         {
-            WriteFooter();
-            m_OutputStream.close();
-            delete m_CurrentSession;
-            m_CurrentSession = nullptr;
-            m_ProfileCount = 0;
+            writeFooter();
+            outputStream.close();
+            delete currentSession;
+            currentSession = nullptr;
+            profileCount = 0;
         }
 
-        void WriteProfile(const ProfileResult& result)
+        void writeProfile(const ProfileResult& result)
         {
-            if (m_ProfileCount++ > 0)
-                m_OutputStream << ",";
+            if (profileCount++ > 0)
+                outputStream << ",";
 
             std::string name = result.Name;
             std::replace(name.begin(), name.end(), '"', '\'');
 
-            m_OutputStream << "{";
-            m_OutputStream << "\"cat\":\"function\",";
-            m_OutputStream << "\"dur\":" << (result.End - result.Start) << ',';
-            m_OutputStream << "\"name\":\"" << name << "\",";
-            m_OutputStream << "\"ph\":\"X\",";
-            m_OutputStream << "\"pid\":0,";
-            m_OutputStream << "\"tid\":" << result.ThreadID << ",";
-            m_OutputStream << "\"ts\":" << result.Start;
-            m_OutputStream << "}";
+            outputStream << "{";
+            outputStream << "\"cat\":\"function\",";
+            outputStream << "\"dur\":" << (result.End - result.Start) << ',';
+            outputStream << "\"name\":\"" << name << "\",";
+            outputStream << "\"ph\":\"X\",";
+            outputStream << "\"pid\":0,";
+            outputStream << "\"tid\":" << result.ThreadId << ",";
+            outputStream << "\"ts\":" << result.Start;
+            outputStream << "}";
 
-            m_OutputStream.flush();
+            outputStream.flush();
         }
 
-        void WriteHeader()
+        void writeHeader()
         {
-            m_OutputStream << "{\"otherData\": {},\"traceEvents\":[";
-            m_OutputStream.flush();
+            outputStream << "{\"otherData\": {},\"traceEvents\":[";
+            outputStream.flush();
         }
 
-        void WriteFooter()
+        void writeFooter()
         {
-            m_OutputStream << "]}";
-            m_OutputStream.flush();
+            outputStream << "]}";
+            outputStream.flush();
         }
 
-        static Instrumentor& Get()
+        static Instrumentor& getInstance()
         {
             static Instrumentor instance;
             return instance;
@@ -92,40 +92,40 @@ namespace FoxEngine {
     {
     public:
         InstrumentationTimer(const char* name)
-            : m_Name(name), m_Stopped(false)
+            : name(name), stopped(false)
         {
-            m_StartTimepoint = std::chrono::high_resolution_clock::now();
+            startTimePoint = std::chrono::high_resolution_clock::now();
         }
 
         ~InstrumentationTimer()
         {
-            if (!m_Stopped)
+            if (!stopped)
                 Stop();
         }
 
         void Stop()
         {
-            auto endTimepoint = std::chrono::high_resolution_clock::now();
+            auto endTimePoint = std::chrono::high_resolution_clock::now();
 
-            long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_StartTimepoint).time_since_epoch().count();
-            long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimepoint).time_since_epoch().count();
+            long long start = std::chrono::time_point_cast<std::chrono::microseconds>(startTimePoint).time_since_epoch().count();
+            long long end = std::chrono::time_point_cast<std::chrono::microseconds>(endTimePoint).time_since_epoch().count();
 
-            uint32_t threadID = std::hash<std::thread::id>{}(std::this_thread::get_id());
-            Instrumentor::Get().WriteProfile({ m_Name, start, end, threadID });
+            uint32_t threadId = std::hash<std::thread::id>{}(std::this_thread::get_id());
+            Instrumentor::getInstance().writeProfile({name, start, end, threadId});
 
-            m_Stopped = true;
+            stopped = true;
         }
     private:
-        const char* m_Name;
-        std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimepoint;
-        bool m_Stopped;
+        const char* name;
+        std::chrono::time_point<std::chrono::high_resolution_clock> startTimePoint;
+        bool stopped;
     };
 }
 
 #define FOX_PROFILE 1
 #if FOX_PROFILE
-#define FOX_PROFILE_BEGIN_SESSION(name, filepath) ::FoxEngine::Instrumentor::Get().BeginSession(name, filepath)
-#define FOX_PROFILE_END_SESSION() ::FoxEngine::Instrumentor::Get().EndSession()
+#define FOX_PROFILE_BEGIN_SESSION(name, filepath) ::FoxEngine::Instrumentor::getInstance().beginSession(name, filepath)
+#define FOX_PROFILE_END_SESSION() ::FoxEngine::Instrumentor::getInstance().endSession()
 #define FOX_PROFILE_SCOPE(name) ::FoxEngine::InstrumentationTimer timer##__LINE__(name)
 #define FOX_PROFILE_FUNCTION() FOX_PROFILE_SCOPE(__FUNCSIG__)
 #else
