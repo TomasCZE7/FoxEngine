@@ -173,24 +173,24 @@ void Game2D::OnUpdate(FoxEngine::TimeStep timeStep)
         FoxEngine::RenderCommand::clear();
 	}
     FoxEngine::Renderer2D::resetStats();
-	/*	FoxEngine::Renderer2D::beginScene(m_CameraController.getCamera());
+	/*	FoxEngine::Renderer2D::beginScene(cameraController.getCamera());
 	{
 		FOX_PROFILE_SCOPE("Render drawing");
 		FoxEngine::Renderer2D::drawQuad({ -1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
 		FoxEngine::Renderer2D::drawQuad({ -1.0f, 0.5f }, { 0.5f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-		FoxEngine::Renderer2D::drawQuad({ 0.0f, 0.5f, 0.1f }, { 0.5f, 0.8f }, m_MinecraftGrassTexture);
+		FoxEngine::Renderer2D::drawQuad({ 0.0f, 0.5f, 0.1f }, { 0.5f, 0.8f }, minecraftGrassTexture);
 		FoxEngine::Renderer2D::drawRotatedQuad({ 0.5f, -0.5f }, { 0.8f, 0.8f }, glm::radians(84.0f), { 0.8f, 0.2f, 0.3f, 1.0f });
-		FoxEngine::Renderer2D::drawRotatedQuad({ 0.0f, -0.5f, 0.1f }, { 0.8f, 0.8f }, glm::radians(55.0f), m_MinecraftGrassTexture, { 0.2, 0.8, 0.3, 0.7 });
-		FoxEngine::Renderer2D::drawQuad({ 1.0f, 1.0f, 0.1f }, { 0.8f, 0.8f }, m_MinecraftGrassTexture, { 0.2, 0.3, 0.8, 0.9 }, 2.0f	);
+		FoxEngine::Renderer2D::drawRotatedQuad({ 0.0f, -0.5f, 0.1f }, { 0.8f, 0.8f }, glm::radians(55.0f), minecraftGrassTexture, { 0.2, 0.8, 0.3, 0.7 });
+		FoxEngine::Renderer2D::drawQuad({ 1.0f, 1.0f, 0.1f }, { 0.8f, 0.8f }, minecraftGrassTexture, { 0.2, 0.3, 0.8, 0.9 }, 2.0f	);
 	}
 
 	FoxEngine::Renderer2D::endScene();*/
 
     FoxEngine::Renderer2D::beginScene(m_CameraController.getCamera());
-//	FoxEngine::Renderer2D::drawQuad({ 0.0f, 0.0f}, { 1.0f, 1.0f }, m_GrassTexture);
-//	FoxEngine::Renderer2D::drawQuad({ 1.0f, 0.0f}, { 1.0f, 1.0f }, m_DirtTexture);
-//	FoxEngine::Renderer2D::drawQuad({ 0.0f, 1.0f}, { 1.0f, 1.0f }, m_WaterTexture);
-//	FoxEngine::Renderer2D::drawQuad({ 1.0f, 1.0f}, { 1.0f, 1.0f }, m_AirTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 0.0f, 0.0f}, { 1.0f, 1.0f }, grassTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 1.0f, 0.0f}, { 1.0f, 1.0f }, dirtTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 0.0f, 1.0f}, { 1.0f, 1.0f }, waterTexture);
+//	FoxEngine::Renderer2D::drawQuad({ 1.0f, 1.0f}, { 1.0f, 1.0f }, airTexture);
 
 	for(uint32_t y = 0; y < s_MapHeight; y++)
 	{

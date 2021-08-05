@@ -6,31 +6,30 @@ namespace FoxEngine
 	class EditorLayer : public Layer
 	{
 	private:
-		OrthographicCameraController m_CameraController;
-		Ref<Shader> m_Shader;
-		Ref<Texture> m_Texture;
-		Ref<VertexArray> m_VertexArray;
-		Ref<FrameBuffer> m_FrameBuffer;
+		OrthographicCameraController cameraController;
+		Ref<Shader> shader;
+		Ref<Texture> texture;
+		Ref<FrameBuffer> frameBuffer;
 
-		Ref<Texture2D> m_MinecraftGrassTexture;
-		Ref<Texture2D> m_SpriteSheet;
-		Ref<Texture2D> m_BackgroundSpriteSheet;
-		Ref<SubTexture2D> m_WaterTexture, m_GrassTexture, m_DirtTexture, m_AirTexture, m_CoinTexture, m_CoinFlippedTexture;
+		Ref<Texture2D> minecraftGrassTexture;
+		Ref<Texture2D> spriteSheet;
+		Ref<Texture2D> backgroundSpriteSheet;
+		Ref<SubTexture2D> waterTexture, grassTexture, dirtTexture, airTexture, coinTexture, coinFlippedTexture;
 
-		Ref<Scene> m_ActiveScene;
+		Ref<Scene> activeScene;
 		
-		std::unordered_map<char, Ref<SubTexture2D>> s_TextureMap;
+		std::unordered_map<char, Ref<SubTexture2D>> textureMap;
 
-		glm::vec4 m_Color = { 0.2f, 0.8f, 0.3f, 0.1f };
+		glm::vec4 color = {0.2f, 0.8f, 0.3f, 0.1f };
 
-		glm::vec2 m_ViewPortSize;
-		bool m_ViewPortFocused = false;
-		bool m_ViewPortHovered = false;
+		glm::vec2 viewPortSize;
+		bool viewPortFocused = false;
+		bool viewPortHovered = false;
 		
-		std::vector<float> m_TimeSteps;
-		int32_t m_TimeStepsMaxCount = 120;
-		float m_LongestTimeStep = -1;
-		float m_TimeStepAverage = -1;
+		std::vector<float> timeSteps;
+		int32_t timeStepMaxCount = 120;
+		float longestTimeStep = -1.0f;
+		float timeStepAverage = -1.0f;
 	public:
 		EditorLayer();
 		virtual ~EditorLayer() = default;

@@ -2,64 +2,34 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <stdlib.h>
 
 #include "imgui/imgui.h"
 
 namespace FoxEngine
 {
 	EditorLayer::EditorLayer()
-		: Layer("EditorLayer"), m_CameraController(1280.0f / 720.0f, true) {
+		: Layer("EditorLayer"), cameraController(1280.0f / 720.0f, true) {
 	}
-
-	static const uint32_t s_MapWidth = 24;
-	static const uint32_t s_MapHeight = 11;
-
-	static const char* s_MapTiles =
-		"000000000000000000000000"
-		"000000000000000000000000"
-		"GGG000000000000000000000"
-		"DDDGG0000000C000000GGGGG"
-		"DDDDDGGG000GGG00GGGDDDDD"
-		"DDDDDDDDWWWWWWWWWDDDDDDD"
-		"DDDDDDDDDDWWWDDDDDDDDDDD"
-		"DDDDDDDDDDDDDDDDDDDDDDDD"
-		"DDDDDDDDDDDDDDDDDDDDDDDD"
-		"DDDDDDDDDDDDDDDDDDDDDDDD"
-		"DDDDDDDDDDDDDDDDDDDDDDDD"
-		;
 
 	void EditorLayer::onAttach()
 	{
-		m_MinecraftGrassTexture = Texture2D::create("assets/textures/minecraft_texture.png");
-		m_SpriteSheet = Texture2D::create("assets/textures/platformer_tilemap.png");
-		m_BackgroundSpriteSheet = Texture2D::create("assets/textures/background_tilemap.png");
+        minecraftGrassTexture = Texture2D::create("assets/textures/minecraft_texture.png");
+        spriteSheet = Texture2D::create("assets/textures/platformer_tilemap.png");
 
-		m_GrassTexture = SubTexture2D::createFromCoords(m_SpriteSheet, {2, 8}, {18, 18});
-		m_DirtTexture = SubTexture2D::createFromCoords(m_SpriteSheet, {2, 2}, {18, 18});
-		m_WaterTexture = SubTexture2D::createFromCoords(m_SpriteSheet, {13, 5}, {18, 18});
-		m_AirTexture = SubTexture2D::createFromCoords(m_BackgroundSpriteSheet, {0, 1}, {24, 24});
-		m_CoinTexture = SubTexture2D::createFromCoords(m_SpriteSheet, {11, 1}, {18, 18});
-		m_CoinFlippedTexture = SubTexture2D::createFromCoords(m_SpriteSheet, {12, 1}, {18, 18});
-
-
-		s_TextureMap['0'] = m_AirTexture;
-		s_TextureMap['G'] = m_GrassTexture;
-		s_TextureMap['D'] = m_DirtTexture;
-		s_TextureMap['W'] = m_WaterTexture;
-		s_TextureMap['C'] = m_CoinTexture;
+        dirtTexture = SubTexture2D::createFromCoords(spriteSheet, {2, 2}, {18, 18});
+        waterTexture = SubTexture2D::createFromCoords(spriteSheet, {13, 5}, {18, 18});
 
 		FrameBufferSpecification specification;
 		specification.width = 1280;
 		specification.height = 720;
 
-		m_FrameBuffer = FrameBuffer::create(specification);
+        frameBuffer = FrameBuffer::create(specification);
 
-        m_CameraController.setZoomLevel(5.0f);
+        cameraController.setZoomLevel(5.0f);
 
-		m_ActiveScene = createRef<Scene>();
+        activeScene = createRef<Scene>();
 		
-		Entity square = m_ActiveScene->createEntity();
+		Entity square = activeScene->createEntity();
         square.addComponent<SpriteRendererComponent>(glm::vec4{0.2f, 0.8f, 0.3f, 1.0f});
 	}
 
@@ -148,40 +118,51 @@ namespace FoxEngine
 		ImGui::End();
 
 		ImGui::Begin("Renderer performance");
-		float* p = &m_TimeSteps[0];
+		float* p = &timeSteps[0];
 		ImVec2 performanceSize = ImGui::GetContentRegionAvail();
-		if(m_CameraController.getMouseState() == MouseState::MOVING_CAMERA)
+		if(cameraController.getMouseState() == MouseState::MOVING_CAMERA)
 		{
 			ImGui::SetMouseCursor(ImGuiMouseCursor_ResizeAll);
 		}
-		//ImGui::GetForegroundDrawList()->AddImage((void*)m_MinecraftGrassTexture->getRendererId(), { io.MousePos.x - 25 , io.MousePos.y - 25 }, { io.MousePos.x + 25 , io.MousePos.y + 25 }, {0,1}, {1, 0});
-		ImGui::PlotLines("Framerate (ms)", p, m_TimeSteps.size(), 0, 0, 0, 100, ImVec2{ performanceSize.x, 128 });
+		//ImGui::GetForegroundDrawList()->AddImage((void*)minecraftGrassTexture->getRendererId(), { io.MousePos.x - 25 , io.MousePos.y - 25 }, { io.MousePos.x + 25 , io.MousePos.y + 25 }, {0,1}, {1, 0});
+		ImGui::PlotLines("Framerate (ms)", p, timeSteps.size(), 0, "Framerate (ms)", 0, 100, ImVec2{performanceSize.x, 128 });
 		if(ImGui::Button("Toggle pause"))
 		{
 			stopGraph = !stopGraph;
 		}
 
-		ImGui::SliderInt("TimeStep count", &m_TimeStepsMaxCount, 2, 1000);
+		ImGui::SliderInt("TimeStep count", &timeStepMaxCount, 2, 1000);
 
-		ImGui::Text("Framerate: %f ms", m_TimeSteps[m_TimeSteps.size() - 1]);
-		ImGui::Text("Longest frame: %f ms", m_LongestTimeStep);
+        if (timeSteps.size() != 0) {
+            timeStepAverage = std::accumulate( timeSteps.begin(), timeSteps.end(), 0.0) / timeSteps.size();
+        }
+
+		ImGui::Text("Framerate: %f ms", timeSteps[timeSteps.size() - 1]);
+		ImGui::Text("Longest frame: %f ms", longestTimeStep);
+		if(timeStepAverage < 17.5f){
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(50, 200, 50, 255));
+		} else{
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(225, 50, 50, 255));
+        }
+		ImGui::Text("Last %d average: %f ms", timeStepMaxCount, timeStepAverage);
+        ImGui::PopStyleColor();
 		ImGui::End();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Scene");
-		m_ViewPortFocused = ImGui::IsWindowFocused();
-		m_ViewPortHovered = ImGui::IsWindowHovered();
-        Application::getInstance().getImGuiLayer()->SetBlockEvents(!m_ViewPortFocused || !m_ViewPortHovered);
+        viewPortFocused = ImGui::IsWindowFocused();
+        viewPortHovered = ImGui::IsWindowHovered();
+        Application::getInstance().getImGuiLayer()->SetBlockEvents(!viewPortFocused || !viewPortHovered);
 
-		ImVec2 viewPortSize = ImGui::GetContentRegionAvail();
-		if(m_ViewPortSize != *((glm::vec2*)&viewPortSize))
+		ImVec2 imViewPortSize = ImGui::GetContentRegionAvail();
+		if(this->viewPortSize != *((glm::vec2*)&imViewPortSize))
 		{
-			m_ViewPortSize = { viewPortSize.x, viewPortSize.y };
-            m_FrameBuffer->resize((uint32_t) m_ViewPortSize.x, (uint32_t) m_ViewPortSize.y);
-            m_CameraController.onResize(m_ViewPortSize.x, m_ViewPortSize.y);
+            this->viewPortSize = {imViewPortSize.x, imViewPortSize.y };
+            frameBuffer->resize((uint32_t) this->viewPortSize.x, (uint32_t) imViewPortSize.y);
+            cameraController.onResize(this->viewPortSize.x, this->viewPortSize.y);
 		}
-		uint32_t textureId = m_FrameBuffer->getColorAttachmentRendererId();
-		ImGui::Image((void*)textureId, { m_ViewPortSize.x, m_ViewPortSize.y }, ImVec2{ 0,1 }, ImVec2{ 1,0 });
+		uint32_t textureId = frameBuffer->getColorAttachmentRendererId();
+		ImGui::Image((void*)textureId, {this->viewPortSize.x, this->viewPortSize.y }, ImVec2{0, 1 }, ImVec2{1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
 		
@@ -190,9 +171,8 @@ namespace FoxEngine
 
 	void EditorLayer::onEvent(Event& event)
 	{
-        m_CameraController.onEvent(event);
+        cameraController.onEvent(event);
 	}
-
 
 	int32_t animation = 0; //todo
 	void EditorLayer::onUpdate(TimeStep timeStep)
@@ -204,58 +184,37 @@ namespace FoxEngine
 		
 		animation++;
 
-		if(timeStep > m_LongestTimeStep)
-		    m_LongestTimeStep = timeStep;
+		if(timeStep > longestTimeStep)
+            longestTimeStep = timeStep;
 		FOX_PROFILE_FUNCTION();
-		if(m_ViewPortFocused && m_ViewPortHovered)
-            m_CameraController.onUpdate(timeStep);
+		if(viewPortFocused && viewPortHovered)
+            cameraController.onUpdate(timeStep);
 		{
 			FOX_PROFILE_SCOPE("Render preparation");
-            m_FrameBuffer->bind();
+            frameBuffer->bind();
             RenderCommand::setClearColor({0.1f, 0.1f, 0.1f, 1});
             RenderCommand::clear();
 		}
         Renderer2D::resetStats();
 
-        Renderer2D::beginScene(m_CameraController.getCamera());
+        Renderer2D::beginScene(cameraController.getCamera());
 
-/*		for (uint32_t y = 0; y < s_MapHeight; y++)
-		{
-			for (uint32_t x = 0; x < s_MapWidth; x++)
-			{
-				char tile = s_MapTiles[x + y * s_MapWidth];
-				Ref<SubTexture2D> subTexture;
-				if (s_TextureMap.find(tile) != s_TextureMap.end())
-				{
-					subTexture = s_TextureMap[tile];
-				}
-				if (tile == 'C')
-				{
-					if (animation < 0)
-					{
-						subTexture = m_CoinFlippedTexture;
-					}
-					Renderer2D::drawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.0f }, { 1.0f, 1.0f }, m_AirTexture);
-				}
-				Renderer2D::drawQuad({ s_MapWidth - x - s_MapWidth / 2.0f, s_MapHeight - y - s_MapHeight / 2.0f, 0.5f }, { 1.0f, 1.0f }, subTexture);
-			}
-		}*/
-        m_ActiveScene->onUpdate(timeStep);
+        activeScene->onUpdate(timeStep);
 
         Renderer2D::endScene();
-        m_FrameBuffer->unbind();
+        frameBuffer->unbind();
 
 		if(!stopGraph)
 		{
-			if (m_TimeSteps.size() == m_TimeStepsMaxCount)
+			if (timeSteps.size() == timeStepMaxCount)
 			{
-				m_TimeSteps.erase(m_TimeSteps.begin());
-			} else if(m_TimeSteps.size() > m_TimeStepsMaxCount)
+				timeSteps.erase(timeSteps.begin());
+			} else if(timeSteps.size() > timeStepMaxCount)
 			{
-				m_TimeSteps.erase(m_TimeSteps.begin());
-				m_TimeSteps.erase(m_TimeSteps.begin());
+				timeSteps.erase(timeSteps.begin());
+				timeSteps.erase(timeSteps.begin());
 			}
-			m_TimeSteps.push_back(timeStep);
+			timeSteps.push_back(timeStep);
 		}
 	}
 
