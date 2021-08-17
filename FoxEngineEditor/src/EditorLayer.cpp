@@ -31,6 +31,9 @@ namespace FoxEngine
 		
 		Entity square = activeScene->createEntity();
         square.addComponent<SpriteRendererComponent>(glm::vec4{0.2f, 0.8f, 0.3f, 1.0f});
+
+        cameraEntity = activeScene->createEntity("Camera");
+        square.addComponent<CameraComponent>();
 	}
 
 	void EditorLayer::onDetach()
@@ -160,6 +163,7 @@ namespace FoxEngine
             this->viewPortSize = {imViewPortSize.x, imViewPortSize.y };
             frameBuffer->resize((uint32_t) this->viewPortSize.x, (uint32_t) imViewPortSize.y);
             cameraController.onResize(this->viewPortSize.x, this->viewPortSize.y);
+            activeScene->onViewportResize((uint32_t) this->viewPortSize.x, (uint32_t) imViewPortSize.y);
 		}
 		uint32_t textureId = frameBuffer->getColorAttachmentRendererId();
 		ImGui::Image((void*)textureId, {this->viewPortSize.x, this->viewPortSize.y }, ImVec2{0, 1 }, ImVec2{1, 0 });
@@ -196,8 +200,6 @@ namespace FoxEngine
             RenderCommand::clear();
 		}
         Renderer2D::resetStats();
-
-        Renderer2D::beginScene(cameraController.getCamera());
 
         activeScene->onUpdate(timeStep);
 

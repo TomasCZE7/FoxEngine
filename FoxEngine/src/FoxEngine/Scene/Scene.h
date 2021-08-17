@@ -11,6 +11,8 @@ namespace FoxEngine
 	{
 	private:
 		entt::registry registry;
+
+		uint32_t viewportWidth = 0, viewportHeight = 0;
 	public:
 		Scene();
 		~Scene();
@@ -18,6 +20,7 @@ namespace FoxEngine
 		Entity createEntity(char* name = "Entity");
 
 		void onUpdate(TimeStep ts);
+		void onViewportResize(uint32_t width, uint32_t height);
 
 		friend class Entity;
 	};

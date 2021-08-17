@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/glm.hpp"
 #include "FoxEngine/Renderer/OrthographicCamera.h"
+#include "SceneCamera.h"
 
 namespace FoxEngine
 {
@@ -53,17 +54,15 @@ namespace FoxEngine
 
 	struct CameraComponent {
 
-        OrthographicCamera& camera;
+        SceneCamera camera;
+        bool primary = true;
+        bool fixedAspectRatio = false;
 
         CameraComponent() = default;
         CameraComponent(const CameraComponent&) = default;
-        CameraComponent(OrthographicCamera& camera)
-                : camera(camera) {
 
-        }
-
-        operator OrthographicCamera& () { return camera; }
-        operator const OrthographicCamera& ()  const { return camera; };
+        operator Camera& () { return camera; }
+        operator const Camera& ()  const { return camera; };
     };
 	
 }

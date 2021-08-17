@@ -101,7 +101,7 @@ set(src__FoxEngine__Renderer
     "src/FoxEngine/Renderer/Texture.h"
     "src/FoxEngine/Renderer/VertexArray.cpp"
     "src/FoxEngine/Renderer/VertexArray.h"
-)
+        src/FoxEngine/Renderer/Camera.cpp src/FoxEngine/Renderer/Camera.h)
 source_group("src\\FoxEngine\\Renderer" FILES ${src__FoxEngine__Renderer})
 
 set(src__FoxEngine__Scene
@@ -110,7 +110,7 @@ set(src__FoxEngine__Scene
         "src/FoxEngine/Scene/Entity.h"
         "src/FoxEngine/Scene/Scene.cpp"
         "src/FoxEngine/Scene/Scene.h"
-        )
+        src/FoxEngine/Scene/SceneCamera.cpp src/FoxEngine/Scene/SceneCamera.h)
 source_group("src\\FoxEngine\\Scene" FILES ${src__FoxEngine__Scene})
 
 set(vendor__glm__glm

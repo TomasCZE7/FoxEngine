@@ -11,6 +11,8 @@ namespace FoxEngine
 		Ref<Texture> texture;
 		Ref<FrameBuffer> frameBuffer;
 
+		Entity cameraEntity;
+
 		Ref<Texture2D> minecraftGrassTexture;
 		Ref<Texture2D> spriteSheet;
 		Ref<Texture2D> backgroundSpriteSheet;

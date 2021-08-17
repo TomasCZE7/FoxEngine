@@ -110,6 +110,20 @@ namespace FoxEngine
 	{
 	}
 
+
+    void Renderer2D::beginScene(const Camera& camera, const glm::mat4& transform) {
+
+	    glm::mat4 viewProjection = camera.getProjection() * glm::inverse(transform);
+
+        storage.TextureShader->bind();
+        storage.TextureShader->setUniformMat4("u_ViewProjection", viewProjection);
+
+        storage.QuadIndexCount = 0;
+        storage.QuadVertexBufferPtr = storage.QuadVertexBufferBase;
+
+        storage.TextureSlotIndex = 1;
+    }
+
 	void Renderer2D::beginScene(const OrthographicCamera& camera)
 	{
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "OrthographicCamera.h"
+#include "Camera.h"
 #include "SubTexture2D.h"
 
 #include "Texture.h"
@@ -13,6 +14,7 @@ namespace FoxEngine
 		static void shutDown();
 		
 		static void beginScene(const OrthographicCamera& camera);
+		static void beginScene(const Camera& camera, const glm::mat4& transform);
 		static void flush();
 		static void endScene();
 
