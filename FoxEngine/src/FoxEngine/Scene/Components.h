@@ -2,6 +2,7 @@
 #include "glm/glm.hpp"
 #include "FoxEngine/Renderer/OrthographicCamera.h"
 #include "SceneCamera.h"
+#include "ScriptableEntity.h"
 
 namespace FoxEngine
 {
@@ -64,5 +65,19 @@ namespace FoxEngine
         operator Camera& () { return camera; }
         operator const Camera& ()  const { return camera; };
     };
+
+	struct NativeScriptComponent{
+	    ScriptableEntity* Instance = nullptr;
+
+        ScriptableEntity*(*instantiateFunction)();
+        void (*destroyInstanceFunction)(NativeScriptComponent*);
+
+	    template<typename T>
+	    void bind(){
+            instantiateFunction = [](){ return static_cast<ScriptableEntity*>(new T()); };
+            destroyInstanceFunction = [](NativeScriptComponent* script){ delete script->Instance; script->Instance = nullptr; };
+
+	    }
+	};
 	
 }

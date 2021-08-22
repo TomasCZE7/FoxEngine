@@ -11,36 +11,77 @@ namespace FoxEngine
 		: Layer("EditorLayer"), cameraController(1280.0f / 720.0f, true) {
 	}
 
-	void EditorLayer::onAttach()
-	{
+	void EditorLayer::onAttach() {
         minecraftGrassTexture = Texture2D::create("assets/textures/minecraft_texture.png");
         spriteSheet = Texture2D::create("assets/textures/platformer_tilemap.png");
 
         dirtTexture = SubTexture2D::createFromCoords(spriteSheet, {2, 2}, {18, 18});
         waterTexture = SubTexture2D::createFromCoords(spriteSheet, {13, 5}, {18, 18});
 
-		FrameBufferSpecification specification;
-		specification.width = 1280;
-		specification.height = 720;
+        FrameBufferSpecification specification;
+        specification.width = 1280;
+        specification.height = 720;
 
         frameBuffer = FrameBuffer::create(specification);
 
         cameraController.setZoomLevel(5.0f);
 
         activeScene = createRef<Scene>();
-		
-		Entity square = activeScene->createEntity();
+
+        Entity square = activeScene->createEntity();
         square.addComponent<SpriteRendererComponent>(glm::vec4{0.2f, 0.8f, 0.3f, 1.0f});
 
         cameraEntity = activeScene->createEntity("Camera");
-        square.addComponent<CameraComponent>();
-	}
+        cameraEntity.addComponent<CameraComponent>();
+
+        class CameraController : public ScriptableEntity {
+        public:
+            float cameraRotationSpeed = 120.0f;
+            float cameraTranslationSpeed = 1.0f;
+            float zoomSpeed = 0.25f;
+            float zoomLevelMax = 6.0f, zoomLevelMin = 0.25f;
+
+            std::pair<float, float> lastMousePosition;
+            MouseState mouseState = MouseState::IDLE;
+
+            void onCreate() {
+
+            }
+
+            void onDestroy() {
+
+            }
+
+            void onUpdate(TimeStep ts) {
+                auto& transform = getComponent<TransformComponent>().transform;
+                if (Input::isMouseButtonPressed(FOX_MOUSE_BUTTON_MIDDLE)) {
+                    if (lastMousePosition.first != -1 && lastMousePosition.second != -1) {
+                        std::pair<float, float> newPos = Input::getMousePosition();
+
+                        float xDiff = (cameraTranslationSpeed / 4.0) * (newPos.first - lastMousePosition.first) / 100.0;
+                        float yDiff =
+                                (cameraTranslationSpeed / 4.0) * (newPos.second - lastMousePosition.second) / 100.0;
+
+                        transform[3][0] -= xDiff;
+                        transform[3][1] += yDiff;
+                    }
+                    mouseState = MouseState::MOVING_CAMERA;
+                    lastMousePosition = Input::getMousePosition();
+                } else if (lastMousePosition.first != -1 && lastMousePosition.second != -1) {
+                    lastMousePosition.first = -1;
+                    lastMousePosition.second = -1;
+                    mouseState = MouseState::IDLE;
+                }
+            }
+//                //cameraTranslationSpeed = zoomLevel;
+        };
+        cameraEntity.addComponent<NativeScriptComponent>().bind<CameraController>();
+    }
 
 	void EditorLayer::onDetach()
 	{
 
 	}
-
 
 	bool stopGraph = false;
 	void EditorLayer::onImGuiRender()

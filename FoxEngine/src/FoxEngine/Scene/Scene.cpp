@@ -27,15 +27,34 @@ namespace FoxEngine
 		return entity;
 	}
 
-	void Scene::onUpdate(TimeStep ts)
-	{
-	    Camera* mainCamera = nullptr;
-	    glm::mat4* cameraTransform = nullptr;
+    void Scene::onUpdate(TimeStep ts)
+    {
+        // Update scripts
+        {
+            registry.view<NativeScriptComponent>().each([=](auto entity, auto& script)
+            {
+                  if (!script.Instance)
+                  {
+                      script.Instance = script.instantiateFunction();
+                      script.Instance->entity = Entity{ entity, this };
+                      script.Instance->onCreate();
+                  }
+
+                script.Instance->onUpdate(ts);
+            });
+        }
+
+        // Render 2D
+        Camera* mainCamera = nullptr;
+        glm::mat4* cameraTransform = nullptr;
         {
             auto view = registry.view<TransformComponent, CameraComponent>();
-            for (auto& entity : view) {
-                auto&[transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
-                if(camera.primary){
+            for (auto entity : view)
+            {
+                auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+
+                if (camera.primary)
+                {
                     mainCamera = &camera.camera;
                     cameraTransform = &transform.transform;
                     break;
@@ -43,25 +62,28 @@ namespace FoxEngine
             }
         }
 
-        if(mainCamera){
+        if (mainCamera)
+        {
             Renderer2D::beginScene(mainCamera->getProjection(), *cameraTransform);
 
             auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-            for(auto entity : group)
+            for (auto entity : group)
             {
-                auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+                auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
                 Renderer2D::drawQuad(transform, sprite.color);
             }
+
             Renderer2D::endScene();
         }
-	}
+
+    }
 
     void Scene::onViewportResize(uint32_t width, uint32_t height) {
         viewportWidth = width;
         viewportHeight = height;
 
         auto view = registry.view<CameraComponent>();
-        for (auto& entity : view) {
+        for (auto entity : view) {
             auto& camera = view.get<CameraComponent>(entity);
             if(!camera.fixedAspectRatio){
                 camera.camera.setViewportSize(width, height);

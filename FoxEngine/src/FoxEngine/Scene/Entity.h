@@ -8,7 +8,7 @@ namespace FoxEngine
 	class Entity
 	{
 	private:
-		entt::entity entity{entt::null };
+		entt::entity entity{ entt::null };
 		Scene* scene = nullptr;
 	public:
 		Entity() = default;
@@ -29,7 +29,7 @@ namespace FoxEngine
 		template<typename T>
 		T& getComponent()
 		{
-			return scene->registry.has<T>(entity);
+			return scene->registry.get<T>(entity);
 		}
 
 		template<typename T>

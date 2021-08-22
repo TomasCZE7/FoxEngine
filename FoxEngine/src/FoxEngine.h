@@ -17,6 +17,7 @@
 #include "FoxEngine/scene/Components.h"
 #include "FoxEngine/scene/Entity.h"
 #include "FoxEngine/scene/Scene.h"
+#include "FoxEngine/scene/ScriptableEntity.h"
 
 #include "FoxEngine/Renderer/Renderer.h"
 #include "FoxEngine/Renderer/Renderer2D.h"

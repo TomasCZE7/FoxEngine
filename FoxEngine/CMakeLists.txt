@@ -110,7 +110,7 @@ set(src__FoxEngine__Scene
         "src/FoxEngine/Scene/Entity.h"
         "src/FoxEngine/Scene/Scene.cpp"
         "src/FoxEngine/Scene/Scene.h"
-        src/FoxEngine/Scene/SceneCamera.cpp src/FoxEngine/Scene/SceneCamera.h)
+        src/FoxEngine/Scene/SceneCamera.cpp src/FoxEngine/Scene/SceneCamera.h src/FoxEngine/Scene/ScriptableEntity.cpp src/FoxEngine/Scene/ScriptableEntity.h)
 source_group("src\\FoxEngine\\Scene" FILES ${src__FoxEngine__Scene})
 
 set(vendor__glm__glm
@@ -570,7 +570,7 @@ set(ALL_FILES
     ${vendor__glm__glm__gtc}
     ${vendor__glm__glm__gtx}
     ${vendor__stb_image}
-)
+        src/FoxEngine/Scene/ScriptableEntity.cpp src/FoxEngine/Scene/ScriptableEntity.h)
 
 ################################################################################
 # Target
